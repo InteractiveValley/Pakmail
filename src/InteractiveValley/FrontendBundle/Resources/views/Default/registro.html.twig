@@ -1,0 +1,87 @@
+{% extends 'FrontendBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contenido %}
+    <section id="registro" class="container">
+        <div class="row">
+            <article id="registroView" class="registroView">
+                <header class="titulo-view well">
+                    <h2 class="titulo"><i class="fa fa-shopping-cart"></i>&nbsp;Crear cuenta</h2>
+                </header>
+                <div class="contenido container">
+                    <form action="{{ path('registro') }}" class="form validate" role="form" id="formRegistro" method="post" {{ form_enctype(form)}}>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(form.nombre,{'attr':{'class':'form-control','label':'Nombre','placeholder':'Nombre'}}) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(form.email,{'attr':{'class':'form-control','label':'Email','placeholder':'Email'}}) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(form.telefono,{'attr':{'class':'form-control','label':'Telefono','placeholder':'Telefono'}}) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(form.rfc,{'attr':{'class':'form-control','label':'RFC','placeholder':'RFC'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(form.password,{'attr':{'class':'form-control','label':'Contraseña','placeholder':'Contraseña'}}) }}
+                                </div>    
+                            </div>
+                        </div>
+                        <br/>
+                        {{form_rest(form)}}
+                        <div class="row">
+                            <div class="col-md-6"><button type="submit" class="btn btn-default" style="background-color: #DF2E72; color: white;">Registrar</button></div>
+                            <div class="col-md-6"></div> 
+                        </div>
+                        <br/>
+                    </form>
+                </div>
+            </article>
+        </div>
+<!-- PayPal Logo --><table border="0" cellpadding="10" cellspacing="0" align="center"><tr><td align="center"></td></tr><tr><td align="center"><a href="#" onclick="javascript:window.open('https://www.paypal.com/mx/cgi-bin/webscr?cmd=xpt/Marketing/general/WIPaypal-outside','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=700, height=600');"><img  src="https://www.paypal.com/es_XC/Marketing/i/banner/paypal_visa_mastercard_amex_debit_new.png" border="0" alt="Comprador local"></a></td></tr></table><!-- PayPal Logo -->
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            window.api = {
+                url: '/api',
+                status: 'portada',
+                modelo: {
+                    id: 0
+                },
+            };
+        });
+        < script src = "{{asset('bundles/frontend/js/app_registro.js')}}" ></script> 
+    <script type="text/javascript">
+                $(function () {
+                    //$(".loader").fadeIn();
+                    /*window.routers.app = new Countdown.Routers.App();
+                     window.collections.categorias = new Countdown.Collections.Categorias();
+                     window.collections.categorias.url=window.api.url;
+                     var xhr = window.collections.categorias.fetch();
+                     xhr.done(function(){
+                     window.views.listCategoriasView = new Countdown.Views.ListCategoriasView({
+                     collection: window.collections.categorias,
+                     });
+                     views.listCategoriasView.render();
+                     $(".loader").fadeOut();
+                     Backbone.history.start({
+                     root : '/',
+                     pushState:false
+                     });
+                     });*/
+                });
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,444 @@
+{% extends 'BackendBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+  {{parent()}}  
+  <!-- jQuery UI -->
+  <link rel="stylesheet" href="{{asset('css/jquery-ui-1.9.2.custom.min.css')}}"> 
+  <!-- Uniform -->
+  <link rel="stylesheet" href="{{asset('css/uniform.default.html')}}"> 
+  <!-- Widgets stylesheet -->
+  <link rel="stylesheet" href="{{asset('css/widgets.css')}}">   
+  <link rel="stylesheet" href="{{ asset('css/fileuploader.css') }}" type="text/css"/>
+  <link rel="stylesheet" href="{{ asset('css/prettyPhoto.css') }}" type="text/css"/>
+  <link rel="stylesheet" href="{{ asset('css/fuentes.css') }}" type="text/css"/>
+  <style>
+    #mapa{
+	padding-bottom: 1em;
+	overflow: hidden;
+    }  
+    .mapa-directorio{
+    	margin: 0;
+    	position: relative;
+    	z-index: 1000;
+    	height: 550px;
+    	width: 620px;
+    	background-repeat: no-repeat;
+    	background-size: 100% auto;
+    	background-position: center right;
+    	background-image: url('../images/MAPA0.png');
+        float: right;
+    }
+    
+    .mapa-directorio .direccion-directorio{
+    	position: absolute;
+    	background-color: #87C657;
+    	color: white;
+    	width: 230px;
+    	height: auto;
+    	z-index: 2000;
+		font-family: "ACaslonPro-Regular";
+    }
+	
+	.mapa-directorio .direccion-directorio.izquierda:after{
+        position: absolute;
+        content: '';
+        border-top: .5em solid #87C657;
+        border-left: .5em solid #87C657;
+        border-bottom: .5em solid transparent;
+        border-right: .5em solid transparent;
+        left: 0px;
+        bottom: -1em;
+        z-index: 2000;
+    }
+	
+	.mapa-directorio .direccion-directorio.derecha:after{
+        position: absolute;
+        content: '';
+        border-top: .5em solid #87C657;
+        border-left: .5em solid transparent;
+        border-bottom: .5em solid transparent;
+        border-right: .5em solid #87C657;
+        right: 0px;
+        bottom: -1em;
+        z-index: 2000;
+    }
+
+    .mapa-directorio .direccion-directorio .titulo-mapa-directorio{
+        margin: 0;
+        padding: .5em;
+        margin: 0px 5px;
+        text-align: center;
+        text-transform: uppercase;
+        border-bottom: 1px solid white;
+        font-size: .9em;
+        color: white;
+    }
+
+    .mapa-directorio .direccion-directorio .lista-mapa-directorio{
+        margin: 0;
+        padding: .5em;
+    }
+
+
+    .mapa-directorio .direccion-directorio .item-mapa-directorio{
+        text-transform: uppercase;
+        list-style: none;
+        font-size: .8em;
+		text-align: left;
+		line-height: 1em;
+    }
+	
+	.controles-tooltip{
+		position: absolute;
+		left: 10px;
+		top: 200px;
+		height: 100px;
+		width: 200px;
+		
+	}
+	.controles-tooltip .control-tooltip{
+		color: black;
+		cursor: pointer;
+		display: block;
+	}
+	
+	.controles-tooltip .control-tooltip.active{
+		color: blue;
+		cursor: none;
+	}
+
+  </style>
+{% endblock %}
+
+{% block mainbar %}
+    <!-- Main bar -->
+    <div class="mainbar">
+        <!-- Page heading -->
+        <div class="page-head">
+            <h2 class="pull-left">Directorio</h2>
+            <div class="clearfix"></div>
+            <!-- Breadcrumb -->
+            <div class="bread-crumb">
+                <a href="{{path('homepage')}}"><i class="fa fa-home"></i>Dashboard</a> 
+                <span class="divider">/</span>
+                <a href="{{path('locales')}}" class="bread-current">Directorio</a>
+                <span class="divider">/</span>
+                <a href="{{path('locales_show',{'id': entity.id})}}" class="bread-current">{{entity.nombre}}</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{path('locales_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear local</a>
+                {% endif %}
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+        <!-- Page heading ends -->
+
+        <!-- Matter -->
+
+        <div class="matter">
+            <div class="container" id="contenidoPagina">
+                <div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="widget">
+                                <div class="widget-head">
+                                    <div class="pull-left">Local: {{ entity.nombre }}</div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="widget-content">
+                                    <div class="padd">
+                                        <div class="tabbable" style="margin-bottom: 18px;">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a href="#sistema" data-toggle="tab">Sistema</a></li>
+                                                <li><a href="#galeria" data-toggle="tab">Galeria</a></li>
+                                                <li><a href="#mapa" data-toggle="tab">Mapa</a></li>
+                                            </ul>
+                                            <div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+                                                <div class="tab-pane active" id="sistema">
+                                                    <table>
+                                                        <tbody><tr>
+                                                                <td>Id:</td>
+                                                                <td>{{entity.id}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Local:</td>
+                                                                <td>{{entity.nombre}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Descripcion:</td>
+                                                                <td>{{entity.descripcion | truncate(250) | raw }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Logo:</td>
+                                                                <td>
+                                                                    {% if entity.logo | length > 0 %}
+                                                                        <img src="{{ entity.webPathLogo }}" style="max-width: 400px;"/>
+                                                                    {% else %}    
+                                                                        sin imagen
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Telefono:</td>
+                                                                <td>{{entity.telefono }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Pagina web:</td>
+                                                                <td>{{entity.web }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Horarios:</td>
+                                                                <td>{{entity.horarios }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Facebook:</td>
+                                                                <td>{{entity.facebook }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Twitter:</td>
+                                                                <td>{{entity.twitter }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Instagram:</td>
+                                                                <td>{{entity.instagram }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Mapa:</td>
+                                                                <td>
+                                                                    {% if entity.imagen | length > 0 %}
+                                                                        <img src="{{ entity.webPath }}" style="max-width: 600px;"/>
+                                                                    {% else %}    
+                                                                        sin imagen
+                                                                    {% endif %}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Creación:</td>
+                                                                <td>{{entity.createdAt | date('d/m/Y') }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Actualizacion:</td>
+                                                                <td>{{entity.updatedAt | date('d/m/Y') }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="tab-pane" id="galeria">
+                                                    <div class="container-galeria">    
+                                                        {# seccion de codigo html #}
+                                                        <div id="lista_imagenes" style=" min-height: 400px; overflow: hidden;">
+                                                            {% include 'GaleriasBundle:Galeria:galerias.html.twig' with {'galerias': entity.galerias, 'url_delete': url_delete } %}
+                                                        </div>
+                                                        <table style="width: 99%; margin: 0 auto;">
+                                                            <tr>
+                                                                <td width="50%" valign="top">
+                                                                    <div id="upload"></div>
+                                                                    Extenciones disponibles:   "jpeg","png","gif","jpg"
+                                                                    <!--List Files-->
+                                                                    <ul id="files" ></ul>
+                                                                    <div class="clear"></div>
+                                                                </td>
+                                                                <td width="50%" valign="top">
+                                                                    <button onclick="javascript:crearVideoLink()" class="botonUploadVideoLink">Crear Video Link</button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane " id="mapa">
+													<div class="controles-tooltip">
+														<h5>Control Tooltip</h5>
+														<span class="control-tooltip control-tooptip-izquierda {{(entity.tooltip=='izquierda')?'active':''}}">Izquierda</span>
+														<span class="control-tooltip control-tooptip-derecha {{(entity.tooltip=='derecha')?'active':''}}">Derecha</span>
+													</div>
+													
+                                                    <figure class="mapa-directorio" style="background-image: url('{{entity.webPath}}');">
+                                                        <figcation id="direccion-directorio" class="direccion-directorio {{entity.tooltip}}" data-direccion="{{entity.tooltip}}" style="top: {{entity.top}};left:{{entity.left}};">
+                                                            <h3 class="titulo-mapa-directorio">{{entity.nombre}}</h3>
+                                                            <ul class="lista-mapa-directorio">
+                                                                <li class="item-mapa-directorio">Teléfono: <span class="telefono-mapa-directorio">{{entity.telefono}}</span></li>
+                                                                <li class="item-mapa-directorio">Horarios: <span class="horarios-mapa-directorio">{{entity.horarios}}</span></li>
+                                                            </ul>
+                                                        </figcation>
+                                                    </figure>
+                                                </div>        
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="widget-foot">
+                                    <button id="botonRegresar" class="btn btn-default" onclick="javascript:regresar('{{path('locales')}}')">Regresar</button>
+                                    <button id="botonEditar" class="btn btn-info" onclick="javascript:editarRegistro('{{path('locales_edit',{id: entity.id})}}')">Editar</button>
+                                    <div style="float: left; margin-right: 3px;">
+                                        <form id="formEliminar" action="{{ path('locales_delete', { 'id': entity.id }) }}" method="post">
+                                            <input name="_method" value="DELETE" type="hidden"/>
+                                            {{ form_widget(delete_form) }}
+                                        </form>
+                                        <button class="btn btn-danger " onclick="eliminarRegistro();">Eliminar</button>
+                                    </div>        
+                                </div>
+                            </div>  
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matter ends -->
+
+    </div>
+
+    <!-- Mainbar ends -->        
+    <div class="clearfix"></div>
+
+    {% include 'GaleriasBundle:Galeria:formulariosGaleria.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+<script src="{{asset('js/jquery-ui-1.9.2.custom.min.js')}}"></script> <!-- jQuery UI -->
+
+<!-- jQuery Notification - Noty -->
+<script src="{{asset('js/jquery.noty.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/themes/default.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/layouts/bottom.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/layouts/topRight.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/layouts/top.js')}}"></script> <!-- jQuery Notify -->
+<!-- jQuery Notification ends -->
+
+<script src="{{asset('js/jquery.uniform.min.html')}}"></script> <!-- jQuery Uniform -->
+<script src="{{asset('js/jquery.slimscroll.min.js')}}"></script> <!-- jQuery SlimScroll -->
+<script src="{{asset('js/bootstrap-switch.min.js')}}"></script> <!-- Bootstrap Toggle -->
+<script src="{{asset('js/bootbox.min.js')}}"></script> <!-- Filter for support page -->
+<script src="{{asset('js/custom.js')}}"></script> <!-- Custom codes -->
+
+<script src="{{ asset('js/jquery.prettyPhoto.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/sfrichpolis.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/fileuploader.js') }}" type="text/javascript"></script>
+
+<script>
+var regresar = function(url){
+    location.href=url;
+};
+
+var editarRegistro = function(url){
+    location.href=url;
+};
+    
+var eliminarRegistro = function(){
+  {% if is_granted('ROLE_ADMIN') %}
+    bootbox.confirm("Esta seguro de eliminar el registro?", function(result) {
+      if(result){
+         $("#formEliminar").submit();
+      }
+    });
+  {% else %}
+    noty({text: 'No tienes los permisos suficientes para realizar esta accion',layout:'bottom', type:'warning', timeout:2000 });
+  {% endif %}      
+};
+
+</script>
+
+{% include 'GaleriasBundle:Galeria:formulariosGaleria.js.twig' with {'entity': entity, 'url_delete': url_delete, 'get_galerias': get_galerias, 'post_galerias': post_galerias, 'post_galerias_link_video': post_galerias_link_video  } %}
+ <script>
+ $(document).on('ready',function(){
+     createUploader();
+     refrescarGaleria();
+     $('.loader').fadeOut();
+	 
+	 $(".control-tooptip-izquierda").on('click',function(){
+	 	actualizarDireccionTooltip('izquierda','.control-tooptip-izquierda');
+	 });
+	 
+	 $(".control-tooptip-derecha").on('click',function(){
+	 	actualizarDireccionTooltip('derecha','.control-tooptip-derecha');
+	 });
+	 
+	 $(".direccion-directorio").draggable({
+	 stop: function() {
+	 	debugger;
+        var top = $(".direccion-directorio").css('top');
+		var left = $(".direccion-directorio").css('left');
+		actualizarTopLeftLocal(top,left);
+      }
+	});
+	 
+ });
+ 
+ function actualizarDireccionTooltip(direccion,control) {
+        $(".loader").fadeIn();
+		var dirAct = $("#direccion-directorio").data('direccion');
+		if(dirAct==direccion){
+			$(".loader").fadeOut();
+			return false;
+		}
+        var data = {direccion: direccion};
+        $.ajax({
+            url: '{{path('locales_direccion_tooltip',{'id':entity.id})}}',
+            type: 'PATCH',
+            data: data,
+            dataType: 'json',
+            success: function(data){
+					noty({
+						text: 'Actualizacion realizada',
+						layout:'topRight',
+						type:'success',
+						timeout:2000
+					});
+					console.log(data);
+					$(".loader").fadeOut();
+					$(".control-tooltip").removeClass('active');
+					$(control).addClass('active');
+					$("#direccion-directorio").data('direccion',direccion);
+					$("#direccion-directorio").removeClass(dirAct).addClass(direccion);
+            },
+            error: function(data){
+                noty({
+                    text: 'Error de actualizacion',
+                    layout:'topRight',
+                    type:'error',
+                    timeout:2000
+                });
+                console.log(data);
+                $(".loader").fadeOut();
+            },
+        });
+    }
+ 
+ function actualizarTopLeftLocal(top,left) {
+        $(".loader").fadeIn();
+        var data = {top: top, left: left};
+        $.ajax({
+            url: '{{path('locales_posiciones',{'id':entity.id})}}',
+            type: 'PATCH',
+            data: data,
+            dataType: 'json',
+            success: function(data){
+					noty({
+						text: 'Actualizacion realizada',
+						layout:'topRight',
+						type:'success',
+						timeout:2000
+					});
+					console.log(data);
+					$(".loader").fadeOut();
+            },
+            error: function(data){
+                noty({
+                    text: 'Error de actualizacion',
+                    layout:'topRight',
+                    type:'error',
+                    timeout:2000
+                });
+                console.log(data);
+                $(".loader").fadeOut();
+            },
+        });
+    }
+ </script>   
+{% endblock %}
+

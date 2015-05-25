@@ -1,0 +1,26 @@
+_portada:
+     path:     /
+     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: homepage }
+     
+frontend:
+    resource: "@FrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+backend:
+    resource: "@BackendBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+galerias:
+    resource: "@GaleriasBundle/Controller/"
+    type:     annotation
+    prefix:   /
+    
+paginas:
+    resource: "@PaginasBundle/Controller/"
+    type:     annotation
+    prefix:   /    
+    
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"

@@ -1,0 +1,13 @@
+<div class="categorias">
+    <a href="#categoria/lo-nuevo" class="link-categoria">
+        Lo nuevo
+    </a>
+    {% set largo = categorias | length %}
+    {% if largo > 1 %}/{% endif %}
+    {% for categoria in categorias %}
+        <a href="#categoria/{{categoria.slug}}" class="link-categoria">
+            {{categoria.nombre}}
+        </a>
+        {% if largo > loop.index %}/{% endif %}    
+    {% endfor %}    
+</div>
