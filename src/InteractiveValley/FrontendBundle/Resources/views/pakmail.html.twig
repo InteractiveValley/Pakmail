@@ -1,0 +1,92 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Pakmail Area de clientes{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
+    <link rel="stylesheet" href="{{asset('css/animate.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/clientes.css')}}"/>
+    <style>
+        .loader {
+            display: none;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('/images/page-loader.gif') 50% 50% no-repeat transparent;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container pakmail">
+        <header>
+            <figure><img class="logo" src="" alt=""></figure>
+            <ul class="lista-datos-cliente">
+                <li>Bienvenido:  Empresa Cliente</li>
+                <li><a href="">Cerrar sesion</a></li>
+            </ul>
+        </header>
+        <nav>
+            <ul class="menu">
+                <li><a href="">Generar solicitud envio</a></li>
+                <li><a href="">Perfiles de envio</a></li>
+            </ul>
+        </nav>
+        <section class="contenido new">
+            <form>
+                <input type="text" placeholder="algun dato" name=""/>
+                <input type="text" placeholder="algun dato"/>
+                <textarea>
+                    
+                </textarea>
+                <input type="text" placeholder="algun dato"/>
+            </form>
+        </section>
+        <section class="contenido list">
+            <h2>Perfiles guardados de envio</h2>
+            <p>
+                Para su comodidad, los perfiles de envio puedes ser llamados al momento de crear una solicitud de envio nueva.
+            </p>
+            <table class="table">
+                <tr class="perfil">
+                    <td>Nombre del perfil</td>
+                    <td><a class="editar-perfil" href="">Editar</a></td>
+                    <td><a class="borrar-perfil" href="">Borrar</a></td>
+                </tr>
+                <tr class="perfil">
+                    <td>Nombre del perfil</td>
+                    <td><a class="editar-perfil" href="">Editar</a></td>
+                    <td><a class="borrar-perfil" href="">Borrar</a></td>
+                </tr>
+                <tr class="perfil">
+                    <td>Nombre del perfil</td>
+                    <td><a class="editar-perfil" href="">Editar</a></td>
+                    <td><a class="borrar-perfil" href="">Borrar</a></td>
+                </tr>
+                <tr class="perfil">
+                    <td>Nombre del perfil</td>
+                    <td><a class="editar-perfil" href="">Editar</a></td>
+                    <td><a class="borrar-perfil" href="">Borrar</a></td>
+                </tr>
+            </table>
+        </section>
+        <aside>
+            <h3>Perfiles de envio</h3>
+            <ul>
+                <li><a href="">Perfil 1</a></li>
+                <li><a href="">Perfil 2</a></li>
+                <li><a href="">Perfil 3</a></li>
+            </ul>
+        </aside>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/bootstrap.js')}}"></script>
+{% endblock %}

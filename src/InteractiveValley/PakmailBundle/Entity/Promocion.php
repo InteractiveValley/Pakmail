@@ -10,7 +10,7 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 /**
  * Promocion
  *
- * @ORM\Table(name="promociones_novedades")
+ * @ORM\Table(name="promociones")
  * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\PromocionRepository")
  * @ORM\HasLifecycleCallbacks
  */
@@ -28,24 +28,9 @@ class Promocion
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=255)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="nombre", type="string", length=255,nullable=true)
      */
     private $nombre;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="descripcion", type="text")
-     */
-    private $descripcion;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="tipo", type="string", length=255)
-     */
-    private $tipo;
 
     /**
      * @var string
@@ -62,13 +47,6 @@ class Promocion
     private $position;
     
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_principal", type="boolean")
-     */
-    private $isPrincipal;
-    
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime",nullable=true)
@@ -81,10 +59,7 @@ class Promocion
      * @ORM\Column(name="updated_at", type="datetime",nullable=true)
      */
     private $updatedAt;
-    
-    public function __construct() {
-        $this->isPrincipal = false;
-    }
+
     
     /*
      * Timestable
@@ -224,7 +199,7 @@ class Promocion
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -235,6 +210,7 @@ class Promocion
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return Promocion
      */
     public function setNombre($nombre)
@@ -247,7 +223,7 @@ class Promocion
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -255,55 +231,10 @@ class Promocion
     }
 
     /**
-     * Set descripcion
-     *
-     * @param string $descripcion
-     * @return Promocion
-     */
-    public function setDescripcion($descripcion)
-    {
-        $this->descripcion = $descripcion;
-
-        return $this;
-    }
-
-    /**
-     * Get descripcion
-     *
-     * @return string 
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-    }
-
-    /**
-     * Set tipo
-     *
-     * @param string $tipo
-     * @return Promocion
-     */
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-
-        return $this;
-    }
-
-    /**
-     * Get tipo
-     *
-     * @return string 
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
-
-    /**
      * Set imagen
      *
      * @param string $imagen
+     *
      * @return Promocion
      */
     public function setImagen($imagen)
@@ -316,7 +247,7 @@ class Promocion
     /**
      * Get imagen
      *
-     * @return string 
+     * @return string
      */
     public function getImagen()
     {
@@ -324,78 +255,10 @@ class Promocion
     }
 
     /**
-     * Set isPrincipal
-     *
-     * @param boolean $isPrincipal
-     * @return Promocion
-     */
-    public function setIsPrincipal($isPrincipal)
-    {
-        $this->isPrincipal = $isPrincipal;
-
-        return $this;
-    }
-
-    /**
-     * Get isPrincipal
-     *
-     * @return boolean 
-     */
-    public function getIsPrincipal()
-    {
-        return $this->isPrincipal;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Promocion
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return Promocion
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
      * Set position
      *
      * @param integer $position
+     *
      * @return Promocion
      */
     public function setPosition($position)
@@ -408,10 +271,58 @@ class Promocion
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Promocion
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Promocion
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

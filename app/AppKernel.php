@@ -21,8 +21,9 @@ class AppKernel extends Kernel
             new InteractiveValley\FrontendBundle\FrontendBundle(),
             new InteractiveValley\GaleriasBundle\GaleriasBundle(),
             new InteractiveValley\PaginasBundle\PaginasBundle(),
+            new InteractiveValley\PakmailBundle\PakmailBundle(),
             
-            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            //new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),

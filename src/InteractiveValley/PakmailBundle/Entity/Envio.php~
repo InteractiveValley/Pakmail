@@ -1,0 +1,145 @@
+<?php
+
+namespace InteractiveValley\PakmailBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Envio
+ *
+ * @ORM\Table(name="envios")
+ * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\EnvioRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Envio
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="origen", type="text")
+     */
+    private $origen;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="destino", type="text")
+     */
+    private $destino;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="remitente", type="string", length=255)
+     */
+    private $remitente;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="destinatario", type="string", length=255)
+     */
+    private $destinatario;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="perfil", type="integer")
+     */
+    private $perfil;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="hasPerfil", type="boolean")
+     */
+    private $hasPerfil;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="integer")
+     */
+    private $status;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechaSolicitud", type="datetime")
+     */
+    private $fechaSolicitud;
+
+    /**
+     * @var Cliente
+     * @todo Cliente del envio
+     *
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="envios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
+     * })
+     */
+    private $cliente;
+
+    /**
+     * @var InteractiveValley\BackendBundle\Entity\Usuario
+     * @todo Usuario validador del envio
+     *
+     * @ORM\ManyToOne(targetEntity="InteractiveValley\BackendBundle\Entity\Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime")
+     */
+    private $updatedAt;
+
+    /*
+     * Timestable
+     */
+    
+    /**
+     ** @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        if(!$this->getCreatedAt())
+        {
+          $this->createdAt = new \DateTime();
+        }
+        if(!$this->getUpdatedAt())
+        {
+          $this->updatedAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+}
+

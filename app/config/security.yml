@@ -18,7 +18,7 @@ security:
             anonymous: true
         frontend:
             pattern:  ^/pakmail
-            provider: usuarios
+            provider: clientes
             form_login:
                 login_path: pakmail_login
                 check_path: pakmail_login_check
@@ -39,18 +39,21 @@ security:
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/pakmail/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/pakmail, roles: [ROLE_USER] }
+        - { path: ^/pakmail, roles: [ROLE_CLIENTE] }
 
     encoders:
         InteractiveValley\BackendBundle\Entity\Usuario:  { algorithm: sha512, iterations: 10 }
+        InteractiveValley\PakmailBundle\Entity\Cliente:  plaintext
 
 
     providers:
         # Usuarios del frontend
         usuarios:
             entity: { class: InteractiveValley\BackendBundle\Entity\Usuario, property: email }
+        clientes:
+            entity: { class: InteractiveValley\PakmailBundle\Entity\Cliente, property: email }
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_API:         ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN:       ROLE_CLIENTE
+        ROLE_API:         ROLE_CLIENTE
+        ROLE_SUPER_ADMIN: [ROLE_CLIENTE, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]

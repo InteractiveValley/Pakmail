@@ -1,0 +1,26 @@
+{% extends 'FrontendBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block contenido %}
+                    
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    $(function(){
+        window.api = {
+                url: 'http://localhost:8042/app_dev.php',
+                status: 'inicio',
+                modelo: {
+                    id: 0
+                },
+            };
+    });
+</script>
+<!--script data-main="/js/app_pakmail" src="{{asset('js/libs/require/require.js')}}"></script-->
+     
+{% endblock %}

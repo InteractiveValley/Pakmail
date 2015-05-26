@@ -1,0 +1,95 @@
+<?php
+
+namespace InteractiveValley\PakmailBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Perfil
+ *
+ * @ORM\Table(name="perfiles_envio")
+ * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\PerfilRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Perfil
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa un nombre del perfil")
+     */
+    private $nombre;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetimetz")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     * @var Cliente
+     * @todo Cliente del perfil
+     *
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="perfiles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
+     * })
+     */
+    private $cliente;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isActive", type="boolean")
+     */
+    private $isActive;
+
+
+    /*
+     * Timestable
+     */
+    
+    /**
+     ** @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        if(!$this->getCreatedAt())
+        {
+          $this->createdAt = new \DateTime();
+        }
+        if(!$this->getUpdatedAt())
+        {
+          $this->updatedAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+}
+

@@ -1,0 +1,91 @@
+<?php
+
+namespace InteractiveValley\PakmailBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Empresa
+ *
+ * @ORM\Table(name="empresas")
+ * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\EmpresaRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Empresa
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa la razon social de la empresa")
+     */
+    private $nombre;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="Cliente",mappedBy="empresa")
+     * @ORM\OrderBy({"nombre" = "ASC"})
+     */
+    private $clientes;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isActive", type="boolean")
+     */
+    private $isActive;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetimetz")
+     */
+    private $updatedAt;
+
+
+    /*
+     * Timestable
+     */
+    
+    /**
+     ** @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        if(!$this->getCreatedAt())
+        {
+          $this->createdAt = new \DateTime();
+        }
+        if(!$this->getUpdatedAt())
+        {
+          $this->updatedAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+}
+

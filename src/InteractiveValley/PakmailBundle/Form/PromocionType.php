@@ -15,24 +15,8 @@ class PromocionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre','text',array('label'=>'Promocion/Novedad','attr'=>array('class'=>'form-control')))
-            ->add('descripcion',null,array(
-                'label'=>'Descripcion',
-                'required'=>true,
-                'attr'=>[
-                    'class'=>'tinymce form-control placeholder',
-                    'data-theme' => 'advanced',
-                    ]
-                ))
-            ->add('tipo','choice', array(
-                'choices' => ['promocion' => 'Promocion', 'novedad' => 'Novedad']
-                ))
+            ->add('nombre','text',array('label'=>'Titulo (opcional)','attr'=>array('class'=>'form-control')))
             ->add('file',null,array('label'=>'Imagen','attr'=>['class'=>'form-control']))
-            ->add('isPrincipal',null,array('label'=>'Mostrar en pagina de inicio?','attr'=>array(
-                'class'=>'checkbox-inline',
-                'placeholder'=>'Es principal',
-                'data-bind'=>'value: isPrincipal'
-             )))
             ->add('position','hidden')
         ;
     }
@@ -52,6 +36,6 @@ class PromocionType extends AbstractType
      */
     public function getName()
     {
-        return 'interactivevalley_psjeronimobundle_promocion';
+        return 'interactivevalley_pakmailbundle_promocion';
     }
 }

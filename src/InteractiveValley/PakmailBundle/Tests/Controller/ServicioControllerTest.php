@@ -19,7 +19,7 @@ class ServicioControllerTest extends WebTestCase
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'interactivevalley_psjeronimobundle_servicio[field_name]'  => 'Test',
+            'interactivevalley_pakmailbundle_servicio[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class ServicioControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Update')->form(array(
-            'interactivevalley_psjeronimobundle_servicio[field_name]'  => 'Foo',
+            'interactivevalley_pakmailbundle_servicio[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

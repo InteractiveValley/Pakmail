@@ -1,6 +1,6 @@
 <?php
 
-namespace InteractiveValley\PSJeronimoBundle\Entity;
+namespace InteractiveValley\PakmailBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,7 +11,7 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
  * Servicio
  *
  * @ORM\Table(name="servicios")
- * @ORM\Entity(repositoryClass="InteractiveValley\PSJeronimoBundle\Repository\ServicioRepository")
+ * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\ServicioRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Servicio

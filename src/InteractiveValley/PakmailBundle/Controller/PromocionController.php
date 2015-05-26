@@ -30,8 +30,7 @@ class PromocionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('PakmailBundle:Promocion')
-                        ->findBy(array(),array('position'=>'ASC'));
+        $entities = $em->getRepository('PakmailBundle:Promocion')->findAll();
 
         return array(
             'entities' => $entities,

@@ -1,0 +1,88 @@
+<?php
+
+namespace InteractiveValley\PakmailBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Fecha
+ *
+ * @ORM\Table(name="calendario")
+ * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\FechaRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Fecha
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date")
+     * @Assert\Date(message="La fecha no es valida")
+     */
+    private $fecha;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="string", length=255)
+     */
+    private $tipo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="bgColor", type="string", length=20)
+     */
+    private $bgColor;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fontColor", type="string", length=20)
+     */
+    private $fontColor;
+
+
+    /*
+     * Timestable
+     */
+    
+    /**
+     ** @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        if(!$this->getCreatedAt())
+        {
+          $this->createdAt = new \DateTime();
+        }
+        if(!$this->getUpdatedAt())
+        {
+          $this->updatedAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+    
+    public function __construct() {
+        $this->fontColor  = "#000000";
+        $this->fecha = new \DateTime();
+    }
+}
+

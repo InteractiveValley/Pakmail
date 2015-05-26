@@ -36,6 +36,6 @@ class ServicioType extends AbstractType
      */
     public function getName()
     {
-        return 'interactivevalley_psjeronimobundle_servicio';
+        return 'interactivevalley_pakmailbundle_servicio';
     }
 }

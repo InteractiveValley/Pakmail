@@ -30,20 +30,6 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
-     */
-    private $password;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string", length=255)
-     */
-    private $salt;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      */
@@ -60,9 +46,16 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="telefono", type="string", length=255, nullable=true)
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
-    private $telefono;
+    private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=255)
+     */
+    private $salt;
     
     /**
      * @var string
@@ -77,20 +70,6 @@ class Usuario implements UserInterface, \Serializable
      * @ORM\Column(name="grupo", type="integer")
      */
     private $grupo;
-    
-    /**
-     * @var integer
-     *
-     * @ORM\OneToMany(targetEntity="InteractiveValley\VentasBundle\Entity\Venta", mappedBy="usuario")
-     */
-    private $ventas;
-    
-    /**
-     * @var integer
-     *
-     * @ORM\OneToMany(targetEntity="InteractiveValley\VentasBundle\Entity\Direccion", mappedBy="usuario")
-     */
-    private $direcciones;
     
     /**
      * @var \Booolean
@@ -113,18 +92,6 @@ class Usuario implements UserInterface, \Serializable
      */
     private $updatedAt;
     
-    /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
-    protected $facebook_id;
- 
-    /** @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true) */
-    protected $facebook_access_token;
-    
-    /** @ORM\Column(name="twitter_id", type="string", length=255, nullable=true) */
-    protected $twitter_id;
- 
-    /** @ORM\Column(name="twitter_access_token", type="string", length=255, nullable=true) */
-    protected $twitter_access_token;
-    
     const GRUPO_USUARIOS    =   1;
     const GRUPO_ADMIN       =   2;
     const GRUPO_SUPER_ADMIN =   3;
@@ -139,7 +106,6 @@ class Usuario implements UserInterface, \Serializable
     
     public function getStringTipoGrupo(){
         $arreglo=array(
-            self::GRUPO_USUARIOS=>'Usuarios',
             self::GRUPO_ADMIN=>'Administrador',
             self::GRUPO_SUPER_ADMIN=>'Superadmin',
         );
@@ -149,13 +115,11 @@ class Usuario implements UserInterface, \Serializable
     static function getArrayTipoGrupo($is_super_admin=false){
         if($is_super_admin){
             $sTipoGrupo=array(
-                self::GRUPO_USUARIOS=>'Usuarios',
                 self::GRUPO_ADMIN=>'Administrador',
                 self::GRUPO_SUPER_ADMIN=>'Superadmin',
             );
         }else{
             $sTipoGrupo=array(
-                self::GRUPO_USUARIOS=>'Usuarios',
                 self::GRUPO_ADMIN=>'Administrador'
             );
         }
@@ -163,7 +127,7 @@ class Usuario implements UserInterface, \Serializable
     }
     
     static function getPreferedTipoGrupo(){
-        return array(self::GRUPO_USUARIOS);
+        return array(self::GRUPO_ADMIN);
     }
 
     
@@ -172,7 +136,7 @@ class Usuario implements UserInterface, \Serializable
         // may not be needed, see section on salt below
         $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
         $this->isActive = true;
-        $this->grupo = Usuario::GRUPO_USUARIOS;
+        $this->grupo = Usuario::GRUPO_ADMIN;
     }
     
 
@@ -368,10 +332,12 @@ class Usuario implements UserInterface, \Serializable
     }
 
 
+    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -379,9 +345,58 @@ class Usuario implements UserInterface, \Serializable
     }
 
     /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return Usuario
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Usuario
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
      * Set password
      *
      * @param string $password
+     *
      * @return Usuario
      */
     public function setPassword($password)
@@ -395,6 +410,7 @@ class Usuario implements UserInterface, \Serializable
      * Set salt
      *
      * @param string $salt
+     *
      * @return Usuario
      */
     public function setSalt($salt)
@@ -405,78 +421,10 @@ class Usuario implements UserInterface, \Serializable
     }
 
     /**
-     * Set nombre
-     *
-     * @param string $nombre
-     * @return Usuario
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    /**
-     * Get nombre
-     *
-     * @return string 
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return Usuario
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set telefono
-     *
-     * @param string $telefono
-     * @return Usuario
-     */
-    public function setTelefono($telefono)
-    {
-        $this->telefono = $telefono;
-
-        return $this;
-    }
-
-    /**
-     * Get telefono
-     *
-     * @return string 
-     */
-    public function getTelefono()
-    {
-        return $this->telefono;
-    }
-
-    /**
      * Set imagen
      *
      * @param string $imagen
+     *
      * @return Usuario
      */
     public function setImagen($imagen)
@@ -489,7 +437,7 @@ class Usuario implements UserInterface, \Serializable
     /**
      * Get imagen
      *
-     * @return string 
+     * @return string
      */
     public function getImagen()
     {
@@ -500,6 +448,7 @@ class Usuario implements UserInterface, \Serializable
      * Set grupo
      *
      * @param integer $grupo
+     *
      * @return Usuario
      */
     public function setGrupo($grupo)
@@ -512,7 +461,7 @@ class Usuario implements UserInterface, \Serializable
     /**
      * Get grupo
      *
-     * @return integer 
+     * @return integer
      */
     public function getGrupo()
     {
@@ -523,6 +472,7 @@ class Usuario implements UserInterface, \Serializable
      * Set isActive
      *
      * @param boolean $isActive
+     *
      * @return Usuario
      */
     public function setIsActive($isActive)
@@ -535,7 +485,7 @@ class Usuario implements UserInterface, \Serializable
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -546,6 +496,7 @@ class Usuario implements UserInterface, \Serializable
      * Set createdAt
      *
      * @param \DateTime $createdAt
+     *
      * @return Usuario
      */
     public function setCreatedAt($createdAt)
@@ -558,7 +509,7 @@ class Usuario implements UserInterface, \Serializable
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -569,6 +520,7 @@ class Usuario implements UserInterface, \Serializable
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
+     *
      * @return Usuario
      */
     public function setUpdatedAt($updatedAt)
@@ -581,168 +533,10 @@ class Usuario implements UserInterface, \Serializable
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * Add ventas
-     *
-     * @param \InteractiveValley\VentasBundle\Entity\Venta $ventas
-     * @return Usuario
-     */
-    public function addVenta(\InteractiveValley\VentasBundle\Entity\Venta $ventas)
-    {
-        $this->ventas[] = $ventas;
-
-        return $this;
-    }
-
-    /**
-     * Remove ventas
-     *
-     * @param \InteractiveValley\VentasBundle\Entity\Venta $ventas
-     */
-    public function removeVenta(\InteractiveValley\VentasBundle\Entity\Venta $ventas)
-    {
-        $this->ventas->removeElement($ventas);
-    }
-
-    /**
-     * Get ventas
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getVentas()
-    {
-        return $this->ventas;
-    }
-
-    /**
-     * Add direcciones
-     *
-     * @param \InteractiveValley\VentasBundle\Entity\Direccion $direcciones
-     * @return Usuario
-     */
-    public function addDireccione(\InteractiveValley\VentasBundle\Entity\Direccion $direcciones)
-    {
-        $this->direcciones[] = $direcciones;
-
-        return $this;
-    }
-
-    /**
-     * Remove direcciones
-     *
-     * @param \InteractiveValley\VentasBundle\Entity\Direccion $direcciones
-     */
-    public function removeDireccione(\InteractiveValley\VentasBundle\Entity\Direccion $direcciones)
-    {
-        $this->direcciones->removeElement($direcciones);
-    }
-
-    /**
-     * Get direcciones
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDirecciones()
-    {
-        return $this->direcciones;
-    }
-
-    /**
-     * Set facebook_id
-     *
-     * @param string $facebookId
-     * @return Usuario
-     */
-    public function setFacebookId($facebookId)
-    {
-        $this->facebook_id = $facebookId;
-
-        return $this;
-    }
-
-    /**
-     * Get facebook_id
-     *
-     * @return string 
-     */
-    public function getFacebookId()
-    {
-        return $this->facebook_id;
-    }
-
-    /**
-     * Set facebook_access_token
-     *
-     * @param string $facebookAccessToken
-     * @return Usuario
-     */
-    public function setFacebookAccessToken($facebookAccessToken)
-    {
-        $this->facebook_access_token = $facebookAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get facebook_access_token
-     *
-     * @return string 
-     */
-    public function getFacebookAccessToken()
-    {
-        return $this->facebook_access_token;
-    }
-
-    /**
-     * Set twitter_id
-     *
-     * @param string $twitterId
-     * @return Usuario
-     */
-    public function setTwitterId($twitterId)
-    {
-        $this->twitter_id = $twitterId;
-
-        return $this;
-    }
-
-    /**
-     * Get twitter_id
-     *
-     * @return string 
-     */
-    public function getTwitterId()
-    {
-        return $this->twitter_id;
-    }
-
-    /**
-     * Set twitter_access_token
-     *
-     * @param string $twitterAccessToken
-     * @return Usuario
-     */
-    public function setTwitterAccessToken($twitterAccessToken)
-    {
-        $this->twitter_access_token = $twitterAccessToken;
-
-        return $this;
-    }
-
-    /**
-     * Get twitter_access_token
-     *
-     * @return string 
-     */
-    public function getTwitterAccessToken()
-    {
-        return $this->twitter_access_token;
     }
 }

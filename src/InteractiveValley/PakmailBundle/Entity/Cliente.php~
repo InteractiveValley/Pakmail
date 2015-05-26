@@ -1,0 +1,231 @@
+<?php
+
+namespace InteractiveValley\PakmailBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * Cliente
+ *
+ * @ORM\Table(name="clientes")
+ * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\ClienteRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("email")
+ */
+class Cliente implements UserInterface, \Serializable
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Ingresa el nombre del usuario")
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     * @Assert\Email(message="El email {{value}} no es correcto")
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=255)
+     */
+    private $salt;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="integer")
+     */
+    private $tipo;
+
+    /**
+     * @var \Booolean
+     *
+     * @ORM\Column(name="is_active", type="boolean", nullable=true)
+     */
+    private $isActive = true;
+    
+    /**
+     * @var \Empresa
+     * @todo Empresa del cliente
+     *
+     * @ORM\ManyToOne(targetEntity="Empresa", inversedBy="clientes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="empresa_id", referencedColumnName="id")
+     * })
+     */
+    private $empresa;
+    
+    /**
+     * @var \Perfil
+     *
+     * @ORM\OneToMany(targetEntity="Perfil",mappedBy="cliente")
+     * @ORM\OrderBy({"nombre" = "ASC"})
+     */
+    private $perfiles;
+    
+    
+    /**
+     * @var \Envio
+     *
+     * @ORM\OneToMany(targetEntity="Envio",mappedBy="cliente")
+     * @ORM\OrderBy({"fechaSolicitud" = "DESC"})
+     */
+    private $envios;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    private $updatedAt;
+    
+    const TIPO_EMPRESA    =   1;
+    const TIPO_USUARIO    =   2;
+    
+    public function __toString(){
+        return $this->getNombre();
+    }
+    
+    public function getStringCompleto(){
+        return $this->getNombre();
+    }
+    
+    public function getStringTipoGrupo(){
+        $arreglo = self::getArrayTipoGrupo();
+        return $arreglo[$this->getGrupo()];
+    }
+    
+    static function getArrayTipoGrupo(){
+        $arreglo=array(
+            self::TIPO_EMPRESA=>'Empresa',
+            self::TIPO_USUARIO=>'Usuario',
+        );
+        return $sTipoGrupo;
+    }
+    
+    static function getPreferedTipoGrupo(){
+        return array(self::TIPO_USUARIO);
+    }
+
+    
+    public function __construct()
+    {
+        // may not be needed, see section on salt below
+        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->isActive = true;
+        $this->tipo = Cliente::TIPO_USUARIO;
+    }
+    
+
+    /*
+     * Timestable
+     */
+    
+    /**
+     ** @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        if(!$this->getCreatedAt())
+        {
+          $this->createdAt = new \DateTime();
+        }
+        if(!$this->getUpdatedAt())
+        {
+          $this->updatedAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+    
+    public function eraseCredentials()
+    {
+    }
+    
+    public function getRoles() {
+        return array('ROLE_CLIENTE', 'ROLE_API');
+    }
+    
+    /**
+     * Get username
+     *
+     * @return string | email
+     */
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->nombre,
+            $this->email
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->nombre,
+            $this->email
+        ) = unserialize($serialized);
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getSalt() {
+        return $this->salt;
+    }
+}
+
