@@ -1,5 +1,6 @@
 @import 'nib'
 @import 'normalize'
+@import 'fuentes'
 
 
 box-sizing()
@@ -12,730 +13,221 @@ opacity(n)
 	if support-for-ie
 		filter unquote('progid:DXImageTransform.Microsoft.Alpha(Opacity=' + round(n * 100) + ')')
 
-color_rojo = #E34A3A
-color_verde_claro = #56C5B6
-color_verde_oscuro = #27AA98
-color_gris_claro = #F4F4F4
-color_gris_oscuro = #C3C3C3
-color_naranja_claro = #EB9A53
-color_naranja_oscuro = #E68229
-color_rosa = #DF2E72
-color_gris_oscuro_new = #C9C9C9
+color_vino = rgb(152,1,46)
+color_vino_oscuro = rgb(108,5,36)
+color_gris_oscuro = #374959
 
-/* colores filtro */
-
-filtro_color_carmesi = #9F0700
-filtro_color_amarillo = #FA9000
-filtro_color_cafe = #7F5400
-filtro_color_azul = #1DA5FF
-filtro_color_azul_marino = #084664
-filtro_color_verde = #3CAE55
-filtro_color_fiusa = #F500FC
-filtro_color_gris = #A0A0A0
-
-
-
-article.filtro-categorias
-		border-top 1px solid color_gris_oscuro
-		border-bottom 1px solid color_gris_oscuro
-		position relative
-	& .filtro
-		height 2.9em
-		line-height 2.9em
-	& .filtro-titulo
-		text-transform uppercase
-		font-size .8em
-		background-color color_gris_claro
-	& #valor-precio
-		color color_rosa
-	& .color
-		font-size 2em
-		margin 8px 4px 0px
-		float left
-		cursor pointer
-		&.color-carmesi
-			color filtro_color_carmesi
-		&.color-amarillo
-			color filtro_color_amarillo
-		&.color-cafe
-			color filtro_color_cafe
-		&.color-azul
-			color filtro_color_azul
-		&.color-azul_marino
-			color filtro_color_azul
-		&.color-verde
-			color filtro_color_verde
-		&.color-fiusa
-			color filtro_color_fiusa
-		&.color-gris
-			color filtro_color_gris
-		&.color-blanco
-			color #FFFFFF
-		&.inactive
-			opacity 0.5
-	& .filtro-ordenar
-		position absolute
-		top 0px
-		right 0px
-		& .filtro-ordenar-por-precio
-			position absolute
-			top 8px
-			right 0px
-			& .btn-grupo
-				width 100%
-				height 3em
-				& .btn-verde-countdown
-					color white
-					background-color color_verde_claro
-					border-color color_verde_claro
-		& .filtro-filtrar
-		& .filtro-ver-todos
-			position absolute
-			top 3em 
-			height 3em
-			width 50%
-			line-height 3em
-			background-color color_gris_oscuro
-			& span 
-				display block
-				text-align center
-				cursor pointer
-				&.active 
-					background-color color_rosa
-					color white
-		& .filtro-filtrar
-			left 0px
-		& .filtro-ver-todos
-			right 0px
-			
-			
-
-article.producto
-	float left
-	margin 3px
-	overflow hidden
-	border 1px solid color_gris_oscuro
-	box-sizing border-box
-	&.imagen_chica
-		width 238px
-		height 238px
-	&.imagen_grande
-		width 484px
-		height 484px
-		& .agregar-carrito
-			right 45%
-	& .imagen-producto
-		margin 0px
-		position relative
-		& figcaption
-			background-color white
-			bottom -50px
-			height 50px
-			left 0px
-			opacity 0
-			position absolute
-			transition all .3s ease-out
-			width 100%
-	&:hover .imagen-producto figcaption
-		bottom 0px
-		opacity 1
-	& .precio-producto
-		color color_rosa
-		font-size 1.2em
-		height 30px 
-		left 1px
-		position absolute
-		top 1px
-		display block
-	& .inventario-producto
-		bottom 1px
-		color color_rosa
-		font-size .9em
-		height 30px
-		line-height 30px
-		left 1px
-		position absolute
-		display block
-	& .agregar-carrito
-		background-color white
-		color color_gris_oscuro
-		cursor pointer
-		display block
-		font-size 1.2em
-		position absolute 
-		right 50px
-		top 1px
-	& .ver-producto
-		background-color color_rosa
-		bottom 1px
-		color white
-		cursor pointer
-		display block
-		font-size .9em
-		height 20px
-		position absolute
-		right 0px
-		width 20px
-
-
-article.producto-detalle
-	& .producto-detail
-		text-align center
-		margin 0 auto
-		& .titulo-producto
-			color color_rosa
-			text-align center
-			text-transform capitalize
-		& .descripcion-producto
-			font-size 1em
-			text-align left
-			width 100%
-		& .precio-producto
-			color color_verde_oscuro
-			font-size 1.2em
-			height 30px 
-			width 100%
-			margin-top 3em
-			display block
-		& .inventario-producto
-			background-color color_verde_oscuro
-			color white
-			font-size 1em
-			height 30px
-			width 100%
-			margin-top 2em
-			& span
-				display inline-block
-				vertical-align top
-		& .agregarCarrito
-			background-color color_rosa
-			color white
-			display block
-			font-size 1em
-			height 30px 
-			line-height 30px
-			width 100%
-			margin-top 2em
-			cursor pointer
-			display block
-		
 body
 	font-size 16px
-	& > .container > header
-		background-color color_gris_oscuro_new
-		width 100%
-		margin 0 auto 20px
-	& > .container > footer
-		width 100%
-		margin 0 auto
-
-button#hacerPedido
-	background-color color_rosa
-	color white
-	height 50px
-	line-height 45px
-	text-transform capitalize
-	width 90%
-	margin 0px 5% 10px
-
-button[type="submit"]
-	background-color color rosa
-	border none
-	border-radius .5em
-	padding .5em
-
-footer
-	height 2.1em
-	border-top 1px solid color_gris_oscuro
-	border-bottom 1px solid color_gris_oscuro
-	color black
-	& a
-		color black
-		text-decoration none
-		font-size .8em
-
-figure
-	margin 0	
-
-
-
-ul.list-carrito
-	padding 0
-	& li.item-carrito
-		/**/
-		border-top 1px solid color_rosa
-		list-style none
-		margin .5em 0px
-		padding .5em 0px
-		width 100%
-		&:last-child
-			border-bottom 1px solid color_rosa
-		&.inactive .imagen-producto-carrito
-			opacity 0.5
-		& .imagen-producto-carrito
-			margin 0px 0px 0px 5px
-			overflow hidden
-			width 98px
-			height 80px
-			position relative
-			& figcaption
-				background-color color_rosa
-				bottom -80px
-				color white
-				font-size 14px
-				height 30px
-				left 0px
-				line-height 30px
-				position absolute
-				text-align center
-				transition bottom .5s ease-out
-				width 100%
-				& a
-					color white
-					&:hover
-						text-decoration none
-			& .imagen-producto-cantidad-carrito
-				position absolute 
-				right 0px
-				top 0px
-				height 20px
-				width 20px
-				color white 
-				background-color color_rosa
-				z-index 1000
-				text-align center
-				border-radius 50%
-			& .reloj-inactivo
-				position absolute
-				top 0px
-				left 0px
-				color color_rosa
-		& .producto-carrito
-			position relative
-			margin-left 10px
-			color black
-			& .titulo-producto-carrito
-				margin 0
-				font-size .8em
-			& .precio-producto-carrito
-				display block
-				font-size .8em
-			& .tiempo-producto-carrito
-				display block
-				font-size .8em
-			& .tiempo-producto-reloj
-				color color_rosa
-			& .close-producto-carrito
-				position absolute
-				top -10px
-				right 0px
-				font-size 1.1em
-				font-weight normal
-				& a
-					color color_rosa
-			& .tiempo-producto-completo
-				background-color color_rosa
-				& .tiempo-producto-reactivar
-					display block
-					color white
-					font-size .8em
-					text-align center
-					padding 5px 0px
-					cursor pointer
-	& li.item-carrito:hover .imagen-producto-carrito figcaption
-		bottom 0px
-
-section.productos
-	text-align center
-	width 100%
-	min-height 400px
-	&.cargando
-		background url('/images/loader_rosa.gif') center center no-repeat
-
-
-nav.navbar.navbar-default
-	border-top 5px solid color_rosa
-	margin 0
-	& .item-navbar
-		display inline-block
-		vertical-align top
-		height 50px 
-		width 100px
-		line-height 50px
-		position relative
-		& span.item-navbar-trigger
-			cursor pointer
-			position absolute
-			display block
-			top 0px
-			left 0px
-		& div.contenedor-filtro-navbar
-			position absolute 
-			top 0px
-			left 100px
-			display block
-			background-color #f8f8f8
-			z-index 1000
-			height 50px
-			display none
-			& a
-				color color_rosa
-				text-decoration none
-			&.contenedor-categorias
-				width 873px
-			&.contenedor-colores
-				width 773px
-			&.contenedor-precio
-				width 673px
-				 
-
-.buscador-envio
-	background-color color_rosa
-	height 2.68em
-	color white
-	& .input-group
-		padding .2em
-		& input[type="text"]
-		& button
-			background-color color_rosa
-			color white
-			border 1px solid white
-			
+	background-color white
+	font-family "TeXGyreAdventor-Regular"
 	
-.buscador-usuario
-	height 2.68em
-	& .input-group
-		padding .2em
-		& button
-			background-color color_rosa
-			color white
-			border 1px solid white
 
-.border-top-gradiente
-
-
-.bloque-login
-	border-right 1px solid color_gris_oscuro
-	box-sizing border-box
-	&:last-child
-		border-right none
-
-.contenedor-usuario
-	position absolute
-	top 0px
-	right 0px
-	height 50px	
-	z-index 1000
-	& span a
-		text-transform uppercase
-		padding 2px 5px
-		font-size .9em
-		color white
-	& .contenido-usuario-crear-cuenta
-		border-right 2px solid color_rosa
-	& .contenido-usuario-tracking
-		background-color color_rosa
-
-
-.color-rosa
-	color color_rosa	
-
-.container-project
-	margin 0 auto
-	max-width 1020px
-	box-sizing border-box
-
-.errores
-	ul
-		padding 0px
-		& li
-			color color_rosa
-			font-size 14px
-
-.link-categoria
-	font-size .9em
-	color_rosa
-	text-transform capitalize
-	padding 2px
-	display inline-block
-	vertical-align top 
-
-
-
-
-.link-cuenta
-	padding .3em
-	font-size 0px
-	& .link-cuenta-usuario
-		color color_rosa
-		display inline-block
-		font-size 14px
-		line-height 14px
-		margin-top 10px
-		padding 2px 0px 2px 4px 
-		vertical-align top
-		&:first-child
-			border-right 1px solid color_rosa
-			padding-right 4px
-
-.seleccionar-opcion
-	height 50px
+header nav
+	background-color color_vino
+	height 86px
 	width 100%
-	border 1px solid color_gris_claro
-	font-size 1em
-	padding-left 50px
-	line-height 50px
-	&.rosa
-		color color_rosa
-
-
-.login-titulo
-	text-transform uppercase
-	font-size .8em
-	color color_rosa
-
-
-.links-footer
-	displa inline-block
-	vertical-align top
-	line-height 1em
-	padding .2em
-	margin-top .2em
-	& .link-footer-first
-		border-right 1px solid color_gris_oscuro
-		padding-right .4em
-
-.letrero-carrito
-	color color_rosa
-	padding 1em 2em
-	font-size .9em
 	text-align center
-
-.total-carrito
-	color black
-	font-size 1em
-	margin 10px 0px 5px
-	text-align right
-	text-transform uppercase
-	font-weight normal
-	&.rubro
-		font-size .9em
-		text-align right
-
-.modal-producto-galeria
-	position relative
-
-.modal-producto-contenido
-	text-align left
-	& .modal-producto-galeria
-		& .producto-galeria-lista
-			margin 0 
-			padding 0
-			& .producto-galeria-item
-				display inline-block
-				vertical-align top
-				list-style none
-	& .modal-producto-titulo
-		color color_rosa
-		font-size 1.2em
-		margin-top 0px
-		margin-bottom 0px
-		text-align left
-	& .modal-producto-clave-producto
-		color color_rosa
-		font-size .8em
-		text-align left
-		margin-bottom 1em
-	& .modal-producto-descripcion
-		font-size 1em
-		text-align justify
-		margin-bottom .5em
-	& .modal-producto-precio
-		color color_rosa
-		font-size 1.3em
-		margin-bottom .5em
-	& .modal-producto-inventario
-		background-color color_rosa
-		color white
-		display block
-		font-size 1.2em
-		padding 5px
-		width 300px
-		margin 0px 0px 1.2em
-	& .modal-producto-colores
-		& ul.lista-colores
-			margin 0 0 1.2em
-			padding 0
-			& li.item-color
-				display inline-block
-				vertical-align top 
-				& span
-					border-radius 50%
-					height 30px
-					width 30px
-					display inline-block
-					line-height 25px
-					text-align center
-					border 1px solid color_gris_claro
-					cursor pointer
-	& .modal-producto-cantidad 
-		margin-bottom 1.2em
-		& label 
-			color color_rosa
-		& button
-			background-color color_rosa
+	& li
+		display inline-block
+		vertical-align top
+		& a
+			height 86px
+			line-height 86px
+			font-size 1.3em
 			color white
+			text-decoration none
+			text-transform uppercase
+			padding 0px 10px
+			transition all .5s ease
+			background-color color_vino
+			display block
+			&.active
+			&:hover
+				background-color color_vino_oscuro
+ul
+	padding 0
+	margin 0
+
+.boletin
+	background-color color_gris_oscuro
+	color white
+	text-align center
+	& .leyenda 
+	& .form-newsletter
+		display inline-block
+		vertical-align top
+	& .leyenda
+		height 30px
+		line-height 30px
+		padding 10px
+		width 450px
+		margin 0 auto
+		& img
+			float right
+	& .form-newsletter
+		width 450px
+		overflow hidden
+		height 30px
+		padding 10px
+		position relative
 		& input 
-			width 50px
-			color color_rosa
-		& label
-		& button
-		& input
 			display inline-block
 			vertical-align top
-	& .modal-producto-agrergar-carrito
-		text-transform uppercase
-		padding .5em
-		border none
-		background-color color_gris_oscuro_new
-		color white
+			font-size .8em
+			padding .4em
+			width 170px
+			color black
+		& .boton-guardar-newsletter
+			position absolute 
+			top 5px
+			right 0px
+			z-index 1000
+		
 
-
-.descuento-carrito
-	color color_rosa
-	font-size 1em
-	margin 5px 0px 10px
-	text-align right
-	text-transform uppercase
-	font-weight normal
-
-.titulo-carrito
-	color black
-	font-size .8em
-	line-height 4em
-	margin 2px 0px
+footer
+	background-color color_vino
+	height 140px
+	width 100%
+	color white
 	text-align center
-	text-transform uppercase
-	font-weight normal
+	font-size .8em
+	& a
+		text-decoration none
+		color white
+	& ul.info 
+		padding-top .5em
+		& li
+			display inline-block 
+			vertical-align top
+			width 266px
+			&:nth-child(odd)
+				padding-right 1em
+			&:nth-child(even)
+				padding-left 1em
+			& .direccion
+				height 50px
+				&.flat
+					height 25px
+			& figure
+				margin 0
+.border-r
+	border-right 1px solid white
+	&.border-r-vino
+		border-right 1px solid color_vino
+.menu_bar
+	display none
+
+.logo-redes-sociales
+	position relative
+	text-align center
+	& .social_face_top
+		position absolute
+		top 50%
+		right 100px
+		margin-top -44px
+		z-index 1000
+
+.text-align-right
+	text-align right
+
+.text-align-left 
+	text-align left
 	
 
-.totop
-	background-color rgba(black,0.8)
-	bottom 0px
-	height 3em
-	line-height 2.8em
-	position fixed
-	right 20%
-	text-align center
-	width 3em
-	border-radius 50%
-	display none
-	& a
-		color white
-		display block
-
-.padding 
-	padding 1em	2em
-
-.well
-	padding .5em
-
-.producto-promo
-	width 780px
-	border 1px solid color_gris_claro
-
-
-#carrito
-	position relative
-	display none
-	height 100%
-	& h6.titulo-logo-carrito
-		width 100%
-		position relative
-		height 3em
-		line-height 3em
-		text-align center
-		text-transform capitalize
-		font-size 1em
-		margin 0px
-		& #logo-carrito
-			position absolute
-			top -2px
+@media screen and (max-width: 1024px )
+	.logo-redes-sociales
+		.social_face_top
 			right 0px
-	& .carrito
-		position absolute
-		width 266px
-		background-color color_gris_claro
-		border-left 4px solid color_rosa
-		top 0px
-		right -50px
-		z-index 2000
-		& .triangulo-carrito
-			width 0
-			height 0
-			border-left 10px solid transparent
-			border-right 10px solid transparent
-			border-top 10px solid color_rosa
-			font-size 0
-			line-height 0
-			position absolute
-			top 0px
-			right 13px
 
-#contenedor-carrito
-	position relative
-
-#division-principal
-	text-align left
-	width 100%
-	min-height 400px
-	&.cargando
-		background url('/images/loader_rosa.gif') center center no-repeat
-
-#division-principal
-#carrito 
-	&.flotar
-		float left
-
-#mensajeBienvenida
-	background-color color_rosa
-	color white
-	border-top .5em solid color_rosa
-	border-bottom .5em solid color_rosa
-
-@media (max-width: 480px)
-	footer.footer
+@media screen and (max-width: 960px)
+	header
+		position relative 
+		
+	header .logo-redes-sociales
 		display none
 
+	header nav 
+		width 80%
+		height 100%
+		left -100%
+		top 75px
+		margin 0
+		position absolute
+		transition all .5s ease-in-out
+		z-index 1001
+		& li
+			display block
+			border-bottom 1px solid white
+			width 100%
+			& a
+				box-sizing border-box
+				margin 0
+				padding 10px 20px
+				text-align left
+				height 52px
+				line-height 32px
+				width 100%
+				font-size 1em
 
-.modal-dialog
-	position absolute
-	top 50% !important
-	transform translate(-55%, -50%) !important
-	margin auto 5%
-	width 90%
-	height 80%
+	header .menu_bar
+		display block
+		width 100%
+		background-color color_vino
+		& .bt-menu
+			display block
+			padding 10px 20px
+			text-decoration none
+			color white
+			font-weight normal
+			font-size 1em
+			box-sizing border-box
+		& span
+			float right
+			
+	header .boletin
+		height 50px
+		overflow hidden
+		transition all .5s ease
+		&:hover
+			height 150px
+		& .form-newsletter
+			overflow auto
+			height auto
+			text-align left
+			width 450px
+			input
+				margin-bottom 10px
+				width 80%
 
-.modal-content
-	min-height 100%
-	position absolute
-	top 0
-	bottom 0
-	left 0
-	right 0
+	footer
+		padding .5em
 
-.modal-body
-	position absolute
-	top 5px
-	// height of header
-	bottom 5px
-	// height of footer
-	left 0
-	right 0
-	overflow-y auto
+@media screen and (max-width: 480px)
+	footer
+		text-align center
+		height auto
+		& ul.info 
+			padding-top .5em
+			margin 0 auto
+			& li
+				display block
+				width 100%
+				border none
+				&:nth-child(odd)
+				&:nth-child(even)
+					padding 0
+		& .text-align-left
+		& .text-align-right
+			text-align center
 
-.modal-footer
-	position absolute
-	bottom 0
-	left 0
-	right 0
+
+@media screen and (max-width: 400px)
+	header .boletin
+		& .leyenda
+			font-size .7em
+			width 90%
+			padding-left 10px
+			padding-right 10px
+		& .form-newsletter
+			width 90%

@@ -2,27 +2,121 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{asset('css/bootstrap-slider.css')}}">
-    <link rel="stylesheet" href="{{asset('css/jquery.bxslider.css')}}">
+    <link rel="stylesheet" href="{{asset('css/jquery.bxslider.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/owl.carousel.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/owl.theme.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/main.css')}}"/>
 {% endblock %}
 
 {% block contenido %}
-                    
+    <section class="carrusel">
+        <span class="slide-prev"></span>
+        <span class="slide-next"></span>
+        <ul class="bxSlider">
+            {% for promocion in range(1,5) %}
+            <li><img src="../maqueta/{{promocion}}.jpg" alt="titulo de promocion: {{promocion}}"></li>
+            {% endfor %}
+        </ul>
+    </section>
+    <div class="linea"></div>
+    <section class="servicios">
+        <article class="servicios">
+            <header>
+                <h2 class="titulo gris">servicios</h2>
+            </header>
+            <div class="servicios">
+                <div class="info_serv">
+                    ParMail ofrece a sus clientes diversa variedad de Servicios.
+                </div>
+                <div class="serv_slider">
+                    <div id="owl-servicios" class="owl-carousel owl-theme" style="opacity: 1; display: block;">
+
+                        <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 2520px; left: -230.103463989335px; display: block;"><div class="owl-item" style="width: 315px;"><div class="item" id="item_1"><img src="./PAKMAIL VIRREYES_files/icono servicios.png" alt="Owl Image"> <div>PAQUETERIA</div></div></div><div class="owl-item" style="width: 315px;"><div class="item" id="item_2"><img src="./PAKMAIL VIRREYES_files/icono servicios.png" alt="Owl Image"> <div>PAQUETERIA</div></div></div><div class="owl-item" style="width: 315px;"><div class="item" id="item_3"><img src="./PAKMAIL VIRREYES_files/icono servicios.png" alt="Owl Image"> <div>PAQUETERIA</div></div></div><div class="owl-item" style="width: 315px;"><div class="item" id="item_4"><img src="./PAKMAIL VIRREYES_files/icono servicios.png" alt="Owl Image"> <div>PAQUETERIA</div></div></div></div></div>
+
+
+
+                        <div class="owl-controls clickable"><div class="owl-pagination"><div class="owl-page"><span class=""></span></div><div class="owl-page active"><span class=""></span></div></div><div class="owl-buttons"><div class="owl-prev"><img src="./PAKMAIL VIRREYES_files/flecha2servicios.png"></div><div class="owl-next"><img src="./PAKMAIL VIRREYES_files/flecha1servicios.png"></div></div></div></div>
+                </div>
+            </div>
+        </article>
+    </section>
+    <section class="aliados-reconocidos">
+        <article class="aliados">
+            <header>
+            <h2 class="titulo rojo">ALIADOS</h2>
+            </header>
+            <figure class="aliados_logo"> 
+                <img class="alid_logos" src="{{asset('images/aliados_logos.png')}}" alt="">
+            </figure>
+        </article>
+        <article class="reconocidos">
+            <p>
+                PAKMAIL es reconocido por: 
+                <figure>
+                    <img src="{{asset('images/reconocimientos.png')}}" alt="">
+                </figure>
+            </p>
+        </article>
+    </section>
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-<script type="text/javascript">
-    $(function(){
-        window.api = {
-                url: 'http://localhost:8040/app_dev.php',
-                status: 'inicio',
-                modelo: {
-                    id: 0
-                },
-            };
+    {{ parent() }}
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/jquery.bxslider.js')}}"></script>
+    <script src="{{asset('js/script.js')}}"></script>
+    <script src="{{asset('js/owl.carousel.js')}}"></script>
+    <script>
+    $(document).ready(function(){
+        $('.bxslider').bxSlider({
+            nextSelector: '.slider-next',
+            prevSelector: '.slider-prev',
+            auto: true,
+            pause: 8000
+        });
+        $("#owl-servicios").owlCarousel({
+            autoPlay: 3000, //Set AutoPlay to 3 seconds
+            items : 3,
+            itemsDesktop : [1199,3],
+            itemsDesktopSmall : [300,2],
+            itemsMobile : [250,1],
+            navigation : true,
+            navigationText : ["<img src='/images/flecha2servicios.png' />", "<img src='/images/flecha1servicios.png' />"],
+            stopOnHover: true,
+            responsive: true,
+            itemsCustom: false,
+        });
+
+        $("#item_1").mouseover(function () {
+           $("#info_serv").html("Servicio 1");
+        });
+        $("#item_2").mouseover(function () {
+            $("#info_serv").html("Servicio 2");
+        });
+        $("#item_3").mouseover(function () {
+            $("#info_serv").html("Servicio 3");
+        });
+        $("#item_4").mouseover(function () {
+            $("#info_serv").html("Servicio 4");
+        });
+        $(".item").mouseout(function () {
+            $("#info_serv").html("ParMail ofrece a sus clientes diversa variedad de Servicios.");
+        });
+        $(window).scroll(function () {
+            posicionarMenu();
+        });
+        posicionarMenu();
     });
-</script>
-<script data-main="/js/app_productos" src="{{asset('js/libs/require/require.js')}}"></script>
-     
+    function posicionarMenu() {
+        var altura_del_header = $('#header').outerHeight(true);
+        var altura_del_menu = $('#cssmenu').outerHeight(true);
+        if ($(window).scrollTop() >= altura_del_header) {
+            $('#cssmenu').addClass('fixed');
+            $('.wrapper').css('margin-top', (altura_del_menu) + 'px');
+        } else {
+            $('#cssmenu').removeClass('fixed');
+            $('.wrapper').css('margin-top', '0');
+        }
+    }
+    </script>
 {% endblock %}

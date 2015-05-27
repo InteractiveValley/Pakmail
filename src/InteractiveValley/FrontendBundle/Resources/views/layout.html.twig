@@ -1,6 +1,6 @@
-{% extends '::base.html.twig' %}
+{% extends '::baseFrontend.html.twig' %}
 
-{% block title %}Countdown{% endblock %}
+{% block title %}Pakmail | Virreyes{% endblock %}
 
 {% set urlAbsolutaFoto = 'http://'
                              ~ app.request.server.get('SERVER_NAME')
@@ -8,40 +8,20 @@
 {% block stylesheets %}
     {% block redes_sociales %}
         <meta property="og:url" content="{{url('homepage')}}" />
-        <meta property="og:title" content="Countdown" />
+        <meta property="og:title" content="Pakmail Virreyes" />
         <meta property="og:image" content="{{urlAbsolutaFoto}}" />
         <meta property="og:type" content="article" />
-        <meta property="og:site_name" content="countdown.com" />
+        <meta property="og:site_name" content="pakmail.com" />
         <!--meta property="fb:admins" content="USER_ID1,USER_ID2"/-->
 
         <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@Countdown">
-        <meta name="twitter:title" content="Countdown">
-        <meta name="twitter:description" content="Countdown, ventas de articulos promocionales">
+        <meta name="twitter:site" content="@Pakmail">
+        <meta name="twitter:title" content="Pakmail">
+        <meta name="twitter:description" content="Pakmail, enviar sus paquetes a todo el pais">
         <meta name="twitter:creator" content="@richpolis">
         <meta name="twitter:image:src" content="{{urlAbsolutaFoto}}">
         <meta name="twitter:domain" content="{{url('homepage')}}">
     {% endblock %}
-
-    <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/bootstrap-slider.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}">
-    <link rel="stylesheet" href="{{asset('css/jquery.bxslider.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/animate.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/main.css')}}"/>
-    <style>
-        .loader {
-            display: none;
-            position: fixed;
-            left: 0px;
-            top: 0px;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            background: url('/images/page-loader.gif') 50% 50% no-repeat transparent;
-        }
-
-    </style>
     {% if app.environment == 'prod' %}
         <script>
             (function (i, s, o, g, r, a, m) {
@@ -55,216 +35,103 @@
                 a.src = g;
                 m.parentNode.insertBefore(a, m)
             })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-            ga('create', 'UA-55928211-1', 'auto');
+            ga('create', 'UA-xxxxxx-1', 'auto');
             ga('send', 'pageview');
         </script>
     {% endif %}
 {% endblock %}
 
-{% block body %}
-    <div id="app" class="container container-project" style="position:relative;">
-        <header class="row">
-            <div class="col-md12" style="position:relative;">
-                <a href="{{path('homepage')}}">
-                    <figure id="logoPrincipal">
-                        <img src="{{asset('images/logov2.png')}}" class="img-responsive" alt="Countdown"/>
-                    </figure>
-                </a>
-                <div class="contenedor-usuario">
-                    <span class="contenido-usuario-crear-cuenta">
-                        <a href="#registro">Crear cuenta</a>
-                    </span>
-                    <span class="contenido-usuario-login">
-                        <a href="{{path('login')}}">Login</a>
-                    </span>
-                    &nbsp;
-                    <span class="contenido-usuario-tracking">
-                        <a href="#tracking">tracking</a>
-                    </span>
-                </div>
-            </div>
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <!--a id="nameProject" href="#" class="navbar-brand">Countdown</a-->
-                    </div>
-                    <div id="navbar" class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="item-navbar item-navbar-categorias">
-                                <span class="item-navbar-trigger" id="showCategorias">  
-                                    Categorias
-                                </span>
-                                <div class="contenedor-filtro-navbar contenedor-categorias">
-                                    {% render(controller('FrontendBundle:Default:categorias')) %}
-                                </div>
-                            </li>
-                            <li class="item-navbar item-navbar-colores">
-                                <span class="item-navbar-trigger" id="showColores">  
-                                    Colores
-                                </span>
-                                <div class="contenedor-filtro-navbar contenedor-colores">
-                                    <!-- Template ColorViewTemplate -->
-                                </div>
-                            </li>
-                            <li class="item-navbar item-navbar-precio">
-                                <span class="item-navbar-trigger" id="showFiltroPrecio">  
-                                    Precio
-                                </span>
-                                <div class="contenedor-filtro-navbar contenedor-precio">
-                                    <div class="filtro-precio">
-                                        <div class="row filtro">                          
-                                            <div class="col-md-8">
-                                                <input id="sliderPrecio" type="slider" class="span2" value="" data-slider-min="50" data-slider-max="2000" data-slider-step="50" data-slider-value="2000" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <span id="valor-precio"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="item-navbar item-navbar-promos">
-                                <span class="item-navbar-trigger" id="showPromos">  
-                                    Promos
-                                </span>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li id="contenedor-carrito">
-                                <a href="#mostrar/carrito" id="showCarrito">Carrito</a>
-                                <!--span id="showCarrito">Carrito</span-->
-                                <div id="carrito">
-                                    <!-- template backbone -->
-                                </div>
-                            </li>
-                            <li>
-                                <img src="/images/carrito.png" alt="" height="50">
-                            </li>
-                        </ul>
-                    </div><!--/.nav-collapse -->
-                </div><!--/.container-fluid -->
-            </nav>
-        </header>                    
-        
-
-    <div id="division-principal" class="flotar" style="width: 100%;">
-        {% block contenido %}{% endblock %}
-    </div>
-    <div class="clearfix"></div>
-    <footer class="row">
-        <div class="col-md-4 links-footer">
-            <a href="#registro" class="link-footer link-footer-first">Crear Cuenta</a>
-            <a href="#login" class="link-footer">Login</a>
+{% block body %}  
+    <header>
+        <div class="logo-redes-sociales">
+            <figure class="logo">
+                <img src="{{asset('images/logo.png')}}">
+            </figure>
+            <figure class="social_face_top">
+                <img src="{{asset('images/facebook.png')}}" alt="">
+            </figure>
         </div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4 links-footer text-right">
-            <a href="#politicia-de-privacidad" class="link-footer link-footer-first">Politica de privacidad</a>
-            <a href="#contacto" class="link-footer" data-toggle="modal" data-target="#contactoModal">Contacto</a>
+        <div class="menu_bar">
+            <a href="#" id="bt-menu" class="bt-menu">
+                <img src="{{asset('images/logo_footer.png')}}" alt="" class="logo">
+                <span class="icon-menu">Menu</span>
+            </a>
+	</div>    
+        <nav id="navegador">
+            <ul>
+                <li><a href="#index">inicio</a></li>
+                <li><a href="#">quienes somos</a></li>
+                <li><a href="#">calendario</a></li>
+                <li><a href="#">ubicación y contacto</a></li>
+                <li><a href="#">ingreso a clientes</a></li>
+            </ul>
+        </nav>
+        <div class="boletin">
+            <div class="leyenda">
+                Suscribete para recibir ofertas y promociones
+                <img src="{{asset('images/newsletter.png')}}" alt="">
+            </div>
+            <form action="" method="post" id="formNewsletter" class="form-newsletter">
+                <div class="group-form">
+                    <input class="forms" type="text" placeholder="Nombre">
+                    <input class="forms" type="text" placeholder="Email">
+                </div>
+                <a href="#" class="boton-guardar-newsletter">
+                    <img src="{{asset('images/guardarnewsletter.png')}}" alt="">
+                </a>
+            </form>
+        </div>
+    </header>
+    {% block contenido %} {% endblock %}
+    <footer>
+        <ul class="info">
+            <li class="text-align-right border-r border-r-blanco">
+                <div class="direccion">
+                    pakmall103@pakmail.com.mx
+                    <br>
+                    5202-1193 5202-1259
+                </div>    
+            </li>
+            <li class="text-align-left">
+                <figure class="logo-footer">
+                    <img src="{{asset('images/logo_footer.png')}}" alt=""> 
+                </figure>
+            </li>
+        </ul>
+        <ul class="info">
+            <li class="text-align-right border-r border-r-vino">
+                <div class="direccion flat">
+                    <a class="aviso-privacidad" href="#">Aviso de Privacidad</a> 
+                </div>    
+            </li>
+            <li class="text-align-left">
+                <div class="direccion flat">
+                    <a class="terminos-condiciones" href="#">Términos y Condiciones</a> 
+                </div> 
+            </li>
+        </ul>
+        <div class="derechos">
+            <p>2015 PAKMAIL VIRREYES. Todos los derechos reservados. Pedregal No. 96 Col. Lomas de Chapultepec, Del. Miguel Hidalgo. C.P. 11000. Ciudad de México, Distrito Federal.</p>
         </div>
     </footer>
-    <span class="totop"><a href="#"><i class="fa fa-chevron-up"></i></a></span>
-    <div class="loader"></div>
-</div> <!-- fin de app -->
-        
-<div class="modal fade" id="contactoModal" tabindex="-1" role="dialog" aria-labelledby="contactoLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="contactoLabel">Contacto</h4>
-      </div>
-      <div class="modal-body">
-        {{render(controller('FrontendBundle:Api:contacto'))}}
-      </div>
-      <div class="modal-footer">
-        <img class="ajax-loader pull-left" src="/images/bx_loader.gif" alt="Enviando ..." style="display: none;">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="enviarContacto" class="btn btn-primary">Enviar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="mensajeModal" tabindex="-1" role="dialog" aria-labelledby="mensajeLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <h1 class="color-rosa text-center">Bienvenidos</h1>  
-        <h2 class="color-rosa text-center">Precios excepcionales en productos hasta agotar existencia</h2>
-        <h2 class="color-rosa text-center">¿Como funciona?</h2>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-        <button type="button" id="botonCerrarBienvenida" class="btn btn-lg btn-primary" style="background: #DF2E72; color: white;">Entrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--div id="modalProducto" class="modal fade" ></div-->        
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{asset('js/jquery.js')}}"></script>
-    <script src="{{asset('js/bootstrap.js')}}"></script>
-    <script src="{{asset('js/bootstrap-slider.js')}}"></script> 
-    <script src="{{asset('js/jquery.bxslider.min.js')}}"></script> 
-    <script>
-            $(document).ready(function () {
-                //$("#mensajeModal").modal('show');
-                
-                $("#botonCerrarBienvenida").on("click",function(){
-                   $("#mensajeModal").modal('hide'); 
-                });
-                
-                $(".slider.slider-horizontal").css({'width': '100%'});
-                
-                $("#enviarContacto").on("click",function(){
-                    var form = $("#formContacto");
-                    $(".ajax-loader").fadeIn("fast");
-                    $.ajax({
-                        url: form.attr("action"),
-                        type: 'POST',
-                        dataType: 'json',
-                        data: form.serialize(),
-                        success: function(data){
-                            if(data.status == "send"){
-                                $("#contactoModal .modal-body").html(data.form);
-                                setTimeout(function(){
-                                    $("#contactoModal").modal("hide");
-                                },2000);
-                            }else{
-                                $("#contactoModal .modal-body").html(data.form);
-                            }
-                            $(".ajax-loader").fadeOut("fast");
-                            setTimeout(function(){
-                                 $(".alert").remove();
-                            },2000);
-                        },
-                        error: function(data){
-                            alert("error");
-                            console.log(data);
-                            $(".ajax-loader").fadeOut("fast");
-                        }
-                    })
-                });
-            });
+    <script type="text/javascript">
+                (function(){
+                        var contador = 1;
+                        var menuBar = document.getElementById("bt-menu");
+                        menuBar.addEventListener('click',function(){
+                                var nav = document.getElementById("navegador");
+                                if(contador == 1){
+                                        nav.style.left = "0";
+                                        contador = 2;
+                                }else{
+                                        nav.style.left = "-100%";
+                                        contador=1;
+                                }
+                        });
+                })();
     </script>
 {% endblock %}
