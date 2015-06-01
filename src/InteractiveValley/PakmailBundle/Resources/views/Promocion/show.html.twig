@@ -58,26 +58,18 @@
                                                     <td>{{ entity.id }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Promocion/Novedad</th>
+                                                    <th>Promocion</th>
                                                     <td>{{ entity.nombre }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Descripcion</th>
-                                                    <td>{{ entity.descripcion | truncate(250) | raw }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Imagen</th>
                                                     <td>
                                                         {% if entity.imagen | length > 0 %}
-                                                            <img src="{{ entity.webPath }}" style="max-width: 120px; max-width: 120px;"/>
+                                                            <img src="{{ entity.webPath }}" style="max-width: 200px; max-width: 200px;"/>
                                                         {% else %}    
                                                             sin imagen
                                                         {% endif %}
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>En inicio?</th>
-                                                    <td>{{ entity.isPrincipal | isActive | raw }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Creado</th>

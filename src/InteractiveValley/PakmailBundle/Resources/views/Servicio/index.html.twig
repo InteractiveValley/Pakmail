@@ -45,8 +45,8 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Imagen</th>
                                         <th>Servicio</th>
+                                        <th>Descripcion</th>
                                         <th>Fecha</th>
                                         <th>Actions</th>
                                     </tr>
@@ -55,29 +55,24 @@
                                     {% for entity in entities %}
                                         <tr id="registro-{{entity.id}}">
                                             <td><a href="{{ path('servicios_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                                            <td>
-                                                {% if entity.imagen | length > 0 %}
-                                                    <img src="{{ entity.webPath }}" style="max-width: 120px; max-width: 120px;"/>
-                                                {% else %}    
-                                                    sin imagen
-                                                {% endif %}
-                                            </td>
                                             <td>{{ entity.nombre }}</td>
+                                            <td>
+                                                {{ entity.descripcion | raw }}
+                                            </td>
                                             <td>{{ entity.createdAt | date('d/m/Y') }}</td>
                                             <td>
                                                 <button onclick="javascript:editarRegistro('{{ path('servicios_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
                                                 <button onclick="javascript:editarRegistro('{{ path('servicios_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
-                                                <button onclick="javascript:editarRegistro('{{ path('modelos_servicio', { 'slug': entity.slug }) }}')" class="btn btn-xs btn-info"><i class="fa fa-files-o"></i> </button>
                                             </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            <div class="widget-foot">
+                        </div>
+                        <div class="widget-foot">
                                 <br/>
                                 <br/>
                                 <div class="clearfix"></div>
-                            </div>
                         </div>
                     </div>
                 </div>

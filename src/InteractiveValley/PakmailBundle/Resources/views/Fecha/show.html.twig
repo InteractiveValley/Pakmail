@@ -25,7 +25,7 @@
                 <span class="divider">/</span>
                 <a href="{{path('fechas')}}" class="bread-current">Fechas</a>
                 <span class="divider">/</span>
-                <a href="{{path('fechas_show',{'id': entity.id})}}" class="bread-current">{{entity.nombre}}</a>
+                <a href="{{path('fechas_show',{'id': entity.id})}}" class="bread-current">{{ entity.fecha | date('d-m-Y') }}</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{path('fechas_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear registro</a>
                 {% endif %}
@@ -67,7 +67,11 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Color de fondo</th>
-                                                    <td style="background-color: {{ entity.bgColor }}"> &nbsp; </td>
+                                                    <td>{{ entity.bgColor }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Color de letra</th>
+                                                    <td>{{ entity.fontColor }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Creado</th>

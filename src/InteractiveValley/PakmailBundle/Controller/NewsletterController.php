@@ -14,7 +14,7 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 /**
  * Newsletter controller.
  *
- * @Route("/newsletters")
+ * @Route("/backend/newsletters")
  */
 class NewsletterController extends Controller
 {
@@ -94,13 +94,6 @@ class NewsletterController extends Controller
     public function newAction()
     {
         $entity = new Newsletter();
-        $max = $this->getDoctrine()->getRepository('PakmailBundle:Newsletter')
-                    ->getMaxPosicion();
-        if (!is_null($max)) {
-            $entity->setPosition($max + 1);
-        } else {
-            $entity->setPosition(1);
-        }
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -113,7 +106,7 @@ class NewsletterController extends Controller
     /**
      * Finds and displays a Newsletter entity.
      *
-     * @Route("/{id}", name="newsletters_show")
+     * @Route("/{id}", name="newsletters_show",requirements= {"id":"\d+"})
      * @Method("GET")
      * @Template()
      */
@@ -138,7 +131,7 @@ class NewsletterController extends Controller
     /**
      * Displays a form to edit an existing Newsletter entity.
      *
-     * @Route("/{id}/edit", name="newsletters_edit")
+     * @Route("/{id}/edit", name="newsletters_edit",requirements= {"id":"\d+"})
      * @Method("GET")
      * @Template()
      */
@@ -184,7 +177,7 @@ class NewsletterController extends Controller
     /**
      * Edits an existing Newsletter entity.
      *
-     * @Route("/{id}", name="newsletters_update")
+     * @Route("/{id}", name="newsletters_update",requirements= {"id":"\d+"})
      * @Method("PUT")
      * @Template("PakmailBundle:Newsletter:edit.html.twig")
      */
@@ -218,7 +211,7 @@ class NewsletterController extends Controller
     /**
      * Deletes a Newsletter entity.
      *
-     * @Route("/{id}", name="newsletters_delete")
+     * @Route("/{id}", name="newsletters_delete",requirements= {"id":"\d+"})
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -256,5 +249,22 @@ class NewsletterController extends Controller
             //->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    /**
+     * Exportar los registros.
+     *
+     * @Route("/exportar", name="newsletters_exportar")
+     */
+    public function exportarAction(Request $request)
+    {
+        $registros = $this->getDoctrine()->getRepository('PakmailBundle:Newsletter')->findAll();
+
+        $response = $this->render(
+                'PakmailBundle:Newsletter:list.xls.twig', array('entities' => $registros)
+        );
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="export-newsletters.xls"');
+        return $response;
     }
 }

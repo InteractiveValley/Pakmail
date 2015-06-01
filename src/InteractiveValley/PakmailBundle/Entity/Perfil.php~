@@ -30,6 +30,109 @@ class Perfil
      * @Assert\NotBlank(message="Ingresa un nombre del perfil")
      */
     private $nombre;
+    
+    /**
+     * @var DireccionFiscal
+     * @todo Direccion fiscal del envio
+     *
+     * @ORM\ManyToOne(targetEntity="DireccionFiscal",cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="direccion_fiscal_id", referencedColumnName="id")
+     * })
+     */
+    private $direccionFiscal;
+    
+    /**
+     * @var DireccionRemision
+     * @todo Direccion del remitente del envio
+     *
+     * @ORM\ManyToOne(targetEntity="DireccionRemision",cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="direccion_remitente_id", referencedColumnName="id")
+     * })
+     */
+    private $direccionRemitente;
+    
+    /**
+     * @var DireccionDestino
+     * @todo Direccion destino del envio
+     *
+     * @ORM\ManyToOne(targetEntity="DireccionDestino",cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="direccion_destino_id", referencedColumnName="id")
+     * })
+     */
+    private $direccionDestino;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="referencia", type="text")
+     */
+    private $referencia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="string", length=150)
+     */
+    private $tipo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="kilogramos", type="decimal", scale=2)
+     */
+    private $kilogramos;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="precio", type="decimal", scale=2)
+     */
+    private $precio;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numGuia", type="string", length=255)
+     */
+    private $numGuia;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="folio", type="string", length=255)
+     */
+    private $folio;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="asegurarEnvio", type="boolean")
+     */
+    private $asegurarEnvio;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="montoSeguro", type="decimal", scale=2)
+     */
+    private $montoSeguro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="importeSeguro", type="decimal", scale=2)
+     */
+    private $importeSeguro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observaciones", type="text")
+     */
+    private $observaciones;
 
     /**
      * @var \DateTime
@@ -91,5 +194,134 @@ class Perfil
         $this->updatedAt = new \DateTime();
     }
 
-}
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return Perfil
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Perfil
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Perfil
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Perfil
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set cliente
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\Cliente $cliente
+     *
+     * @return Perfil
+     */
+    public function setCliente(\InteractiveValley\PakmailBundle\Entity\Cliente $cliente = null)
+    {
+        $this->cliente = $cliente;
+
+        return $this;
+    }
+
+    /**
+     * Get cliente
+     *
+     * @return \InteractiveValley\PakmailBundle\Entity\Cliente
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
+    }
+}

@@ -87,5 +87,153 @@ class Empresa
     {
         $this->updatedAt = new \DateTime();
     }
-}
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->clientes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isActive = true;
+    }
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return Empresa
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Empresa
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Empresa
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Empresa
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Add cliente
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\Cliente $cliente
+     *
+     * @return Empresa
+     */
+    public function addCliente(\InteractiveValley\PakmailBundle\Entity\Cliente $cliente)
+    {
+        $this->clientes[] = $cliente;
+
+        return $this;
+    }
+
+    /**
+     * Remove cliente
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\Cliente $cliente
+     */
+    public function removeCliente(\InteractiveValley\PakmailBundle\Entity\Cliente $cliente)
+    {
+        $this->clientes->removeElement($cliente);
+    }
+
+    /**
+     * Get clientes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getClientes()
+    {
+        return $this->clientes;
+    }
+}

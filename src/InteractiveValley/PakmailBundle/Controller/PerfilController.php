@@ -14,7 +14,7 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 /**
  * Perfil controller.
  *
- * @Route("/perfiles/envio")
+ * @Route("/backend/perfiles-envio")
  */
 class PerfilController extends Controller
 {
@@ -54,8 +54,15 @@ class PerfilController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('perfiles_envio_show', array('id' => $entity->getId())));
+            $ruta = $this->generateUrl('perfiles_envio_show', array('id' => $entity->getId()));
+            $return = $this->get('session')->get('return','');
+            if(strlen($return)>0){
+                $session = $this->get('session');
+                $session->set('return','');
+                return $this->redirect($return);
+            }else{
+                return $this->redirect($ruta);
+            }
         }
 
         return array(
@@ -94,12 +101,11 @@ class PerfilController extends Controller
     public function newAction()
     {
         $entity = new Perfil();
-        $max = $this->getDoctrine()->getRepository('PakmailBundle:Perfil')
-                    ->getMaxPosicion();
-        if (!is_null($max)) {
-            $entity->setPosition($max + 1);
-        } else {
-            $entity->setPosition(1);
+        if($request->query->has('cliente')){
+            $cliente = $this->getDoctrine()->getRepository('PakmailBundle:Cliente')
+                            ->find($request->query->get('cliente'));
+            $entity->setCliente($cliente);
+            $this->get('session')->set('return',$request->query->get('return'));
         }
         $form   = $this->createCreateForm($entity);
 

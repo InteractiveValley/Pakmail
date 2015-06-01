@@ -10,4 +10,34 @@ namespace InteractiveValley\PakmailBundle\Repository;
  */
 class FechaRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getTiposFechas()
+    {
+        $em=$this->getEntityManager();
+       
+        $query=$em->createQuery('
+            SELECT DISTINCT f.tipo as nombre, f.bgColor as bg,f.fontColor as font  
+            FROM PakmailBundle:Fecha f 
+            ORDER BY f.tipo ASC
+        ');
+        
+        $resultados=$query->getResult();
+        return $resultados;
+    }
+    
+    public function queryFindFechasPorFecha($month,$year) {
+        $em = $this->getEntityManager();
+        $consulta = $em->createQuery("SELECT f "
+                . "FROM PakmailBundle:Fecha f "
+                . "WHERE f.fecha BETWEEN :inicio AND :fin  "
+		. "ORDER BY f.createdAt DESC");
+        $consulta->setParameters(array(
+            'inicio'=>"$year-$month-01 00:00:00",
+            'fin'=>"$year-$month-31 23:59:59",
+        ));
+        return $consulta;
+    }
+
+    public function findFechasPorFecha($month,$year) {
+        return $this->queryFindFechasPorFecha($month,$year)->getResult();
+    }
 }

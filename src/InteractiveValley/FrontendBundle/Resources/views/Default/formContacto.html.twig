@@ -1,43 +1,24 @@
-{% if status == 'send' %}
-<div id="contactoSuccess" class="alert alert-success" role="alert">{{mensaje}}</div>
-{% elseif status == 'notsend' %}
-<div id="contactoError" class="alert alert-danger" role="alert">{{mensaje}}</div>
+{% if mensaje is not defined %}
+    {% set mensaje = "" %}
 {% endif %}
-<form onsubmit="return false;" id="formContacto" action="{{path('frontend_contacto')}}" method="post" class="form" novalidate="novalidate" role="form">
-    <div class="form-group">
-        <label for="contacto_name">{{"Nombre"|trans}}</label>
-        {{ form_widget(form.name, {'attr': {'class': 'form-control','placeholder':'Nombre'|trans }}) }}
-        <span class="errores"> 
-            {{ form_errors(form.name) }}
-        </span>
-    </div>
-    <div class="form-group">
-        <label for="contacto_email">{{"Email"|trans}}</label>
-        {{ form_widget(form.email, {'attr': {'class': 'form-control','placeholder':'Email'|trans}}) }}
-        <span class="errores"> 
-            {{ form_errors(form.email) }}
-        </span>
-    </div>
-    <div class="form-group">
-        <label for="contacto_subject">{{"Asunto"|trans}}</label>
-        {{ form_widget(form.subject, {'attr': {'class': 'form-control','placeholder':'Asunto'|trans }}) }}
-        <span class="errores"> 
-            {{ form_errors(form.subject) }}
-        </span>
-    </div>
-    <div class="form-group">
-        <label for="contacto_telefono">{{"Telefono"|trans}}</label>
-        {{ form_widget(form.telefono, {'attr': {'class': 'form-control','placeholder':'Teléfono'|trans }}) }}
-        <span class="errores"> 
-            {{ form_errors(form.telefono) }}
-        </span>
-    </div>    
-    <div class="form-group">
-        <label for="contacto_body">{{"Mensaje"|trans}}</label>
-        {{ form_widget(form.body, {'attr': {'class': 'form-control','placeholder':'Mensaje'|trans }}) }}
-        <span class="errores"> 
-            {{ form_errors(form.body) }}
-        </span>
-    </div> 
+{% if status is not defined %}
+    {% set status = "new" %}
+{% endif %}
+{% if status =='send' %}
+<div class="alert alert-success">
+    {{ mensaje }}
+</div>
+{% elseif status == 'notsend' %}
+<div class="alert alert-error">
+    {{ mensaje }}
+</div>
+{% endif %}
+<form onsubmit="return false;" id="formContacto" action="{{path('contacto')}}" method="post" class="form" novalidate="novalidate" role="form">
+    {{ form_widget(form.name, {'attr': {'class': 'contactanos','placeholder':'Nombre' }}) }}
+    {{ form_widget(form.email, {'attr': {'class': 'contactanos','placeholder':'Email' }}) }}
+    {{ form_widget(form.subject, {'attr': {'class': 'contactanos','placeholder':'Asunto' }}) }}
+    {{ form_widget(form.telefono, {'attr': {'class': 'contactanos','placeholder':'Teléfono' }}) }}
+    {{ form_widget(form.body, {'attr': {'class': 'contactanos','rows':'5','placeholder':'Mensaje' }}) }}
+    <input id="botonEnviarContacto" type="button" class="contactanos boton" value="Enviar">
     {{ form_rest(form) }}    
 </form>

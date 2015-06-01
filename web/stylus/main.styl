@@ -16,6 +16,22 @@ opacity(n)
 color_vino = rgb(152,1,46)
 color_vino_oscuro = rgb(108,5,36)
 color_gris_oscuro = #374959
+color_gris_claro = #ededed
+
+article 
+	header 
+		.titulo
+			font-size 2.5em
+			text-align center
+			text-transform uppercase
+			margin 5px 10px 0px
+			padding-bottom 10px
+			&.vino
+				color color_vino
+			&.gris
+				color color_gris_oscuro
+			&.medium
+				font-size 1.5em
 
 body
 	font-size 16px
@@ -45,9 +61,44 @@ header nav
 			&.active
 			&:hover
 				background-color color_vino_oscuro
+	&.fixed
+		position fixed
+		top 0px
+		left 0px
+		z-index 2000
 ul
 	padding 0
 	margin 0
+
+section.carrusel
+	& .carrusel-contenedor
+		position relative
+		max-width 960px
+		margin 0 auto
+		& #slider-prev
+			height 55px
+			width 32px
+			position absolute
+			left -4em
+			top 50%
+			margin-top -27px
+			z-index 1500
+			background-image url('/images/flecha_izquierda.png')
+		& #slider-next
+			height 55px
+			width 32px
+			position absolute
+			right -4em
+			top 50%
+			margin-top -27px
+			z-index 1500
+			background-image url('/images/flecha_derecha.png')
+		& #slider-prev a
+		& #slider-next a
+			display block
+			height 55px
+			width 32px
+			text-decoration none
 
 .boletin
 	background-color color_gris_oscuro
@@ -86,6 +137,7 @@ ul
 		
 
 footer
+	border-top 16px solid color_gris_claro
 	background-color color_vino
 	height 140px
 	width 100%
@@ -112,9 +164,9 @@ footer
 			& figure
 				margin 0
 .border-r
-	border-right 1px solid white
+	border-right 2px solid white
 	&.border-r-vino
-		border-right 1px solid color_vino
+		border-right 2px solid color_vino
 .menu_bar
 	display none
 
@@ -133,7 +185,265 @@ footer
 
 .text-align-left 
 	text-align left
+
+.text-align-center
+	text-align center
+
+.text-align-justify
+	text-align justify
+
+.center
+	margin 0 auto
+
+.linea-separacion
+	border-bottom 7px solid color_gris_claro
+	padding-bottom 5px
+	margin-bottom 0px
+
+
+.lista-carrusel
+	.item-carrusel
+		max-width 960px
+		
+.lista-servicios
+	max-width 960px
+	margin 0 auto
+	.item-servicio
+		height 190px
+		box-sizing border-box
+		padding 20px 0px
+		text-align center
+		width auto
+		& .item-servicio-contenedor
+			overflow hidden
+			position relative
+			margin 0
+			height 150px
+			& .item-servicio-caption
+				position absolute
+				top 130px
+				transition all .5s ease
+				position absolute
+				height 190px
+				width 100%
+				padding 0px 20px
+				box-sizing border-box
+				& .item-servicio-titulo
+					height 20px
+					line-height 20px
+					text-align center
+					font-size 1em
+					color color_gris_oscuro
+					transition color 1s ease-in-out
+				& .item-servicio-descripcion
+					background-color color_gris_oscuro
+					color white
+					text-align center
+					padding-top 2em
+					border-bottom 10px solid color_vino
+					height 150px
+					box-sizing border-box
+			&:hover .item-servicio-caption
+				top -20px
+			&:hover .item-servicio-titulo
+				color transparent
+				
+
+.owl-carousel
+	& .owl-controls
+		padding-top 2em
+	& .owl-pagination
+		display none	
+
+
+.reconocidos
+	& .reconocidos-titulo
+	& .reconocidos-reconocimientos
+		display inline-block
+		vertical-align middle
+
+.fondo-gris
+	background-color color_gris_claro
+.padding
+	padding 2em
+	&.light
+		padding 1em
+.max-width-960
+	max-width 960px	
+.max-width-450
+	max-width 450px
+.max-width-370
+	max-width 370px
+.border-vino
+	border 1px solid color_vino
+.ayuda
+	text-transform uppercase
+	color color_gris_oscuro
+	font-size .8em
+.border-bottom
+	border-bottom 1px solid white
+	&.gris-claro
+		border-bottom 1px solid color_gris_claro
+
+.adicional
+	padding 2em 1em
+	& a
+		text-decoration none
+		padding-bottom 1em
+		display block
+
+.preguntas-frecuentes
+	& .pregunta-titulo
+		font-size 1.4em
+		color color_vino
+		height 40px
+		line-height 40px
+		position relative
+		font-family "TeXGyreAdventor-Regular"
+		& img
+			position absolute
+			top 15px
+			right 6px
+	& .pregunta-respuesta
+		text-align justify
+		font-size 1.1em
+		font-family "TeXGyreAdventor-Regular"
+
+.calendario
+	& .tipos-fechas
+		display inherit
+		margin-top 0px
+		color color_vino
+		border-bottom 1px solid color_gris_oscuro
+		padding 15px 0px
+	& .tipo-fecha
+		width 25px
+		height 25px 
+		background-color white
+		border-radius 50%
+		display inline-block 
+		vertical-align middle
+		&.azul
+			background-color #29a9fa
+			color white
+		&.verde
+			background-color #00d390
+			color white
+	& .tipo-fecha-titulo
+		display inline-block 
+		vertical-align middle
+		padding-left .5em
+	& .calendario-mes
+		padding-bottom 20px
+		& .calendario-mes-contenedor
+			height 96px
+			overflow hidden
+			& .calendario-control-izquierdo
+				float left
+				padding 31px 0px
+			& .calendario-control-derecho
+				float right
+				padding 31px 0px
+			& .calendario-mes-titulo
+				float left 
+				width 300px
+				height 96px
+				line-height 96px
+				font-weight bold
+	& .calendario-dias
+		padding-bottom 32px
+		& th
+			width 42px
+			color color_vino
+			font-weight bold
+			border 5px solid white
+			text-align center
+		& td
+			width 42px
+			height 42px
+			border 5px solid white
+			text-align center
+			line-height 42px
+			vertical-align middle
 	
+.mapa-contacto
+	position relative
+	& .titulo-form
+		text-align center
+		padding 10px
+		font-size 1.8em
+		color white
+		text-transform uppercase
+		margin 0
+	& .contactenos
+		background-color color_vino
+		opacity .8
+		position absolute
+		top 0px
+		left 12%
+		width 412px
+		display none
+	& .contenido-form
+		padding 0px 50px 10px
+		& .contactanos
+			width 100%
+			padding 12px 0px 12px 12px
+			font-size 1em
+			margin-bottom 10px
+			&.boton
+				background-color color_gris_oscuro
+				color white
+				padding 12px
+				border none
+				margin-left 5px	
+	& .direccion-contacto
+		background-color color_vino
+		color white
+		font-size .9em
+		text-align center
+		& p
+			margin 0
+			padding 1em .5em
+
+.informacion-quejas-sugerencias
+	& .informacion
+	& .quejas-sugerencias
+		display inline-block
+		vertical-align top
+	& .informacion
+		color color_vino
+		width 255px
+	& .quejas-sugerencias
+		width 600px
+		margin-left 100px
+		box-sizing border-box
+		& header .titulo
+			color color_vino
+			font-size 1.2em
+			text-align left
+		& .group-quejas
+			display inline-block
+			vertical-align top
+			width 49%
+			& .quejas
+				box-sizing border-box
+				max-width 250px
+		& .quejas
+			display inline-block 
+			vertical-align top
+			width 100%
+			padding 10px
+			margin-bottom 10px
+			border 1px solid color_gris_claro
+			font-size .9em
+			&.textarea
+				box-sizing border-box
+			&.boton
+				width 110px
+				float right
+				background-color white
+				color color_gris_oscuro
+				box-shadow 0px 0px 40px #E8E8E8 inset, 0px 0px 40px #E8E8E8
 
 @media screen and (max-width: 1024px )
 	.logo-redes-sociales
@@ -143,6 +453,11 @@ footer
 @media screen and (max-width: 960px)
 	header
 		position relative 
+
+	article 
+		header 
+			.titulo
+				font-size 1.5em
 		
 	header .logo-redes-sociales
 		display none
@@ -151,9 +466,9 @@ footer
 		width 80%
 		height 100%
 		left -100%
-		top 75px
+		/*top 75px*/
 		margin 0
-		position absolute
+		position fixed
 		transition all .5s ease-in-out
 		z-index 1001
 		& li
@@ -202,6 +517,49 @@ footer
 				width 80%
 			.boton-guardar-newsletter
 				right 20px
+	
+	.aliados-reconocidos
+		.aliados
+			.aliados-logos
+				width 100%
+				padding .5em
+				margin 0
+				box-sizing border-box
+				& img
+					width 100%
+	
+	.calendario
+		.tipos-fechas
+			.text-align-left
+				text-align center
+	
+	.mapa-contacto
+		.contactenos
+			position relative
+			width 100%
+			left 0px
+
+	.informacion-quejas-sugerencias
+		& .informacion
+			width 100%
+			padding 0px .5em
+			text-align center
+			border-bottom 7px solid color_gris_claro
+			padding-bottom 5px
+			margin-bottom 0px
+		& .quejas-sugerencias
+			margin 0
+			width 100%
+			padding 0px .5em
+			& .group-quejas
+				width 100%
+				& .quejas
+					max-width 100%
+			& .quejas
+				&.boton
+					width 70%
+					float none
+					margin-left 15%
 
 	footer
 		padding .5em
@@ -212,6 +570,17 @@ footer
 			.form-newsletter
 				.boton-guardar-newsletter
 					right 20px
+	
+	.aliados-reconocidos
+		.reconocidos
+			.reconocidos-reconocimientos
+				width 100%
+				padding .5em
+				margin 0
+				box-sizing border-box
+				& img
+					width 100%
+					
 	footer
 		text-align center
 		height auto

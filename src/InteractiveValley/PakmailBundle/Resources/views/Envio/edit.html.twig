@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="{{asset('css/validationEngine.jquery.css')}}">
     <!-- CLEditor -->
     <link rel="stylesheet" href="{{asset('css/jquery.cleditor.css')}}"> 
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="{{asset('css/jquery-ui-1.9.2.custom.min.css')}}">
 {% endblock %}
 
 {% block mainbar %}
@@ -48,7 +50,22 @@
 
                             <div class="widget-content">
                                 <div class="padd contenido-formulario">
-                                    {{ form(form) }}
+                                    <!-- Form starts.  -->
+                                    {{form_start(form)}}
+                                    <fieldset>
+                                        {{form_row(form.direccionFiscal)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        {{form_row(form.direccionRemitente)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        {{form_row(form.direccionDestino)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Datos del envio</legend>
+                                        {{form_rest(form)}}
+                                    </fieldset>
+                                    {{form_end(form)}}
                                 </div>
                             </div>
                             <div class="widget-foot">
@@ -116,11 +133,15 @@
                 $(".contenido-formulario form").submit();
             });
             
-        /* CL Editor */
-        $(".cleditor").cleditor({
-            width: "auto",
-            height: "auto"
-        });
+            $('.datepicker').datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            
+            /* CL Editor */
+            $(".cleditor").cleditor({
+                width: "auto",
+                height: "auto"
+            });
 
         {% if errores | length > 0 %}
             {% for error in errores %}
@@ -135,5 +156,5 @@
 
           });
     </script>
-    {{ tinymce_init() }}
+
 {% endblock %}

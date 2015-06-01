@@ -42,7 +42,7 @@
 {% endblock %}
 
 {% block body %}  
-    <header>
+    <header id="header">
         <div class="logo-redes-sociales">
             <figure class="logo">
                 <img src="{{asset('images/logo.png')}}">
@@ -59,11 +59,11 @@
 	</div>    
         <nav id="navegador">
             <ul>
-                <li><a href="#index">inicio</a></li>
-                <li><a href="#">quienes somos</a></li>
-                <li><a href="#">calendario</a></li>
-                <li><a href="#">ubicación y contacto</a></li>
-                <li><a href="#">ingreso a clientes</a></li>
+                <li><a href="{{path('homepage')}}">inicio</a></li>
+                <li><a href="{{path('quienes_somos')}}">quienes somos</a></li>
+                <li><a href="{{path('calendario')}}">calendario</a></li>
+                <li><a href="{{path('contacto')}}">ubicación y contacto</a></li>
+                <li><a href="{{path('pakmail_envios')}}">ingreso a clientes</a></li>
             </ul>
         </nav>
         <div class="boletin">
@@ -71,15 +71,9 @@
                 Suscribete para recibir ofertas y promociones
                 <img src="{{asset('images/newsletter.png')}}" alt="">
             </div>
-            <form action="" method="post" id="formNewsletter" class="form-newsletter">
-                <div class="group-form">
-                    <input class="forms" type="text" placeholder="Nombre">
-                    <input class="forms" type="text" placeholder="Email">
-                </div>
-                <a href="#" class="boton-guardar-newsletter">
-                    <img src="{{asset('images/guardarnewsletter.png')}}" alt="">
-                </a>
-            </form>
+            <div class="form-newsletter contenedor-form-newsletter">
+                {{render(controller('FrontendBundle:Default:newsletter'))}}
+            </div>
         </div>
     </header>
     {% block contenido %} {% endblock %}
@@ -119,19 +113,67 @@
 {% block javascripts %}
     <script src="{{asset('js/jquery.js')}}"></script>
     <script type="text/javascript">
-                (function(){
-                        var contador = 1;
-                        var menuBar = document.getElementById("bt-menu");
-                        menuBar.addEventListener('click',function(){
-                                var nav = document.getElementById("navegador");
-                                if(contador == 1){
-                                        nav.style.left = "0";
-                                        contador = 2;
-                                }else{
-                                        nav.style.left = "-100%";
-                                        contador=1;
-                                }
-                        });
-                })();
+        (function(){
+            var contador = 1;
+            var menuBar = document.getElementById("bt-menu");
+            menuBar.addEventListener('click',function(){
+                var nav = document.getElementById("navegador");
+                if(contador == 1){
+                    nav.style.left = "0";
+                    contador = 2;
+                    console.log("mostrar")
+                }else{
+                    nav.style.left = "-100%";
+                    contador=1;
+                    console.log("ocultar")
+                }
+            });
+
+
+            $(window).on('scroll',function() {
+                var altura_del_header = $('#header').outerHeight(true);
+                var altura_del_menu = $('#navegador').outerHeight(true);
+                if($(document).width()>960){
+                    if ($(window).scrollTop() >= altura_del_header) {
+                        if(!$('#navegador').hasClass('fixed')){
+                            $('#navegador').css({'opacity':'0'}).addClass('fixed').animate({'opacity':'1'},'slow');
+                        }
+                    } else {
+                        if($('#navegador').hasClass('fixed')){
+                            $('#navegador').removeClass('fixed');
+                        }
+                    }
+                }
+            });
+
+            inicializarBotonEnviarNewsletter();
+
+        })();
+        function inicializarBotonEnviarNewsletter() {
+            $("#botonEnviarNewsletter").on('click', function (e) {
+                e.preventDefault();
+                var $form = $("#formNewsletter");
+                var datos = $form.serialize();
+                $(this).attr('disabled', 'disabled').html('Enviando...');
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    dataType: 'json',
+                    data: datos,
+                    success: function (data) {
+                        $(".contenedor-form-newsletter").html(data.form);
+                        inicializarBotonEnviarNewsletter();
+                        setTimeout(function () {
+                            $(".alert-success").fadeOut('fast');
+                            $(".alert-error").fadeOut('fast');
+                        }, 2000);
+                    },
+                    error: function (data) {
+                        alert("Error al enviar el formulario");
+                        console.log(data);
+                    }
+                });
+            });
+        }
     </script>
 {% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'FrontendBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('css/main.css')}}"/>
+{% endblock %}
+
+{% block contenido %}
+    <section class="mapa-contacto">
+        <article class="mapa">
+            <iframe id="mapa" src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d3762.7739433072006!2d-99.20336371451593!3d19.4221708375687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!1i0!3e6!4m0!4m5!1s0x85d201f1223df5a5%3A0xc92148fa0b147cf6!2sPakmail+Virreyes%2C+Pedregal%2C+Lomas+de+Chapultepec%2C+Miguel+Hidalgo%2C+Ciudad+de+M%C3%A9xico%2C+D.F.!3m2!1d19.422553999999998!2d-99.204157!5e0!3m2!1ses-419!2smx!4v1431959648024" width="100%" height="538px" frameborder="0" style="border:0"></iframe>
+        </article>
+        <article id="contactenos" class="contactenos"> 
+            <header>
+                <h3 class="titulo-form">CONTÁCTENOS</h3>
+            </header> 
+            <div class="contenido-form">
+                {% include 'FrontendBundle:Default:formContacto.html.twig' with {'form': form } %}
+            </div>
+        </article>
+        <section class="direccion-contacto">
+            <p>
+                Pedregal No.96 Col. Lomas de Chapultepec, Del. Miguel Hidalgo, C.P. 11000 <br/>
+                Ciudad de México, Distrito Federal
+            </p>
+        </section>
+    </section>
+    <!--End Mapa y Contacto-->
+    <section class="informacion-quejas-sugerencias">
+        <div class="max-width-960 center">
+            <article class="informacion">
+                <p>
+                    Teléfono: 5202-1193</br>
+                    Fax: 5202-1259</br>
+                </p>
+                <p>
+                    pakmail103@pakmail.com.mx</br>
+                    ventasvirreyes@pakmail.com.mx
+                </p>
+                <p>
+                    www.pakmailvirreyes.com
+                </p>
+                <p>
+                    Horarios de atención:</br>
+                    Lun - Vier 0:00 am - 0:00 pm
+                </p>
+            </article>
+            <article class="quejas-sugerencias">
+                <header>
+                    <h3 class="titulo">quejas y sugerencias</h3>
+                </header>
+                <div class="contenido-form-quejas">
+                    {{render(controller('FrontendBundle:Default:quejas'))}}
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).on('ready', function () {
+            $(window).on('resize', function () {
+                windowResize();
+            });
+
+            setTimeout(function () {
+                $("#contactenos").fadeIn('slow');
+            }, 2000);
+
+            inicializarBotonEnviarContacto();
+            inicializarBotonEnviarQueja();
+            windowResize();
+        });
+        function windowResize() {
+            var width = $(document).width();
+            var escala = width / 1800;
+            var altura = 530;
+            if (1009 >= width) {
+                altura = (Math.ceil(450 * escala)) * 2;
+            }
+            $("#mapa").attr('height', altura);
+        }
+        function inicializarBotonEnviarContacto() {
+            $("#botonEnviarContacto").on('click', function (e) {
+                e.preventDefault();
+                var $form = $("#formContacto");
+                var datos = $form.serialize();
+                $(this).attr('disabled', 'disabled').html('Enviando...');
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    dataType: 'json',
+                    data: datos,
+                    success: function (data) {
+                        $(".contenido-form").html(data.form);
+                        inicializarBotonEnviarContacto();
+                        setTimeout(function () {
+                            $(".alert-success").fadeOut('fast');
+                            $(".alert-error").fadeOut('fast');
+                        }, 2000);
+                    },
+                    error: function (data) {
+                        alert("Error al enviar el formulario");
+                        console.log(data);
+                    }
+                });
+            });
+        }
+        
+        function inicializarBotonEnviarQueja() {
+            $("#botonEnviarQuejas").on('click', function (e) {
+                e.preventDefault();
+                var $form = $("#formQuejas");
+                var datos = $form.serialize();
+                $(this).attr('disabled', 'disabled').html('Enviando...');
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    dataType: 'json',
+                    data: datos,
+                    success: function (data) {
+                        $(".contenido-form-quejas").html(data.form);
+                        inicializarBotonEnviarQueja();
+                        setTimeout(function () {
+                            $(".alert-success").fadeOut('fast');
+                            $(".alert-error").fadeOut('fast');
+                        }, 2000);
+                    },
+                    error: function (data) {
+                        alert("Error al enviar el formulario");
+                        console.log(data);
+                    }
+                });
+            });
+        }
+    </script>
+{% endblock %}

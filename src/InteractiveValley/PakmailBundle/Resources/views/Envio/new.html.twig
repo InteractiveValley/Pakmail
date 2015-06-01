@@ -11,7 +11,9 @@
     <!-- jQuery Validation Engine stylesheet -->
     <link rel="stylesheet" href="{{asset('css/validationEngine.jquery.css')}}">
     <!-- CLEditor -->
-    <link rel="stylesheet" href="{{asset('css/jquery.cleditor.css')}}"> 
+    <link rel="stylesheet" href="{{asset('css/jquery.cleditor.css')}}">
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="{{asset('css/jquery-ui-1.9.2.custom.min.css')}}">
 {% endblock %}
 
 {% block mainbar %}
@@ -49,7 +51,21 @@
                             <div class="widget-content">
                                 <div class="padd contenido-formulario">
                                     <!-- Form starts.  -->
-                                    {{ form(form) }}
+                                    {{form_start(form)}}
+                                    <fieldset>
+                                        {{form_row(form.direccionFiscal)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        {{form_row(form.direccionRemitente)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        {{form_row(form.direccionDestino)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Datos del envio</legend>
+                                        {{form_rest(form)}}
+                                    </fieldset>
+                                    {{form_end(form)}}
                                 </div>
                             </div>
                                 
@@ -94,11 +110,19 @@
         $(".validate").validationEngine();
 
         $("#botonRegresar").on("click", function () {
-            location.href = "{{path('envios')}}";
+            {% if app.session.has('return') and app.session.get('return') | length > 0 %}
+                location.href = "{{app.session.get('return')}}";
+            {% else %}
+                location.href = "{{path('envios')}}";
+            {% endif %}
         });
 
         $("#botonGuardar").on("click", function () {
             $(".contenido-formulario form").submit();
+        });
+            
+        $('.datepicker').datepicker({
+            dateFormat: "yy-mm-dd"
         });
             
         /* CL Editor */
@@ -119,7 +143,7 @@
         {% endif %}
     });
     </script>
-    {{ tinymce_init() }}
+
 {% endblock %}
 
 

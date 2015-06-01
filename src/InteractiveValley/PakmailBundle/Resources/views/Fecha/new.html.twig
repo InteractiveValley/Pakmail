@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="{{asset('css/jquery.gritter.css')}}">
     <!-- jQuery Validation Engine stylesheet -->
     <link rel="stylesheet" href="{{asset('css/validationEngine.jquery.css')}}">
-    <!-- CLEditor -->
-    <link rel="stylesheet" href="{{asset('css/jquery.cleditor.css')}}"> 
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="{{asset('css/jquery-ui-1.9.2.custom.min.css')}}">
 {% endblock %}
 
 {% block mainbar %}
@@ -101,10 +101,8 @@
             $(".contenido-formulario form").submit();
         });
             
-        /* CL Editor */
-        $(".cleditor").cleditor({
-            width: "auto",
-            height: "auto"
+        $('.datepicker').datepicker({
+            dateFormat: "yy-mm-dd"
         });
 
         {% if errores | length > 0 %}
@@ -119,7 +117,7 @@
         {% endif %}
     });
     </script>
-    {{ tinymce_init() }}
+
 {% endblock %}
 
 

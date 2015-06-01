@@ -10,11 +10,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use InteractiveValley\PakmailBundle\Entity\Envio;
 use InteractiveValley\PakmailBundle\Form\EnvioType;
 use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
+use InteractiveValley\PakmailBundle\Entity\DireccionFiscal;
+use InteractiveValley\PakmailBundle\Entity\DireccionRemision;
+use InteractiveValley\PakmailBundle\Entity\DireccionDestino;
 
 /**
  * Envio controller.
  *
- * @Route("/envios")
+ * @Route("/backend/envios")
  */
 class EnvioController extends Controller
 {
@@ -55,8 +58,15 @@ class EnvioController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('envios_show', array('id' => $entity->getId())));
+            $ruta = $this->generateUrl('envios_show', array('id' => $entity->getId()));
+            $return = $this->get('session')->get('return','');
+            if(strlen($return)>0){
+                $session = $this->get('session');
+                $session->set('return','');
+                return $this->redirect($return);
+            }else{
+                return $this->redirect($ruta);
+            }
         }
 
         return array(
@@ -78,6 +88,7 @@ class EnvioController extends Controller
         $form = $this->createForm(new EnvioType(), $entity, array(
             'action' => $this->generateUrl('envios_create'),
             'method' => 'POST',
+            'em'=>$this->getDoctrine()->getManager(),
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Create'));
@@ -92,16 +103,23 @@ class EnvioController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new Envio();
-        $max = $this->getDoctrine()->getRepository('PakmailBundle:Envio')
-                    ->getMaxPosicion();
-        if (!is_null($max)) {
-            $entity->setPosition($max + 1);
-        } else {
-            $entity->setPosition(1);
+        if($request->query->has('cliente')){
+            $cliente = $this->getDoctrine()->getRepository('PakmailBundle:Cliente')
+                            ->find($request->query->get('cliente'));
+            $entity->setCliente($cliente);
+            $this->get('session')->set('return',$request->query->get('return'));
         }
+        $direccionFiscal = new DireccionFiscal();
+        $direccionRemision = new DireccionRemision();
+        $direccionDestino = new DireccionDestino();
+        
+        $entity->setDireccionFiscal($direccionFiscal);
+        $entity->setDireccionRemitente($direccionRemision);
+        $entity->setDireccionDestino($direccionDestino);
+        
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -176,6 +194,7 @@ class EnvioController extends Controller
         $form = $this->createForm(new EnvioType(), $entity, array(
             'action' => $this->generateUrl('envios_update', array('id' => $entity->getId())),
             'method' => 'PUT',
+            'em'=>$this->getDoctrine()->getManager(),
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Update'));
@@ -257,5 +276,47 @@ class EnvioController extends Controller
             //->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    /**
+     * Aceptar solicitud de envio.
+     *
+     * @Route("/{id}/aceptar", name="envios_aceptar", requirements={"id" = "\d+"})
+     * @Method("PATCH")
+     */
+    public function aceptarAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $envio = $em->getRepository('PakmailBundle:Envio')->find($id);
+
+        if (!$envio) {
+            throw $this->createNotFoundException('Unable to find envio entity.');
+        }
+        $envio->setStatus(Envio::STATUS_ACEPTADA);
+        $em->flush();
+
+        return $this->render("PakmailBundle:Envio:item.html.twig", array(
+                    'entity' => $envio
+        ));
+    }
+    
+    /**
+     * Rechazar la solicitud de envio.
+     *
+     * @Route("/{id}/rechazar", name="envios_rechazar", requirements={"id" = "\d+"})
+     * @Method("PATCH")
+     */
+    public function revisarAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $envio = $em->getRepository('PakmailBundle:Envio')->find($id);
+
+        if (!$envio) {
+            throw $this->createNotFoundException('Unable to find envio entity.');
+        }
+        $envio->setStatus(Envio::STATUS_RECHAZADA);
+        $em->flush();
+
+        return $this->render("PakmailBundle:Envio:item.html.twig", array(
+                    'entity' => $envio
+        ));
     }
 }

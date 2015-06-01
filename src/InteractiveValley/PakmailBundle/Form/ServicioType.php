@@ -16,7 +16,7 @@ class ServicioType extends AbstractType
     {
         $builder
             ->add('nombre','text',array('label'=>'Servicio','attr'=>array('class'=>'form-control')))
-            ->add('imagen',null,array('label'=>'Imagen','attr'=>['class'=>'form-control']))
+            ->add('descripcion',null,array('label'=>'Descripcion del servicio','attr'=>['class'=>'form-control']))
             ->add('position','hidden')
         ;
     }

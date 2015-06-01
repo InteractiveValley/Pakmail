@@ -1,0 +1,27 @@
+{% if mensaje is not defined %}
+    {% set mensaje = "" %}
+{% endif %}
+{% if status is not defined %}
+    {% set status = "new" %}
+{% endif %}
+{% if status =='send' %}
+<div class="alert alert-success">
+    {{ mensaje }}
+</div>
+{% elseif status == 'notsend' %}
+<div class="alert alert-error">
+    {{ mensaje }}
+</div>
+{% endif %}
+<form onsubmit="return false;" id="formQuejas" action="{{path('quejas')}}" method="post" class="form" novalidate="novalidate">
+    <div class="group-quejas">
+        {{ form_widget(form.name, {'attr': {'class': 'quejas','placeholder':'Nombre' }}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'quejas','placeholder':'Email' }}) }}
+    </div>
+    <div class="group-quejas">
+        {{ form_widget(form.subject, {'attr': {'class': 'quejas','placeholder':'Asunto' }}) }}
+        {{ form_widget(form.telefono, {'attr': {'class': 'quejas','placeholder':'Teléfono' }}) }}
+    </div>
+    {{ form_widget(form.body, {'attr': {'class': 'quejas textarea','rows':'5','placeholder':'Mensaje' }}) }}
+    <input id="botonEnviarQuejas" type="button" class="quejas boton" value="Enviar">
+</form>

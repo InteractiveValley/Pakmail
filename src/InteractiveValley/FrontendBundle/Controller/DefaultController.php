@@ -10,10 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use InteractiveValley\FrontendBundle\Entity\Contacto;
 use InteractiveValley\FrontendBundle\Form\ContactoType;
-use InteractiveValley\BackendBundle\Entity\Usuario;
-use InteractiveValley\BackendBundle\Form\Frontend\UsuarioType;
-use InteractiveValley\VentasBundle\Entity\Venta;
-use InteractiveValley\VentasBundle\Entity\DetVenta;
+use InteractiveValley\PakmailBundle\Entity\Newsletter;
+use InteractiveValley\PakmailBundle\Form\Frontend\NewsletterFrontendType;
 
 class DefaultController extends BaseController {
 
@@ -22,129 +20,86 @@ class DefaultController extends BaseController {
      * @Template()
      */
     public function indexAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $promociones = $em->getRepository('PakmailBundle:Promocion')
+                          ->findBy(array(), array('position'=>'ASC'));
+        
+        $servicios = $em->getRepository('PakmailBundle:Servicio')
+                          ->findBy(array(), array('position'=>'ASC'));
+        
+        
+        return array(
+            'promociones'=>$promociones,
+            'servicios'=>$servicios
+        );
+    }
+    
+    /**
+     * @Route("/quienes/somos", name="quienes_somos")
+     * @Template()
+     */
+    public function quienesSomosAction(Request $request) {
         return array();
     }
-
+    
     /**
-     * @Route("/recuperar",name="recuperar")
+     * @Route("/calendario", name="calendario")
      * @Template()
-     * @Method({"GET","POST"})
      */
-    public function recuperarAction(Request $request) {
-        $sPassword = "";
-        $sUsuario = "";
-        $msg = "";
-        if ($request->isMethod('POST')) {
-            $email = $request->get('email');
-            $usuario = $this->getDoctrine()->getRepository('BackendBundle:Usuario')
-                    ->findOneBy(array('email' => $email));
-            if (!$usuario) {
-                $this->get('session')->getFlashBag()->add(
-                        'error', 'El email no esta registrado.'
-                );
-                return $this->redirect($this->generateUrl('recuperar'));
-            } else {
-                $sPassword = substr(md5(time()), 0, 7);
-                $sUsuario = $usuario->getUsername();
-                $encoder = $this->get('security.encoder_factory')
-                        ->getEncoder($usuario);
-                $passwordCodificado = $encoder->encodePassword(
-                        $sPassword, $usuario->getSalt()
-                );
-                $usuario->setPassword($passwordCodificado);
-                $this->getDoctrine()->getManager()->flush();
-
-                $this->get('session')->getFlashBag()->add(
-                        'notice', 'Se ha enviado un correo con la nueva contraseña.'
-                );
-
-                $this->enviarRecuperar($sUsuario, $sPassword, $usuario);
-                return $this->redirect($this->generateUrl('login'));
-            }
-        }
-        return array('msg' => $msg);
-    }
-
-    /**
-     * @Route("/registro",name="registro")
-     * @Template()
-     * @Method({"GET","POST"})
-     */
-    public function registroAction(Request $request) {
-        $usuario = new Usuario();
-        $form = $this->createForm(new UsuarioType(), $usuario);
-        $isNew = true;
-        if ($request->isMethod('POST')) {
-            $parametros = $request->request->all();
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $this->setSecurePassword($usuario);
-                $em->persist($usuario);
-                $em->flush();
-
-                if ($request->isXmlHttpRequest()) {
-                    return new JsonResponse(array('status' => true));
-                }
-
-                return $this->redirect($this->generateUrl('login'));
-            }
-        }
-
-        return array(
-            'form' => $form->createView(),
-            'titulo' => 'Registro',
-            'usuario' => $usuario,
-            'isNew' => true,
-        );
-    }
-
-    /**
-     * @Route("/perfil",name="perfil_usuario")
-     * @Template("FrontendBundle:Default:registro.html.twig")
-     * @Method({"GET","POST"})
-     */
-    public function perfilUsuarioAction(Request $request) {
+    public function calendarioAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $usuario = $this->getUser();
-        if (!$usuario) {
-            return $this->redirect($this->generateUrl('login'));
-        }
-        $form = $this->createForm(new UsuarioFrontendType(), $usuario, array(
-            'em' => $this->getDoctrine()->getManager())
-        );
-        $isNew = false;
-        if ($request->isMethod('POST')) {
-            //obtiene la contraseña
-            $current_pass = $usuario->getPassword();
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                if (null == $usuario->getPassword()) {
-                    // usuario no cambio contraseña
-                    $usuario->setPassword($current_pass);
-                } else {
-                    // se actualiza la contraseña
-                    $this->setSecurePassword($usuario);
-                }
-                $em->flush();
-                $this->enviarUsuarioUpdate($usuario->getEmail(), $current_pass, $usuario);
-                $this->get('session')->getFlashBag()->add(
-                        'notice', 'Se han realizado los cambios solicitados.'
-                );
-            }
-        }
-
+        $tipos = $em->getRepository('PakmailBundle:Fecha')->getTiposFechas();
+        
+        $fecha = new \DateTime();
+        $year = $request->query->get('year', $fecha->format('Y'));
+        $month = $request->query->get('month', $fecha->format('m'));
+		$nombreMes = $this->getNombreMes($month);
+        
+        $fechas = $em->getRepository('PakmailBundle:Fecha')
+                          ->findFechasPorFecha($month,$year);
+        
+        $calendario = $this->createCalendar($month, $year);
+        
         return array(
-            'form' => $form->createView(),
-            'usuario' => $usuario,
-            'titulo' => 'Editar perfil',
-            'isNew' => $isNew,
+            'tipos'=>$tipos,
+            'fechas'=>$fechas,
+            'nombreMes'=>$nombreMes,
+            'month'=>$month,
+            'year'=>$year,
+            'calendario'=>$calendario
         );
     }
     
+    private function createCalendar($month,$year){
+        $fecha = new \DateTime("$year-$month-01 00:00:00");
+        $diasDelMes = $fecha->format('t');
+        $diaSemana = $fecha->format('w');
+        
+        $calendario = array(
+            '0'=>array(0,0,0,0,0,0,0),
+            '1'=>array(0,0,0,0,0,0,0),
+            '2'=>array(0,0,0,0,0,0,0),
+            '3'=>array(0,0,0,0,0,0,0),
+            '4'=>array(0,0,0,0,0,0,0),
+            '5'=>array(0,0,0,0,0,0,0)
+        );
+        
+        $semana = 0;
+        for($dia = 1; $dia <= $diasDelMes;$dia++){
+            $calendario[$semana][$diaSemana] = $dia;
+            $diaSemana++;
+            if($diaSemana > 6){
+                $semana++;
+                $diaSemana = 0;
+            }
+        }
+        
+        return $calendario;
+    }
     
+
     /**
-     * @Route("/contacto", name="frontend_contacto")
+     * @Route("/contacto", name="contacto")
      * @Method({"GET", "POST"})
      */
     public function contactoAction(Request $request) {
@@ -192,22 +147,121 @@ class DefaultController extends BaseController {
             ));
         }
 
-        return $this->render('FrontendBundle:Default:formContacto.html.twig', array(
+        return $this->render('FrontendBundle:Default:contacto.html.twig', array(
+                    'form' => $form->createView(),
+                    'status' => $status,
+                    'mensaje' => $mensaje
+        ));
+    }
+    
+    /**
+     * @Route("/quejas", name="quejas")
+     * @Method({"GET", "POST"})
+     */
+    public function quejasAction(Request $request) {
+        $contacto = new Contacto();
+        $form = $this->createForm(new ContactoType(), $contacto);
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $datos = $form->getData();
+                $configuracion = $em->getRepository('BackendBundle:Configuraciones')
+                        ->findOneBy(array('slug' => 'email-quejas'));
+                $message = \Swift_Message::newInstance()
+                        ->setSubject('Contacto desde pagina')
+                        ->setFrom($datos->getEmail())
+                        ->setTo($configuracion->getTexto())
+                        ->setBody($this->renderView('FrontendBundle:Default:quejaEmail.html.twig', array('datos' => $datos)), 'text/html');
+                $this->get('mailer')->send($message);
+                // Redirige - Esto es importante para prevenir que el usuario
+                // reenvíe el formulario si actualiza la página
+                $status = 'send';
+                $mensaje = "Se ha enviado el mensaje";
+                $contacto = new Contacto();
+                $form = $this->createForm(new ContactoType(), $contacto);
+            } else {
+                $status = 'notsend';
+                $mensaje = "El mensaje no se ha podido enviar";
+            }
+        } else {
+            $status = 'new';
+            $mensaje = "";
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            $vista = $this->renderView('FrontendBundle:Default:formQuejas.html.twig', array(
+                'form' => $form->createView(),
+                'status' => $status,
+                'mensaje' => $mensaje,
+            ));
+            return new JsonResponse(array(
+                'form' => $vista,
+                'status' => $status,
+                'mensaje' => $mensaje,
+            ));
+        }
+
+        return $this->render('FrontendBundle:Default:formQuejas.html.twig', array(
                     'form' => $form->createView(),
                     'status' => $status,
                     'mensaje' => $mensaje
         ));
     }
 
-    private function enviarRecuperar($sUsuario, $sPassword, Usuario $usuario, $isNew = false) {
-        $asunto = 'Se ha reestablecido su contraseña';
-        $message = \Swift_Message::newInstance()
-                ->setSubject($asunto)
-                ->setFrom($this->container->get('richpolis.emails.to_email'))
-                ->setTo($usuario->getEmail())
-                ->setBody(
-                $this->renderView('FrontendBundle:Default:enviarCorreo.html.twig', compact('usuario', 'sUsuario', 'sPassword', 'isNew', 'asunto')), 'text/html'
-        );
-        $this->get('mailer')->send($message);
+    /**
+     * @Route("/newsletter", name="newsletter")
+     * @Method({"GET", "POST"})
+     */
+    public function newsletterAction(Request $request) {
+        $registro = new Newsletter();
+        $form = $this->createForm(new NewsletterFrontendType(), $registro);
+        $em = $this->getDoctrine()->getManager();
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $newsletter = $em->getRepository('PakmailBundle:Newsletter')
+                                 ->findOneBy(array('email'=>$registro->getEmail()));
+                if(!$newsletter){
+                    $registro->setIsActive(true);
+                    $em->persist($registro);
+                }else{
+                    $newsletter->setNombre($registro->getNombre());
+                    $em->persist($newsletter);
+                    $registro = null;
+                }
+                $em->flush();
+                $status = 'send';
+                $mensaje = "Se ha enviado el mensaje";
+                $registro = new Newsletter();
+                $form = $this->createForm(new NewsletterFrontendType(), $registro);
+            } else {
+                $status = 'notsend';
+                $mensaje = "El mensaje no se ha podido enviar";
+            }
+        } else {
+            $status = 'new';
+            $mensaje = "";
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            $vista = $this->renderView('FrontendBundle:Default:formNewsletter.html.twig', array(
+                'form' => $form->createView(),
+                'status' => $status,
+                'mensaje' => $mensaje,
+            ));
+            return new JsonResponse(array(
+                'form' => $vista,
+                'status' => $status,
+                'mensaje' => $mensaje,
+            ));
+        }
+
+        return $this->render('FrontendBundle:Default:formNewsletter.html.twig', array(
+                    'form' => $form->createView(),
+                    'status' => $status,
+                    'mensaje' => $mensaje
+        ));
     }
 }

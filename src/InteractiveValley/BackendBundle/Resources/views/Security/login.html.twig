@@ -1,11 +1,10 @@
 {% extends 'BackendBundle::layout.html.twig' %}
 
-{% block title %}Administrador - Login{% endblock %}
+{% block title %}Administrador - Login{% endblock %}   
 
 {% block stylesheets %}
     {{ parent() }}
-<link rel="stylesheet" href="{{asset('css/main.css')}}">
-{% endblock %}    
+{% endblock %} 
 
 {% block body %}   
     <!-- Form area -->
@@ -13,7 +12,7 @@
         <div class="container">
             <div class="text-center">
                 <a href="{{path('homepage')}}" style="background-color: #F4F4F4;padding: 43px 30px;">
-                    <img src="{{ asset('images/logov2.png') }}" style="max-height: 100px;"/>
+                    <img src="{{ asset('images/logo.png') }}" style="max-height: 100px;"/>
                 </a>
             </div>
             <div class="row">

@@ -35,9 +35,9 @@ class Servicio
     /**
      * @var string
      *
-     * @ORM\Column(name="imagen", type="string", length=255)
+     * @ORM\Column(name="descricpion", type="text")
      */
-    private $imagen;
+    private $descripcion;
     
     /**
      * @var integer
@@ -88,118 +88,12 @@ class Servicio
     }
 
     
-    /*** uploads ***/
     
-    /**
-     * @Assert\File(maxSize="6000000")
-     */
-    public $file;
-    
-    /**
-     * Sets file.
-     *
-     * @param UploadedFile $file
-     */
-    public function setFile(UploadedFile $file = null)
-    {
-        $this->file = $file;
-        // check if we have an old image path
-        if (isset($this->imagen)) {
-            // store the old name to delete after the update
-            $this->temp = $this->imagen;
-            $this->imagen = null;
-        } else {
-            $this->imagen = 'initial';
-        }
-    }
-    
-    /**
-     * Get file.
-     *
-     * @return UploadedFile
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-    
-   /**
-    * @ORM\PrePersist()
-    * @ORM\PreUpdate()
-    */
-    public function preUpload()
-    {
-      $var = true;  
-      if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->imagen = $filename.'.'.$this->getFile()->guessExtension();
-        }
-    }
-
-    /**
-    * @ORM\PostPersist()
-    * @ORM\PostUpdate()
-    */
-    public function upload()
-    {
-      $var = true;  
-      if (null === $this->getFile()) {
-            return;
-        }
-
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->imagen);
-
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-        
-        $this->file = null;
-    }
-
-    /**
-    * @ORM\PostRemove
-    */
-    public function removeUpload()
-    {
-      if ($file = $this->getAbsolutePath()) {
-        if(file_exists($file)){
-            unlink($file);
-        }
-      }
-    }
-    
-    protected function getUploadDir()
-    {
-        return '/uploads/servicios';
-    }
-
-    protected function getUploadRootDir()
-    {
-        return __DIR__.'/../../../../web'.$this->getUploadDir();
-    }
-    
-    public function getWebPath()
-    {
-        return null === $this->imagen ? null : $this->getUploadDir().'/'.$this->imagen;
-    }
-    
-    public function getAbsolutePath()
-    {
-        return null === $this->imagen ? null : $this->getUploadRootDir().'/'.$this->imagen;
-    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -210,6 +104,7 @@ class Servicio
      * Set nombre
      *
      * @param string $nombre
+     *
      * @return Servicio
      */
     public function setNombre($nombre)
@@ -222,7 +117,7 @@ class Servicio
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -230,32 +125,34 @@ class Servicio
     }
 
     /**
-     * Set imagen
+     * Set descripcion
      *
-     * @param string $imagen
+     * @param string $descripcion
+     *
      * @return Servicio
      */
-    public function setImagen($imagen)
+    public function setDescripcion($descripcion)
     {
-        $this->imagen = $imagen;
+        $this->descripcion = $descripcion;
 
         return $this;
     }
 
     /**
-     * Get imagen
+     * Get descripcion
      *
-     * @return string 
+     * @return string
      */
-    public function getImagen()
+    public function getDescripcion()
     {
-        return $this->imagen;
+        return $this->descripcion;
     }
 
     /**
      * Set position
      *
      * @param integer $position
+     *
      * @return Servicio
      */
     public function setPosition($position)
@@ -268,7 +165,7 @@ class Servicio
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
@@ -279,6 +176,7 @@ class Servicio
      * Set createdAt
      *
      * @param \DateTime $createdAt
+     *
      * @return Servicio
      */
     public function setCreatedAt($createdAt)
@@ -291,7 +189,7 @@ class Servicio
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -302,6 +200,7 @@ class Servicio
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
+     *
      * @return Servicio
      */
     public function setUpdatedAt($updatedAt)
@@ -314,7 +213,7 @@ class Servicio
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

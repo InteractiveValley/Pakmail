@@ -14,7 +14,7 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 /**
  * Promocion controller.
  *
- * @Route("/promociones")
+ * @Route("/backend/promociones")
  */
 class PromocionController extends Controller
 {
@@ -30,7 +30,8 @@ class PromocionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('PakmailBundle:Promocion')->findAll();
+        $entities = $em->getRepository('PakmailBundle:Promocion')
+                       ->findBy(array(),array('position'=>'ASC'));
 
         return array(
             'entities' => $entities,

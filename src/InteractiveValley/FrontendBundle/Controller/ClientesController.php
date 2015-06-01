@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 namespace InteractiveValley\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -9,16 +8,305 @@ use InteractiveValley\BackendBundle\Controller\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use InteractiveValley\PakmailBundle\Entity\Envio;
+use InteractiveValley\PakmailBundle\Form\Frontend\EnvioFrontendType;
+use InteractiveValley\PakmailBundle\Entity\Perfil;
+use InteractiveValley\PakmailBundle\Form\PerfilType;
 
-
+/**
+ * Clientes aplicacion Pakmail controller.
+ *
+ * @Route("/pakmail")
+ */
 class ClientesController extends BaseController {
     
+    
+    
     /**
-     * @Route("/pakmail", name="pakmail_clientes")
-     * @Template()
+     * @Route("/envios", name="pakmail_envios")
+     * @Method("GET")
+     * @Template("FrontendBundle:Clientes:index.html.twig")
      */
     public function indexAction(Request $request) {
+        
         return array();
     }
+    
+    /**
+     * Creates a new Envio entity.
+     *
+     * @Route("/envios", name="pakmail_envios_create")
+     * @Method("POST")
+     * @Template("FrontendBundle:Clientes:new.html.twig")
+     */
+    public function createAction(Request $request)
+    {
+        $entity = new Envio();
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            $ruta = $this->generateUrl('pakmail_envios_show', array('id' => $entity->getId()));
+            return $this->redirect($ruta);
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        );
+    }
+
+    /**
+     * Creates a form to create a Envio entity.
+     *
+     * @param Envio $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Envio $entity)
+    {
+        $form = $this->createForm(new EnvioFrontendType(), $entity, array(
+            'action' => $this->generateUrl('pakmail_envios_create'),
+            'method' => 'POST',
+            'em'=>$this->getDoctrine()->getManager(),
+        ));
+
+        //$form->add('submit', 'submit', array('label' => 'Create'));
+
+        return $form;
+    }
+
+    /**
+     * Displays a form to create a new Envio entity.
+     *
+     * @Route("/envio/nuevo", name="pakmail_envios_new")
+     * @Method("GET")
+     * @Template("FrontendBundle:Clientes:new.html.twig")
+     */
+    public function newAction(Request $request)
+    {
+        $entity = new Envio();
+        $entity->setCliente($this->getUser());
+        $form   = $this->createCreateForm($entity);
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        );
+    }
+    
+    /**
+     * @Route("/perfiles", name="pakmail_perfiles")
+     * @Template("FrontendBundle:Perfiles:index.html.twig")
+     */
+    public function perfilesAction(Request $request) {
+        return array();
+    }
+    
+    /**
+     * Displays a form to edit an existing Perfil entity.
+     *
+     * @Route("/{id}/perfil/editar", name="pakmail_perfiles_edit")
+     * @Method("GET")
+     * @Template("FrontendBundle:Perfiles:edit.html.twig")
+     */
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('PakmailBundle:Perfil')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Perfil entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'form'        => $editForm->createView(),
+            'delete_form' => $deleteForm->createView()
+        );
+    }
+
+    /**
+    * Creates a form to edit a Perfil entity.
+    *
+    * @param Perfil $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditForm(Perfil $entity)
+    {
+        $form = $this->createForm(new PerfilType(), $entity, array(
+            'action' => $this->generateUrl('pakmail_perfiles_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+            'em'=>$this->getDoctrine()->getManager(),
+        ));
+
+        //$form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+    /**
+     * Edits an existing Perfil entity.
+     *
+     * @Route("/{id}/perfil/update", name="pakmail_perfiles_update")
+     * @Method("PUT")
+     * @Template("FrontendBundle:Perfiles:edit.html.twig")
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('PakmailBundle:Perfil')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Perfil entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('pakmail_perfiles', array('id' => $id)));
+        }
+
+        return array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView()
+        );
+    }
+    
+    /**
+     * Deletes a Perfil entity.
+     *
+     * @Route("/{id}/perfil/borrar", name="pakmail_perfiles_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('PakmailBundle:Perfil')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Perfil entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('perfiles_envio'));
+    }
+    
+    /**
+     * Crear un formulario para eliminar un perfil.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('pakmail_perfiles_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            //->add('submit', 'submit', array('label' => 'Delete'))
+            ->getForm()
+        ;
+    }
+    
+    /**
+     * @Route("/registro",name="pakmail_registro")
+     * @Template()
+     * @Method({"GET","POST"})
+     */
+    public function registroAction(Request $request) {
+        $usuario = new Usuario();
+        $form = $this->createForm(new UsuarioType(), $usuario);
+        $isNew = true;
+        if ($request->isMethod('POST')) {
+            $parametros = $request->request->all();
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $this->setSecurePassword($usuario);
+                $em->persist($usuario);
+                $em->flush();
+
+                if ($request->isXmlHttpRequest()) {
+                    return new JsonResponse(array('status' => true));
+                }
+
+                return $this->redirect($this->generateUrl('login'));
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'titulo' => 'Registro',
+            'usuario' => $usuario,
+            'isNew' => true,
+        );
+    }
+
+    /**
+     * @Route("/perfil",name="pakmail_perfil_usuario")
+     * @Template("FrontendBundle:Default:registro.html.twig")
+     * @Method({"GET","POST"})
+     */
+    public function perfilUsuarioAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $this->getUser();
+        if (!$usuario) {
+            return $this->redirect($this->generateUrl('login'));
+        }
+        $form = $this->createForm(new UsuarioFrontendType(), $usuario, array(
+            'em' => $this->getDoctrine()->getManager())
+        );
+        $isNew = false;
+        if ($request->isMethod('POST')) {
+            //obtiene la contraseña
+            $current_pass = $usuario->getPassword();
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                if (null == $usuario->getPassword()) {
+                    // usuario no cambio contraseña
+                    $usuario->setPassword($current_pass);
+                } else {
+                    // se actualiza la contraseña
+                    $this->setSecurePassword($usuario);
+                }
+                $em->flush();
+                $this->enviarUsuarioUpdate($usuario->getEmail(), $current_pass, $usuario);
+                $this->get('session')->getFlashBag()->add(
+                        'notice', 'Se han realizado los cambios solicitados.'
+                );
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'usuario' => $usuario,
+            'titulo' => 'Editar perfil',
+            'isNew' => $isNew,
+        );
+    }
+    
+    
+
     
 }

@@ -14,7 +14,7 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 /**
  * Empresa controller.
  *
- * @Route("/empresas")
+ * @Route("/backend/empresas")
  */
 class EmpresaController extends Controller
 {
@@ -95,13 +95,6 @@ class EmpresaController extends Controller
     public function newAction()
     {
         $entity = new Empresa();
-        $max = $this->getDoctrine()->getRepository('PakmailBundle:Empresa')
-                    ->getMaxPosicion();
-        if (!is_null($max)) {
-            $entity->setPosition($max + 1);
-        } else {
-            $entity->setPosition(1);
-        }
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -134,6 +127,31 @@ class EmpresaController extends Controller
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         );
+    }
+    
+    /**
+     * Finds and displays a Empresa entity.
+     *
+     * @Route("/{id}/clientes", name="empresas_clientes")
+     * @Method("GET")
+     */
+    public function clientesAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('PakmailBundle:Empresa')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Empresa entity.');
+        }
+        
+        $entities = $em->getRepository('PakmailBundle:Cliente')
+                       ->findBy(array('empresa'=>$entity));
+        
+        return $this->render("PakmailBundle:Empresa:clientes.html.twig",array(
+            'entity'   => $entity,
+            'entities'  => $entities,
+        ));
     }
 
     /**

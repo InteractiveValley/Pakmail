@@ -1,0 +1,67 @@
+{% extends 'FrontendBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('css/jquery-ui-1.9.2.custom.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/main.css')}}"/>
+{% endblock %}
+
+{% block contenido %}
+    <section class="quienes-somos-preguntas-frecuentes">
+        <article class="quienes-somos">
+            <header>
+                <h2 class="titulo medium vino">QUIENES SOMOS</h2>
+            </header>
+            <div class="fondo-gris">
+                <div class="padding max-width-960 center text-align-justify">
+                    <p>
+                        Aliquam quis leo quis erat tincidunt convallis. Maecenas luctus, magna quis pharetra ultrices, tortor justo commodo leo, vel ultricies lorem magna at arcu. Pellentesque ultrices ante vel tellus placerat lacinia. Nulla sit amet tortor consectetur, iaculis ex et, bibendum tellus. Praesent et nibh nec urna facilisis posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque eget fermentum dui. Duis consectetur ligula at leo mattis, sed accumsan felis placerat. Donec fringilla arcu non eros blandit efficitur. Morbi non massa semper, vulputate sapien et, luctus risus. Maecenas nec viverra lorem, et molestie justo. Cras ac finibus ante. Sed laoreet molestie magna, ut sagittis risus sodales sit amet.
+                    </p>
+                </div>
+            </div>
+        </article>
+        <article class="preguntas-frecuentes">
+            <header>
+                <h2 class="titulo medium vino">PREGUNTAS FRECUENTES</h2>
+            </header>
+            <div id="accordion" class="max-width-960 center text-align-justify">
+                {% for pregunta in range(1,5) %}
+                <h3 id="pregunta-{{pregunta}}" class="pregunta-titulo">¿Pregunta numero {{pregunta}}?<img id="m1" src="/images/mas.png" alt=""></h3>
+                <div class="pregunta-respuesta padding light">
+                    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+    </section>
+    <section class="adicional">
+        <article class="border-vino center max-width-450">
+            <a href="{{path('contacto')}}">
+                <header>
+                    <div class="titulo medium vino">CONTACTO</div>
+                </header>
+                <div class="ayuda text-align-center">CONTÁCTENOS PARA ATENCIÓN PERSONALIZADA</div>
+            </a>
+        </article>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('js/jquery-ui-1.9.2.custom.min.js')}}"></script>
+    <script>
+    $(document).ready(function(){
+        $( "#accordion" ).accordion({
+            collapsible: false,
+            active: 20,
+            heightStyle: "content"
+        });
+        $(".pregunta-titulo").on("click",function(){
+            $(".pregunta-titulo img").attr('src','{{asset('images/mas.png')}}');
+            $(this).find('img').attr('src','{{asset('images/menos.png')}}');
+        });
+        
+        $(".pregunta-titulo")[0].click();
+    });
+    </script>
+{% endblock %}

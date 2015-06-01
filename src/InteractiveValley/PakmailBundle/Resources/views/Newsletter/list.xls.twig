@@ -1,0 +1,24 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Activo</th>            
+            <th>Creado</th>
+            <th>Actualizado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.nombre }}</td>
+                <td>{{ entity.email }}</td>
+                <td>{{ (entity.isActive)?"Si":"No" }}</td>                
+                <td>{{ entity.createdAt | date('d-m-Y') }}</td>
+                <td>{{ entity.updatedAt | date('d-m-Y') }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,14 @@
+<tr id="registro-{{entity.id}}">
+    <td><a href="{{ path('envios_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+    <td>{{ entity.cliente.empresa.nombre }}</td>
+    <td>{{ entity.cliente.nombre }}</td>
+    <td>{{ entity.fechaSolicitud | date('d/m/Y') }}</td>
+    <td>{{ entity.stringStatus }}</td>
+    <td>{{ entity.createdAt | date('d/m/Y') }}</td>
+    <td>
+        <button onclick="javascript:editarRegistro('{{ path('envios_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
+        <button onclick="javascript:editarRegistro('{{ path('envios_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
+        <button class="btn btn-success acetpar" data-url="{{path('envios_aceptar', { 'id': entity.id }) }}" onclick="javascript:backend({{entity.id}}, 'activar')"><i class="fa fa-check-square"></i></button>
+        <button class="btn btn-success rechazar" data-url="{{path('envios_rechazar', { 'id': entity.id }) }}" onclick="javascript:backend({{entity.id}}, 'rechazar')"><i class="fa fa-check-square-o"></i></button>
+    </td>
+</tr>

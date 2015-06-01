@@ -20,9 +20,17 @@ class FechaType extends AbstractType
                     'widget' => 'single_text',
                     'format' => 'y-MM-dd'
                 ))
-            ->add('tipo','text',array('attr'=>array('class'=>'tipo-fecha form-control')))
-            ->add('bgColor','text',array('attr'=>array('class'=>'bgcolor form-control')))
-            ->add('fontColor','text',array('attr'=>array('class'=>'fontcolor form-control')))
+            ->add('tipo','text',array('label'=>'Tipo de fecha','attr'=>array('class'=>'tipo-fecha form-control')))
+            ->add('bgColor','choice',array(
+                    'label'     =>  'Color',
+                    'choices'   =>  array('azul' => 'Azul', 'verde' => 'Verde'),
+                    'attr'      =>  array('class'=>'bgcolor form-control')
+                ))
+            ->add('fontColor','choice',array(
+                    'label'     =>  'Color de letra',
+                    'choices'   =>  array('white' => 'Blanco', 'black' => 'Negro'),
+                    'attr'      =>  array('class'=>'fontcolor form-control')
+                ))
         ;
     }
     

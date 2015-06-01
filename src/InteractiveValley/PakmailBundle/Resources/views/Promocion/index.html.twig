@@ -46,8 +46,7 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Imagen</th>
-                                        <th>Promcion/Novedad</th>
-                                        <th>En inicio?</th>
+                                        <th>Promcion</th>
                                         <th>Fecha creacion</th>
                                         <th>Actions</th>
                                     </tr>
@@ -64,7 +63,6 @@
                                                 {% endif %}
                                             </td>
                                             <td>{{ entity.nombre }}</td>
-                                            <td>{{ entity.isPrincipal | isActive | raw }}</td>
                                             <td>{{ entity.createdAt | date('d/m/Y') }}</td>
                                             <td>
                                                 <button onclick="javascript:editarRegistro('{{ path('promociones_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
@@ -74,11 +72,11 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                            <div class="widget-foot">
+                        </div>
+                        <div class="widget-foot">
                                 <br/>
                                 <br/>
                                 <div class="clearfix"></div>
-                            </div>
                         </div>
                     </div>
                 </div>

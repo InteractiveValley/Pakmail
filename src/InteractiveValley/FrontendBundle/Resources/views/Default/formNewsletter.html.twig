@@ -1,0 +1,25 @@
+{% if mensaje is not defined %}
+    {% set mensaje = "" %}
+{% endif %}
+{% if status is not defined %}
+    {% set status = "new" %}
+{% endif %}
+{% if status =='send' %}
+<div class="alert alert-success">
+    {{ mensaje }}
+</div>
+{% elseif status == 'notsend' %}
+<div class="alert alert-error">
+    {{ mensaje }}
+</div>
+{% endif %}
+<form onsubmit="return false;" id="formNewsletter" action="{{path('newsletter')}}" method="post" novalidate="novalidate" class="form">
+    <div class="group-form">
+        {{ form_widget(form.nombre, {'attr': {'class': 'contactanos','placeholder':'Nombre' }}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'contactanos','placeholder':'Email' }}) }}
+    </div>
+    <a href="#" id="botonEnviarNewsletter" class="boton-guardar-newsletter">
+        <img src="{{asset('images/guardarnewsletter.png')}}" alt="">
+    </a>
+    {{ form_rest(form) }}
+</form>

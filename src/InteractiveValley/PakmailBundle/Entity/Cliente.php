@@ -133,7 +133,7 @@ class Cliente implements UserInterface, \Serializable
             self::TIPO_EMPRESA=>'Empresa',
             self::TIPO_USUARIO=>'Usuario',
         );
-        return $sTipoGrupo;
+        return $arreglo;
     }
     
     static function getPreferedTipoGrupo(){

@@ -14,7 +14,7 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 /**
  * Fecha controller.
  *
- * @Route("/fechas")
+ * @Route("/backend/fechas")
  */
 class FechaController extends Controller
 {
@@ -94,13 +94,6 @@ class FechaController extends Controller
     public function newAction()
     {
         $entity = new Fecha();
-        $max = $this->getDoctrine()->getRepository('PakmailBundle:Fecha')
-                    ->getMaxPosicion();
-        if (!is_null($max)) {
-            $entity->setPosition($max + 1);
-        } else {
-            $entity->setPosition(1);
-        }
         $form   = $this->createCreateForm($entity);
 
         return array(

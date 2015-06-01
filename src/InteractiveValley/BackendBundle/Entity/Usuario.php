@@ -305,8 +305,7 @@ class Usuario implements UserInterface, \Serializable
         return serialize(array(
             $this->id,
             $this->nombre,
-            $this->email,
-            $this->telefono
+            $this->email
         ));
     }
 
@@ -318,8 +317,7 @@ class Usuario implements UserInterface, \Serializable
         list (
             $this->id,
             $this->nombre,
-            $this->email,
-            $this->telefono
+            $this->email
         ) = unserialize($serialized);
     }
 

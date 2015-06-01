@@ -20,7 +20,12 @@ galerias:
 paginas:
     resource: "@PaginasBundle/Controller/"
     type:     annotation
-    prefix:   /    
+    prefix:   / 
+
+pakmail:
+    resource: "@PakmailBundle/Controller/"
+    type:     annotation
+    prefix:   / 
     
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"

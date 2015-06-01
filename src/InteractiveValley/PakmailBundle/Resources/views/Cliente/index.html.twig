@@ -41,41 +41,13 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
-                            <table id="datatable" class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Es Activo?</th>
-                                        <th>Empresa</th>
-                                        <th>Fecha creacion</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="cuerpoTabla">
-                                    {% for entity in entities %}
-                                        <tr id="registro-{{entity.id}}">
-                                            <td><a href="{{ path('clientes_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                                            <td>{{ entity.nombre }}</td>
-                                            <td>{{ entity.email }}</td>
-                                            <td>{{ entity.isActive | isActive | raw }}</td>
-                                            <td>{{ entity.empresa.nombre }}</td>
-                                            <td>{{ entity.createdAt | date('d/m/Y') }}</td>
-                                            <td>
-                                                <button onclick="javascript:editarRegistro('{{ path('clientes_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
-                                                <button onclick="javascript:editarRegistro('{{ path('clientes_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <div class="widget-foot">
+                            {% include 'PakmailBundle:Cliente:table.html.twig' with { 'entities': entities } %}
+                        </div>
+                        <div class="widget-foot">
                                 <br/>
                                 <br/>
                                 <div class="clearfix"></div>
-                            </div>
-                        </div>
+                        </div>        
                     </div>
                 </div>
             </div>
@@ -123,50 +95,14 @@
     };
     
     $(document).ready(function () {
-        iniciarlizarSorteable();
+          $('#datatable').dataTable({
+              "sPaginationType": "full_numbers",
+              "sNext": "Siguiente",
+              "sLast": "Ultimo",
+              "sFirst": "Primero",
+              "sPrevious": "Anterior",
+          });
     });
-      
-    function iniciarlizarSorteable(){
-        $("#cuerpoTabla").sortable({
-            items: "tr",
-            cursor: 'move',
-            opacity: 0.6,
-            update: function() {
-                sendOrderToServer();
-            }
-        });
-        $("#cuerpoTabla").disableSelection();
-    }
-    function sendOrderToServer() {
-        $(".loader").fadeIn();
-        var order = $("#cuerpoTabla").sortable('serialize');
-        $.ajax({
-            url: '{{path('clientes_ordenar')}}?' + order,
-            type: 'PATCH',
-            data: order,
-            dataType: 'json',
-            success: function(data){
-                noty({
-                    text: 'Actualizacion realizada',
-                    layout:'topRight',
-                    type:'success',
-                    timeout:2000
-                });
-                console.log(data);
-                $(".loader").fadeOut();
-            },
-            error: function(data){
-                noty({
-                    text: 'Error de actualizacion',
-                    layout:'topRight',
-                    type:'error',
-                    timeout:2000
-                });
-                console.log(data);
-                $(".loader").fadeOut();
-            },
-        });
-    }
       
 </script>
 

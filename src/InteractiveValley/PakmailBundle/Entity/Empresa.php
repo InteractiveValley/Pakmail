@@ -94,6 +94,7 @@ class Empresa
     public function __construct()
     {
         $this->clientes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isActive = true;
     }
 
     /**

@@ -62,13 +62,9 @@
                                                     <td>{{ entity.nombre }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Imagen</th>
+                                                    <th>Descripcion del servicio</th>
                                                     <td>
-                                                        {% if entity.imagen | length > 0 %}
-                                                            <img src="{{ entity.webPath }}" style="max-width: 120px; max-width: 120px;"/>
-                                                        {% else %}    
-                                                            sin imagen
-                                                        {% endif %}
+                                                        {{ entity.descripcion | raw }}
                                                     </td>
                                                 </tr>
                                                 <tr>

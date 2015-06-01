@@ -288,36 +288,6 @@ class UsuarioController extends BaseController
         return $response;
     }
     
-    /**
-     * Apì de usuario para devolver las direcciones de envios
-     *
-     * @Route("/direcciones/envios", name="usuarios_direcciones_envios")
-     * @Method("GET")
-     * @Template()
-     */
-    public function direccionesEnviosAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $id = $request->query->get('usuario',0);
-        
-        $entity = $em->getRepository('BackendBundle:Usuario')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Usuario entity.');
-        }
-
-        $direcciones = $entity->getDirecciones();
-        $arreglo = array();
-        foreach($direcciones as $direccion){
-            if($direccion->getTipoDireccion()==Direccion::TIPO_DIRECCION_ENVIO){
-                $arreglo[]=array(
-                    'id'=>$direccion->getId(),
-                    'direccion'=>$direccion->getDireccionCompleta(),
-                );
-            }
-        }
-        return new JsonResponse($arreglo);
-    }
+    
     
 }

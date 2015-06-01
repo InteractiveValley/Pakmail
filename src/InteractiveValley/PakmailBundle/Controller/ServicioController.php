@@ -14,7 +14,7 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 /**
  * Servicio controller.
  *
- * @Route("/servicios")
+ * @Route("/backend/servicios")
  */
 class ServicioController extends Controller
 {
@@ -30,7 +30,8 @@ class ServicioController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('PakmailBundle:Servicio')->findAll();
+        $entities = $em->getRepository('PakmailBundle:Servicio')
+                       ->findBy(array(),array('position'=>'ASC'));
 
         return array(
             'entities' => $entities,

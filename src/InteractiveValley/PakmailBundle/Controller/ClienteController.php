@@ -3,7 +3,7 @@
 namespace InteractiveValley\PakmailBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use InteractiveValley\BackendBundle\Controller\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -14,9 +14,9 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 /**
  * Cliente controller.
  *
- * @Route("/clientes")
+ * @Route("/backend/clientes")
  */
-class ClienteController extends Controller
+class ClienteController extends BaseController
 {
 
     /**
@@ -50,13 +50,20 @@ class ClienteController extends Controller
         $entity = new Cliente();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $this->setSecurePassword($entity);
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('clientes_show', array('id' => $entity->getId())));
+            $ruta = $this->generateUrl('clientes_show', array('id' => $entity->getId()));
+            $return = $this->get('session')->get('return','');
+            if(strlen($return)>0){
+                $session = $this->get('session');
+                $session->set('return','');
+                return $this->redirect($return);
+            }else{
+                return $this->redirect($ruta);
+            }
         }
 
         return array(
@@ -92,16 +99,16 @@ class ClienteController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new Cliente();
-        $max = $this->getDoctrine()->getRepository('PakmailBundle:Cliente')
-                    ->getMaxPosicion();
-        if (!is_null($max)) {
-            $entity->setPosition($max + 1);
-        } else {
-            $entity->setPosition(1);
+        if($request->query->has('empresa')){
+            $empresa = $this->getDoctrine()->getRepository('PakmailBundle:Empresa')
+                            ->find($request->query->get('empresa'));
+            $entity->setEmpresa($empresa);
+            $this->get('session')->set('return',$request->query->get('return'));
         }
+        
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -133,6 +140,52 @@ class ClienteController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+        );
+    }
+    
+    /**
+     * Encuentra los envios del cliente.
+     *
+     * @Route("/{id}/envios", name="clientes_envios")
+     * @Method("GET")
+     * @Template("PakmailBundle:Cliente:envios.html.twig")
+     */
+    public function enviosAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('PakmailBundle:Cliente')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Cliente entity.');
+        }
+        $entities = $this->getEnvios();
+        return array(
+            'entity'    => $entity,
+            'entities'  => $entities,
+        );
+    }
+    
+    /**
+     * Encuentra los perfiles de envio del cliente.
+     *
+     * @Route("/{id}/perfiles-envio", name="clientes_perfiles_envio")
+     * @Method("GET")
+     * @Template("PakmailBundle:Cliente:perfilesEnvio.html.twig")
+     */
+    public function perfilesEnvioAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('PakmailBundle:Cliente')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Cliente entity.');
+        }
+        $entities = $this->getPerfiles();
+        return array(
+            'entity'    => $entity,
+            'entities'  => $entities,
         );
     }
 
@@ -201,9 +254,18 @@ class ClienteController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
+        //obtiene la contraseña actual
+        $current_pass = $entity->getPassword();
         $editForm->handleRequest($request);
-
+        
         if ($editForm->isValid()) {
+            if (null == $entity->getPassword()) {
+                // El usuario no cambia su contraseña.
+                $entity->setPassword($current_pass);
+            } else {
+                // actualizamos la contraseña.
+                $this->setSecurePassword($entity);
+            }
             $em->flush();
 
             return $this->redirect($this->generateUrl('clientes_edit', array('id' => $id)));

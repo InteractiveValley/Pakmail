@@ -92,9 +92,13 @@
     <script>
     $(document).ready(function () {
         $(".validate").validationEngine();
-
+        
         $("#botonRegresar").on("click", function () {
-            location.href = "{{path('clientes')}}";
+            {% if app.session.has('return') and app.session.get('return') | length > 0 %}
+                location.href = "{{app.session.get('return')}}";
+            {% else %}
+                location.href = "{{path('clientes')}}";
+            {% endif %}
         });
 
         $("#botonGuardar").on("click", function () {
@@ -119,7 +123,7 @@
         {% endif %}
     });
     </script>
-    {{ tinymce_init() }}
+
 {% endblock %}
 
 

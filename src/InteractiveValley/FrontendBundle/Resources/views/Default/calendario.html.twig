@@ -1,0 +1,94 @@
+{% extends 'FrontendBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('css/main.css')}}"/>
+{% endblock %}
+
+{% block contenido %}
+    <section class="calendario">
+        <div class="tipos-fechas">
+            <div class="max-width-960 text-align-left center">
+                {% for tipo in tipos %}
+                <span class="tipo-fecha {{tipo.bg}}"></span>
+                <div class="tipo-fecha-titulo">{{tipo.nombre}}</div> 
+                {% endfor %}
+            </div>
+        </div>
+        <div class="calendario-mes">
+            <div class="calendario-mes-contenedor max-width-370 text-align-center center border-bottom gris-claro">
+                {% set monthPrevious = month -1 %}
+                {% set monthNext = month + 1 %}
+                {% set yearPrevious = year %}
+                {% set yearNext = year %}
+
+                {% if month == 1 %}
+                    {% set monthPrevious = 12 %}
+                    {% set yearPrevious = year - 1 %}
+                {% elseif month == 12 %}
+                    {% set monthNext = 1 %}
+                    {% set yearNext = year + 1 %}
+                {% endif %}
+                
+                <a class="calendario-control calendario-control-izquierdo" href="{{path('calendario',{'month':monthPrevious,'year': yearPrevious})}}">
+                    <img src="{{asset('images/flecha2servicios.png')}}" alt="">
+                </a>
+                <div class="calendario-mes-titulo">{{nombreMes ~ ' ' ~ year}}</div>
+                <a class="calendario-control calendario-control-derecho" href="{{path('calendario',{'month':monthNext,'year': yearNext})}}">
+                    <img src="{{asset('images/flecha1servicios.png')}}" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="calendario-dias">
+            <table class="text-align-center max-width-370 center">
+                <thead>
+                    <tr>
+                        <th class="dia">DOM</th>
+                        <th class="dia">LUN</th>
+                        <th class="dia">MAR</th>
+                        <th class="dia">MIE</th>
+                        <th class="dia">JUE</th>
+                        <th class="dia">VIE</th>
+                        <th class="dia">SAB</th>
+                    </tr>
+                </thead>
+            </table>
+            <table id="calendario" class="text-align-center max-width-370 center">
+                <tbody>
+                    {% for semana in calendario %}
+                    <tr>
+                        {% for dia in semana %}
+                            {% if dia == 0 %}
+                                <td class="tipo-fecha dia-mes-ant">&nbsp;</td>
+                            {% else %}
+                                <td id="dia-{{dia}}" class="tipo-fecha">{{dia}}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var datos=[
+            {% for fecha in fechas %}
+            {
+                'dia': {{fecha.fecha|date('j')}},
+                'id': '#dia-{{fecha.fecha|date('j')}}',
+                'bg': '{{fecha.bgColor}}',
+                'font': '{{fecha.fontColor}}'
+            }{{ (loop.index < (fechas|length) )?',':'' }} 
+            {% endfor %}        
+        ];
+        $(document).ready(function(){
+            for(var i = 0; i < datos.length; i++){
+                $(datos[i].id).addClass(datos[i].bg).css({'color':datos[i].font});
+            }
+        });
+    </script>
+{% endblock %}
