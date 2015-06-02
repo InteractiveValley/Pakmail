@@ -34,7 +34,7 @@ class Empresa
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="Cliente",mappedBy="empresa")
+     * @ORM\OneToMany(targetEntity="Cliente",mappedBy="empresa",cascade={"remove"})
      * @ORM\OrderBy({"nombre" = "ASC"})
      */
     private $clientes;

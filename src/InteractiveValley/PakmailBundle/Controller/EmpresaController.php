@@ -252,7 +252,20 @@ class EmpresaController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Empresa entity.');
             }
-
+			
+			foreach($entity->getClientes() as $cliente){
+				foreach($cliente->getEnvios() as $envio){
+					$cliente->getEnvios()->removeElement($envio);
+					$em->remove($envio);
+				}
+				foreach($cliente->getPerfiles() as $perfil){
+					$cliente->getPerfiles()->removeElement($perfil);
+					$em->remove($perfil);
+				}
+				$entity->getClientes()->removeElement($cliente);
+				$em->remove($cliente);
+			}
+			
             $em->remove($entity);
             $em->flush();
         }

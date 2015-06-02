@@ -22,8 +22,8 @@
                 <td>
                     <button onclick="javascript:editarRegistro('{{ path('clientes_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
                     <button onclick="javascript:editarRegistro('{{ path('clientes_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
-                    <button onclick="javascript:editarRegistro('{{ path('clientes_perfiles_envio', { 'id': entity.id }) }}')" class="btn btn-xs btn-info"><i class="fa fa-road"></i> </button>
-                    <button onclick="javascript:editarRegistro('{{ path('clientes_envios', { 'id': entity.id }) }}')" class="btn btn-xs btn-info"><i class="fa fa-road"></i> </button>
+                    <!--button onclick="javascript:editarRegistro('{{ path('clientes_perfiles_envio', { 'id': entity.id }) }}')" class="btn btn-xs btn-info"><i class="fa fa-road"></i> </button-->
+                    <!--button onclick="javascript:editarRegistro('{{ path('clientes_envios', { 'id': entity.id }) }}')" class="btn btn-xs btn-info"><i class="fa fa-road"></i> </button-->
                 </td>
             </tr>
         {% endfor %}

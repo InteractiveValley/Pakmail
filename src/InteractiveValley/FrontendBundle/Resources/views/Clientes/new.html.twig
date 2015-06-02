@@ -33,7 +33,7 @@
                             </fieldset>
                             <fieldset>
                                 <legend>Destino de envío</legend>
-                                {{form_rest(form)}}
+                                <div>{{form_rest(form)}}</div>
                             </fieldset>
                             <input type="submit" value="Generar solicitud" class="btn btn-bg btn-danger"/>
                             {{form_end(form)}}
@@ -65,6 +65,9 @@
 {{ parent() }}
 <script src="{{asset('js/bootbox.min.js')}}"></script>
 <script>
+	{% if creacionEnvio is not defined %}
+		{% set creacionEnvio = 0 %}
+	{% endif %}
     var creacionEnvio = {{creacionEnvio}};
     $(document).on('ready',function(){
         $(".item-perfil").on('click',function(){

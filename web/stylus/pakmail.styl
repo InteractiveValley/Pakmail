@@ -54,6 +54,10 @@ header
 	border-top none
 	&.vino
 		background-color color_vino
+	&.encabezado
+		position fixed
+		width 100%
+		z-index 100
 	& .logo
 		padding 19px 0px
 	& .logo
@@ -61,19 +65,33 @@ header
 		display inline-block 
 		vertical-align top
 
+legend
+	text-transform uppercase
+	font-size 1.2em
+	
+fieldset > div > label
+	text-transform uppercase
+	font-size 1.2em
+	font-family "TeXGyreAdventor-Regular"
+	font-weight bold
+	color #666666
+		
 .content
 	& .sidebar
 		position fixed
 		height 100%
 		background-color color_negro_admin
+		padding-top 88px
 	& .mainbar
 		min-height 400px
 		background-color white
+		padding 88px 0px 50px
 
 .float-left
 	float left
 		
 .item-perfil
+	cursor pointer
 	& a
 		text-decoration none
 		color color_vino
@@ -156,13 +174,14 @@ header
 
 .solicitud-envio
 	overflow auto
-	height 400px
+	height auto
 
 .homeicon
 	height 60px
 	width 60px
 	margin-left 20px
 	margin-top 20px
+
 
 @media screen and (max-width: 960px)
 	footer

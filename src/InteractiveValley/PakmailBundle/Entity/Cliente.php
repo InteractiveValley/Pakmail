@@ -84,7 +84,7 @@ class Cliente implements UserInterface, \Serializable
     /**
      * @var \Perfil
      *
-     * @ORM\OneToMany(targetEntity="Perfil",mappedBy="cliente")
+     * @ORM\OneToMany(targetEntity="Perfil",mappedBy="cliente",cascade={"remove"})
      * @ORM\OrderBy({"nombre" = "ASC"})
      */
     private $perfiles;
@@ -93,8 +93,8 @@ class Cliente implements UserInterface, \Serializable
     /**
      * @var \Envio
      *
-     * @ORM\OneToMany(targetEntity="Envio",mappedBy="cliente")
-     * @ORM\OrderBy({"fechaSolicitud" = "DESC"})
+     * @ORM\OneToMany(targetEntity="Envio",mappedBy="cliente",cascade={"remove"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $envios;
 
