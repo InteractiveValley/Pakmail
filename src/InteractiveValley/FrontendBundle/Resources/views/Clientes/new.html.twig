@@ -20,6 +20,7 @@
                                     <h6 class="subtitulo vino"></h6>
                                 </hgroup>
                             </header>
+                            {{form_errors(form)}}
                             {{form_start(form)}}
                             <fieldset>
                                 {{form_row(form.direccionFiscal)}}
@@ -31,22 +32,25 @@
                                 {{form_row(form.direccionDestino)}}
                             </fieldset>
                             <fieldset>
-                                <legend>Datos del envio</legend>
+                                <legend>Destino de envío</legend>
                                 {{form_rest(form)}}
                             </fieldset>
+                            <input type="submit" value="Generar solicitud" class="btn btn-bg btn-danger"/>
                             {{form_end(form)}}
-                            <a href="" class="btn btn-bg btn-danger">Generar solicitud</a>
+                            
                         </article>
                     </div>
                     <div class="col-md-4">
                         <h5 class="perfiles-titulo">Perfiles de envios</h5>
+                        {% if perfiles | length > 0 %}
                         <div class="perfiles-guardados">
                             <ul class="lista-perfiles">
-                                {% for perfil in range(1,5) %}
-                                    <li class="item-perfil">Nombre del perfil: {{perfil}}</li>
+                                {% for perfil in perfiles %}
+                                    <li class="item-perfil" data-url="{{path('pakmail_perfiles_copia',{'id': perfil.id})}}">{{perfil.nombre}}</li>
                                 {% endfor %}
                             </ul>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -59,5 +63,44 @@
 
 {% block javascripts %}
 {{ parent() }}
-
+<script>
+    var creacionEnvio = {{creacionEnvio}};
+    $(document).on('ready',function(){
+        $(".item-perfil").on('click',function(){
+           location.href = $(this).data('url'); 
+        });
+        
+        $("#interactivevalley_pakmailbundle_envio_importeSeguro").on('focus',function(){
+            var monto = $("#interactivevalley_pakmailbundle_envio_montoSeguro").val();
+            if(monto>0){
+                $(this).val(monto*.02);
+            }
+        });
+        
+        if(creacionEnvio){
+            if(confirm('Desea guardar el envio en sus perfiles de envio?')){
+                var nombrePerfil = prompt('Ingresa el nombre del perfil');
+                if(nombrePerfil.length>0){
+                    $.ajax({
+                        url: '{{path('pakmail_perfiles_create')}}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {'nombre': nombrePerfil, 'envio': creacionEnvio },
+                        success: function (data) {
+                            alert('Perfil creado');
+                            console.log(data);
+                            location.reload();
+                        },
+                        error: function (data) {
+                            alert("Error al enviar el formulario");
+                            console.log(data);
+                        }
+                    });
+                }
+            }
+        }
+        
+    });
+    
+</script>
 {% endblock %}

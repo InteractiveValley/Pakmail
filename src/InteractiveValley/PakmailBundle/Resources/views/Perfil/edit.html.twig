@@ -48,7 +48,26 @@
 
                             <div class="widget-content">
                                 <div class="padd contenido-formulario">
-                                    {{ form(form) }}
+                                    {{form_start(form)}}
+                                    <fieldset>
+                                        <legend>Datos del perfil</legend>
+                                        {{form_row(form.nombre)}}
+                                        {{form_row(form.isActive)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        {{form_row(form.direccionFiscal)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        {{form_row(form.direccionRemitente)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        {{form_row(form.direccionDestino)}}
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Destino de envío</legend>
+                                        {{form_rest(form)}}
+                                    </fieldset>
+                                    {{form_end(form)}}
                                 </div>
                             </div>
                             <div class="widget-foot">

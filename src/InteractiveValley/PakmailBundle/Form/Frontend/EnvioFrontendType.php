@@ -24,22 +24,22 @@ class EnvioFrontendType extends AbstractType
         $clienteTransformer = new ClienteToNumberTransformer($em);
         
         $builder
-            ->add('direccionFiscal',new DireccionFiscalType())
-            ->add('direccionRemitente',new DireccionRemisionType())
-            ->add('direccionDestino',new DireccionDestinoType())
-            ->add('referencia','text',array('attr'=>array('class'=>'form-control')))
-            ->add('tipo','text',array('attr'=>array('class'=>'form-control')))
-            ->add('kilogramos','text',array('attr'=>array('class'=>'form-control')))
-            ->add('precio',null,array('attr'=>array('class'=>'form-control')))
-            ->add('numGuia','text',array('attr'=>array('class'=>'form-control')))
-            ->add('folio','text',array('attr'=>array('class'=>'form-control')))
-            ->add('asegurarEnvio',null,array('label'=>'¿Asegurar envío?','attr'=>array(
+            ->add('direccionFiscal',new DireccionFiscalType(),array('label'=>'DIRECCION FISCAL'))
+            ->add('direccionRemitente',new DireccionRemisionType(),array('label'=>'DIRECCION REMITENTE'))
+            ->add('direccionDestino',new DireccionDestinoType(),array('label'=>'DIRECCION DESTINO'))
+            ->add('referencia','text',array('attr'=>array('label'=>'Referencia','class'=>'form-control')))
+            ->add('tipo','text',array('attr'=>array('label'=>'Tipo','class'=>'form-control')))
+            ->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
+            ->add('precio',null,array('label'=>'Precio','attr'=>array('class'=>'form-control')))
+            ->add('numGuia','text',array('label'=>'No. Guia','attr'=>array('class'=>'form-control')))
+            ->add('folio','text',array('label'=>'No. de Control Ticket o Folio','attr'=>array('class'=>'form-control')))
+            ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','attr'=>array(
                 'class'=>'checkbox-inline',
                 'placeholder'=>'asegurar envio',
                 'data-bind'=>'value: asegurarEnvio'
              )))
-            ->add('montoSeguro',null,array('attr'=>array('class'=>'form-control')))
-            ->add('importeSeguro',null,array('attr'=>array('class'=>'form-control')))
+            ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max 100,000,00)','attr'=>array('class'=>'form-control')))
+            ->add('importeSeguro',null,array('label'=>'Importe del Seguro (2%)','attr'=>array('class'=>'form-control')))
             ->add('observaciones',null,array(
                 'label'=>'Observaciones',
                 'required'=>true,
@@ -51,11 +51,6 @@ class EnvioFrontendType extends AbstractType
             ->add('perfil','hidden')
             ->add('hasPerfil','hidden')
             ->add('status','hidden')
-            ->add('fechaSolicitud', 'date', array(
-                    'attr' => array('class' => 'form-control datepicker'),
-                    'widget' => 'single_text',
-                    'format' => 'y-MM-dd'
-                ))
             ->add($builder->create('cliente','hidden')->addModelTransformer($clienteTransformer))
             ->add($builder->create('usuario', 'hidden')->addModelTransformer($usuarioTransformer))
         ;

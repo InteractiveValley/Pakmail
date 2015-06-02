@@ -25,7 +25,7 @@
                 <span class="divider">/</span>
                 <a href="{{path('envios')}}" class="bread-current">Envios</a>
                 <span class="divider">/</span>
-                <a href="{{path('envios_show',{'id': entity.id})}}" class="bread-current">{{entity.fechaSolicitud | date('d-m-Y') }}</a>
+                <a href="{{path('envios_show',{'id': entity.id})}}" class="bread-current">{{entity.createdAt | date('d-m-Y') }}</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{path('envios_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear registro</a>
                 {% endif %}
@@ -66,12 +66,82 @@
                                                     <td>{{ entity.cliente.nombre }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Fecha de solicitud</th>
-                                                    <td>{{ entity.fechaSolicitud | date('d-m-Y') }}</td>
+                                                    <th>Dirección Fiscal</th>
+                                                    <td>
+                                                        <ul>
+                                                            <li>Calle: {{entity.direccionFiscal.calle}}</li>
+                                                            <li>Numero Exterior: {{entity.direccionFiscal.numExterior}}</li>
+                                                            <li>Numero Interior: {{entity.direccionFiscal.numInterior}}</li>
+                                                            <li>Colonia: {{entity.direccionFiscal.colonia}}</li>
+                                                            <li>Población: {{entity.direccionFiscal.poblacion}}</li>
+                                                            <li>Municipio o Delegación: {{entity.direccionFiscal.delegacion}}</li>
+                                                            <li>Estado o entidad federativa: {{entity.direccionFiscal.estado}}</li>
+                                                            <li>País: {{entity.direccionFiscal.pais}}</li>
+                                                            <li>Codigo postal: {{entity.direccionFiscal.cp}}</li>
+                                                            <li>Teléfono: {{entity.direccionFiscal.telefono}}</li>
+                                                            <li>Celular: {{entity.direccionFiscal.celular}}</li>
+                                                            <li>E-mail: {{entity.direccionFiscal.email}}</li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Dirección Remitente</th>
+                                                    <td>
+                                                        <ul>
+                                                            <li>Calle: {{entity.direccionRemitente.calle}}</li>
+                                                            <li>Numero Exterior: {{entity.direccionRemitente.numExterior}}</li>
+                                                            <li>Numero Interior: {{entity.direccionRemitente.numInterior}}</li>
+                                                            <li>Colonia: {{entity.direccionRemitente.colonia}}</li>
+                                                            <li>Población: {{entity.direccionRemitente.poblacion}}</li>
+                                                            <li>Municipio o Delegación: {{entity.direccionRemitente.delegacion}}</li>
+                                                            <li>Estado o entidad federativa: {{entity.direccionRemitente.estado}}</li>
+                                                            <li>País: {{entity.direccionRemitente.pais}}</li>
+                                                            <li>Codigo postal: {{entity.direccionRemitente.cp}}</li>
+                                                            <li>Teléfono: {{entity.direccionRemitente.telefono}}</li>
+                                                            <li>Celular: {{entity.direccionRemitente.celular}}</li>
+                                                            <li>E-mail: {{entity.direccionRemitente.email}}</li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Dirección Destino</th>
+                                                    <td>
+                                                        <ul>
+                                                            <li>Calle: {{entity.direccionDestino.calle}}</li>
+                                                            <li>Numero Exterior: {{entity.direccionDestino.numExterior}}</li>
+                                                            <li>Numero Interior: {{entity.direccionDestino.numInterior}}</li>
+                                                            <li>Colonia: {{entity.direccionDestino.colonia}}</li>
+                                                            <li>Población: {{entity.direccionDestino.poblacion}}</li>
+                                                            <li>Municipio o Delegación: {{entity.direccionDestino.delegacion}}</li>
+                                                            <li>Estado o entidad federativa: {{entity.direccionDestino.estado}}</li>
+                                                            <li>País: {{entity.direccionDestino.pais}}</li>
+                                                            <li>Codigo postal: {{entity.direccionDestino.cp}}</li>
+                                                            <li>Teléfono: {{entity.direccionDestino.telefono}}</li>
+                                                            <li>Celular: {{entity.direccionDestino.celular}}</li>
+                                                            <li>E-mail: {{entity.direccionDestino.email}}</li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Destino del envio</th>
+                                                    <td>
+                                                        <ul>
+                                                            <li>Referencia: {{entity.referencia}}</li>
+                                                            <li>Tipo: {{entity.tipo}}</li>
+                                                            <li>Peso Kg: {{entity.kilogramos}}</li>
+                                                            <li>Precio: {{entity.precio}}</li>
+                                                            <li>No. Guia: {{entity.numGuia}}</li>
+                                                            <li>No. de Control Ticket o Folio: {{entity.folio}}</li>
+                                                            <li>Desea Asegurar Su Envio?: {{(entity.asegurarEnvio)?"Sí":"No"}}</li>
+                                                            <li>Monto a Asegurar (Max.$100,000,00): {{entity.montoSeguro}}</li>
+                                                            <li>Importe del Seguro (2%): {{entity.importeSeguro}}</li>
+                                                            <li>Observaciones: {{entity.observaciones | raw }}</li>
+                                                        </ul>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <th>Estatus de solicitud</th>
-                                                    <td>{{ entity.stringStatus }}</td>
+                                                    <td class="status">{{ entity.status | status | raw  }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Creado</th>
@@ -88,6 +158,19 @@
                                 <div class="widget-foot">
                                     <button id="botonRegresar" class="btn btn-default" onclick="javascript:regresar('{{path('envios')}}')">Regresar</button>
                                     <button id="botonEditar" class="btn btn-info" onclick="javascript:editarRegistro('{{path('envios_edit',{id: entity.id})}}')">Editar</button>
+                                    {% if entity.status  is constant('InteractiveValley\\PakmailBundle\\Entity\\Envio::STATUS_EN_PROCESO') %}
+                                        {% set statusRevisada = '' %}
+                                        {% set statusRechazada = '' %}
+                                    {% elseif entity.status  is constant('InteractiveValley\\PakmailBundle\\Entity\\Envio::STATUS_ACEPTADA') %}
+                                        {% set statusRevisada = 'disabled="disabled"' %}
+                                        {% set statusRechazada = '' %}
+                                    {% elseif entity.status  is constant('InteractiveValley\\PakmailBundle\\Entity\\Envio::STATUS_RECHAZADA') %}
+                                        {% set statusRevisada = '' %}
+                                        {% set statusRechazada = 'disabled="disabled"' %}
+                                    {% endif %}    
+                                        
+                                    <button id="botonRevisada" class="btn btn-success" data-url="{{path('envios_aceptar',{id: entity.id})}}" {{statusRevisada}}>Revisada</button>
+                                    <button id="botonRechazada" class="btn btn-danger" data-url="{{path('envios_rechazar',{id: entity.id})}}" {{statusRechazada}}>Rechazada</button>
                                     <div style="float: left; margin-right: 3px;">
                                         <form id="formEliminar" action="{{ path('envios_delete', { 'id': entity.id }) }}" method="post">
                                             <input name="_method" value="DELETE" type="hidden"/>
@@ -152,6 +235,53 @@ var eliminarRegistro = function(){
   {% endif %}      
 };
 
+$(document).on('ready',function(){
+   $("#botonRevisada").on("click",function(){
+       var $elemento = $('.status');
+       var url = $(this).data('url');
+       $(".loader").fadeIn();
+       $.ajax({
+            url: url,
+            type: 'PATCH',
+            dataType: 'html',
+            success: function(data){
+               $elemento.html($(data).find('.status').html());
+               noty({ text: 'Actualizacion realizada', layout:'topRight', type:'success',  timeout:2000 });
+               $(".loader").fadeOut();
+               $("#botonRevisada").attr('disabled','disabled');
+               $("#botonRechazada").removeAttr('disabled');
+            },
+            error: function(data){
+                noty({ text: 'Error de actualizacion', layout:'topRight', type:'error', timeout:2000 });
+                console.log(data);
+                $(".loader").fadeOut();
+            },
+        });
+     });
+     
+     $("#botonRechazada").on("click",function(){
+       var $elemento = $('.status');
+       var url = $(this).data('url');
+       $(".loader").fadeIn();
+       $.ajax({
+            url: url,
+            type: 'PATCH',
+            dataType: 'html',
+            success: function(data){
+               $elemento.html($(data).find('.status').html());
+               noty({ text: 'Actualizacion realizada', layout:'topRight', type:'success',  timeout:2000 });
+               $(".loader").fadeOut();
+               $("#botonRechazada").attr('disabled','disabled');
+               $("#botonRevisada").removeAttr('disabled');
+            },
+            error: function(data){
+                noty({ text: 'Error de actualizacion', layout:'topRight', type:'error', timeout:2000 });
+                console.log(data);
+                $(".loader").fadeOut();
+            },
+        });
+     });
+});
 </script>
 
     

@@ -98,7 +98,7 @@ class PerfilController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new Perfil();
         if($request->query->has('cliente')){

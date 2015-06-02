@@ -22,13 +22,10 @@
                             </header>
                             <table class="table table-striped table-bordered table-hover">
                                 <tbody>
-                                    {% for envio in range(1,5 ) %}
+                                    {% for envio in envios %}
                                         <tr class="item-perfil">
-                                            <td>Nombre de usuario</td>
-                                            <td>Fecha del envio: {{envio}}</td>
-                                            <td>
-                                                Status del envio
-                                            </td>
+                                            <td>Nombre de usuario: {{envio.cliente.nombre }}</td>
+                                            <td>Estatus: {{envio.status | status | raw }}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

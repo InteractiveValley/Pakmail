@@ -1,14 +1,16 @@
 <?php
 
-namespace InteractiveValley\PakmailBundle\Form;
+namespace InteractiveValley\PakmailBundle\Form\Frontend;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
-use InteractiveValley\BackendBundle\Form\DataTransformer\UsuarioToNumberTransformer;
+use InteractiveValley\PakmailBundle\Form\DataTransformer\ClienteToNumberTransformer;
+use InteractiveValley\PakmailBundle\Form\DireccionFiscalType;
+use InteractiveValley\PakmailBundle\Form\DireccionRemisionType;
+use InteractiveValley\PakmailBundle\Form\DireccionDestinoType;
 
-class EnvioType extends AbstractType
+class PerfilFrontendType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,7 +19,7 @@ class EnvioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $em = $options['em'];
-        $usuarioTransformer = new UsuarioToNumberTransformer($em);
+        $clienteTransformer = new ClienteToNumberTransformer($em);
         
         $builder
             ->add('direccionFiscal',new DireccionFiscalType(),array('label'=>'DIRECCION FISCAL'))
@@ -43,36 +45,24 @@ class EnvioType extends AbstractType
                     'class'=>'cleditor tinymce form-control placeholder',
                    'data-theme' => 'advanced',
                     )
-                ))
-            ->add('perfil','hidden')
-            ->add('hasPerfil','hidden')
-            ->add('status','hidden')
-            ->add('cliente','entity',array(
-                'class'=> 'PakmailBundle:Cliente',
-                'label'=>'Cliente',
-                'required'=>true,
-                'read_only'=>false,
-                'property'=>'nombre',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.nombre', 'ASC');
-                },
-                'attr'=>array(
-                    'class'=>'form-control placeholder',
-                    'placeholder'=>'Cliente',
-                    'data-bind'=>'value: cliente',
-                    )
-                ))
-            ->add($builder->create('usuario', 'hidden')->addModelTransformer($usuarioTransformer))
+                ))    
+            ->add('nombre','text',array('label'=>'Nombre del perfil','attr'=>array('class'=>'form-control')))
+            ->add('isActive',null,array('label'=>'Activo?','attr'=>array(
+                    'class'=>'checkbox-inline',
+                    'placeholder'=>'Es activo',
+                    'data-bind'=>'value: isActive'
+                )))
+            ->add($builder->create('cliente','hidden')->addModelTransformer($clienteTransformer))
         ;
     }
     
     /**
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
         $resolver->setDefaults(array(
-            'data_class' => 'InteractiveValley\PakmailBundle\Entity\Envio'
+            'data_class' => 'InteractiveValley\PakmailBundle\Entity\Perfil'
         ))
         ->setRequired(array('em'))
         ->setAllowedTypes(array('em' => 'Doctrine\Common\Persistence\ObjectManager'))
@@ -84,6 +74,6 @@ class EnvioType extends AbstractType
      */
     public function getName()
     {
-        return 'interactivevalley_pakmailbundle_envio';
+        return 'interactivevalley_pakmailbundle_perfil';
     }
 }

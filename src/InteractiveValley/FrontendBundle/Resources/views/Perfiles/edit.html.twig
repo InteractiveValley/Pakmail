@@ -34,19 +34,13 @@
                                 <legend>Datos del envio</legend>
                                 {{form_rest(form)}}
                             </fieldset>
+                            <input type="submit" value="Guardar cambios" class="btn btn-bg btn-danger"/>
                             {{form_end(form)}}
-                            <a href="" class="btn btn-bg btn-danger">Generar solicitud</a>
+                           
                         </article>
                     </div>
                     <div class="col-md-4">
-                        <h5>Perfiles de envios</h5>
-                        <div class="perfiles-guardados">
-                            <ul>
-                                {% for perfil in range(1,5) %}
-                                    <li>Nombre del perfil: {{perfil}}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
