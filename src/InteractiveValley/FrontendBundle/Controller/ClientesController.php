@@ -281,10 +281,7 @@ class ClientesController extends BaseController {
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        if ($request->isMethod('DELETE')) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('PakmailBundle:Perfil')->find($id);
 
@@ -292,9 +289,14 @@ class ClientesController extends BaseController {
                 throw $this->createNotFoundException('Unable to find Perfil entity.');
             }
 
-            $em->remove($entity);
+            //$em->remove($entity);
+            $entity->setIsActive(false);
             $em->flush();
-        }
+			
+			return new JsonResponse(array('borrado'=>'ok'));
+        }else{
+			return new JsonResponse(array('borrado'=>'not'));
+		}
 
         return $this->redirect($this->generateUrl('perfiles_envio'));
     }

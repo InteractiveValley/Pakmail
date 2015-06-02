@@ -13,6 +13,7 @@
     {{ mensaje }}
 </div>
 {% endif %}
+{{ form_errors(form) }}
 <form onsubmit="return false;" id="formQuejas" action="{{path('quejas')}}" method="post" class="form" novalidate="novalidate">
     <div class="group-quejas">
         {{ form_widget(form.name, {'attr': {'class': 'quejas','placeholder':'Nombre' }}) }}
@@ -24,4 +25,5 @@
     </div>
     {{ form_widget(form.body, {'attr': {'class': 'quejas textarea','rows':'5','placeholder':'Mensaje' }}) }}
     <input id="botonEnviarQuejas" type="button" class="quejas boton" value="Enviar">
+	 {{ form_rest(form) }}
 </form>

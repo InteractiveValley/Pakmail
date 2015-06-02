@@ -2,6 +2,9 @@
 
 namespace InteractiveValley\FrontendBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use InteractiveValley\BackendBundle\Controller\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -70,30 +73,31 @@ class SecurityController extends BaseController
         $msg = "";
         if ($request->isMethod('POST')) {
             $email = $request->get('email');
-            $usuario = $this->getDoctrine()->getRepository('BackendBundle:Usuario')
+            $cliente = $this->getDoctrine()->getRepository('PakmailBundle:Cliente')
                     ->findOneBy(array('email' => $email));
-            if (!$usuario) {
+
+            if (!$cliente) {
                 $this->get('session')->getFlashBag()->add(
                         'error', 'El email no esta registrado.'
                 );
-                return $this->redirect($this->generateUrl('recuperar'));
+                return $this->redirect($this->generateUrl('pakmail_recuperar'));
             } else {
                 $sPassword = substr(md5(time()), 0, 7);
-                $sUsuario = $usuario->getUsername();
+                $sUsuario = $cliente->getUsername();
                 $encoder = $this->get('security.encoder_factory')
-                        ->getEncoder($usuario);
+                        ->getEncoder($cliente);
                 $passwordCodificado = $encoder->encodePassword(
-                        $sPassword, $usuario->getSalt()
+                        $sPassword, $cliente->getSalt()
                 );
-                $usuario->setPassword($passwordCodificado);
+                $cliente->setPassword($passwordCodificado);
                 $this->getDoctrine()->getManager()->flush();
 
                 $this->get('session')->getFlashBag()->add(
                         'notice', 'Se ha enviado un correo con la nueva contraseña.'
                 );
 
-                $this->enviarRecuperar($sUsuario, $sPassword, $usuario);
-                return $this->redirect($this->generateUrl('login'));
+                $this->enviarRecuperar($sUsuario, $sPassword, $cliente);
+                return $this->redirect($this->generateUrl('pakmail_login'));
             }
         }
         return array('msg' => $msg);
@@ -101,11 +105,11 @@ class SecurityController extends BaseController
     
         
     
-    private function enviarRecuperar($sUsuario, $sPassword, Usuario $usuario, $isNew = false) {
+    private function enviarRecuperar($sUsuario, $sPassword, $usuario, $isNew = false) {
         $asunto = 'Se ha reestablecido su contraseña';
         $message = \Swift_Message::newInstance()
                 ->setSubject($asunto)
-                ->setFrom($this->container->get('richpolis.emails.to_email'))
+                ->setFrom($this->container->getParameter('richpolis.emails.to_email'))
                 ->setTo($usuario->getEmail())
                 ->setBody(
                 $this->renderView('FrontendBundle:Default:enviarCorreo.html.twig', compact('usuario', 'sUsuario', 'sPassword', 'isNew', 'asunto')), 'text/html'

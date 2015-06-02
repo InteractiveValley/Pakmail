@@ -31,7 +31,7 @@
                                                 </a>
                                             </td>
                                             <td width="10%">
-                                                <a href="if(confirm('Desea eliminar el perfil?')){eliminarPefil({{perfil.id}})}">
+                                                <a href="" class="borrarPerfil" data-url="{{path('pakmail_perfiles_delete',{'id': perfil.id})}}">
                                                     Borrar
                                                 </a>
                                             </td>
@@ -52,5 +52,36 @@
 
 {% block javascripts %}
 {{ parent() }}
-     
+<script src="{{asset('js/bootbox.min.js')}}"></script> <!-- Filter for support page -->
+<script>
+	$(document).on('ready',function(){
+		$(".borrarPerfil").on('click',function(e){
+			e.preventDefault();
+			var self = $(this);
+			bootbox.confirm("Esta seguro de borrar el perfil?", function (result) {
+              if (result) {
+                  $.ajax({
+					url: self.data('url'),
+					type: 'DELETE',
+					dataType: 'json',
+					data: {},
+					success: function (data) {
+						if(data.borrado == 'ok'){
+							bootbox.alert("Perfil ha sido borrado!");
+							console.log(data);
+							location.reload();
+						}else{
+							bootbox.alert("Perfil no se ha podido borrar!");
+						}
+					},
+					error: function (data) {
+						bootbox.dialog("Error: no se ha podido realizar la operacion solicitada!");
+						console.log(data);
+					}
+				});
+              }
+          });
+		});
+	});
+</script>
 {% endblock %}

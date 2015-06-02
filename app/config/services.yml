@@ -1,4 +1,6 @@
 # app/config/services.yml
+
+
 services:
     richpolis.security.authentication_handler:
         class: InteractiveValley\FrontendBundle\Handler\AuthenticationHandler

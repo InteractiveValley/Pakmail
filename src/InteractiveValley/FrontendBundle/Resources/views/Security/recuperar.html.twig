@@ -28,12 +28,12 @@
                         <div class="widget-content">
                             <div class="padd contenido-formulario">
                                 <!-- Login form -->
-                                <form class="form-horizontal" action='{{ path('backend_recuperar') }}'  method="post">
+                                <form class="form-horizontal" action='{{ path('pakmail_recuperar') }}'  method="post">
                                     <!-- Email -->
                                     <div class="form-group">
                                         <label class="control-label col-lg-3" for="email">Email</label>
                                         <div class="col-lg-9">
-                                            <input type="email" id="email" name="email" value="" placeholder="Email">
+                                            <input type="email" id="email" class="form-control" name="email" value="" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="col-lg-9 col-lg-offset-3">
@@ -45,11 +45,18 @@
                             </div>
                         </div>
                         <div class="widget-foot">
-                            {% if error %}
-                                <div>{{ error.message }}</div>
-                            {% else %}
-                                <br/>
-                            {% endif %}
+							{% for flashMessage in app.session.flashbag.get('notice') %}
+								<div class="flash-info label label-info">
+									{{ flashMessage }}
+								</div>
+							{% endfor %}
+                            {% for flashMessage in app.session.flashbag.get('error') %}
+								<div class="flash-error label label-danger">
+									{{ flashMessage }}
+								</div>
+							{% else %}
+								<br/>
+							{% endfor %}
                         </div>
                     </div>  
                 </div>
@@ -58,7 +65,8 @@
     </div>
     <footer class="footer">
         <div class="container">
-            <img src="{{asset('images/interactivevalley.png')}}"/>
+            <!--img src="{{asset('images/interactivevalley.png')}}"/-->
+			&nbsp;
         </div>
     </footer>
 {% endblock %}

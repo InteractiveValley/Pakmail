@@ -87,7 +87,7 @@
                 e.preventDefault();
                 var $form = $("#formContacto");
                 var datos = $form.serialize();
-                $(this).attr('disabled', 'disabled').html('Enviando...');
+                $(this).attr('disabled', 'disabled').val('Enviando...');
                 $.ajax({
                     url: $form.attr('action'),
                     type: 'POST',
@@ -100,6 +100,7 @@
                             $(".alert-success").fadeOut('fast');
                             $(".alert-error").fadeOut('fast');
                         }, 2000);
+						console.log(data);
                     },
                     error: function (data) {
                         alert("Error al enviar el formulario");
@@ -114,7 +115,7 @@
                 e.preventDefault();
                 var $form = $("#formQuejas");
                 var datos = $form.serialize();
-                $(this).attr('disabled', 'disabled').html('Enviando...');
+                $(this).attr('disabled', 'disabled').val('Enviando...');
                 $.ajax({
                     url: $form.attr('action'),
                     type: 'POST',
@@ -127,6 +128,7 @@
                             $(".alert-success").fadeOut('fast');
                             $(".alert-error").fadeOut('fast');
                         }, 2000);
+						console.log(data);
                     },
                     error: function (data) {
                         alert("Error al enviar el formulario");

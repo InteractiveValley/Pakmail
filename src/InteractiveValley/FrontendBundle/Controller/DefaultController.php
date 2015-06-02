@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use InteractiveValley\FrontendBundle\Entity\Contacto;
 use InteractiveValley\FrontendBundle\Form\ContactoType;
+use InteractiveValley\FrontendBundle\Form\QuejaType;
 use InteractiveValley\PakmailBundle\Entity\Newsletter;
 use InteractiveValley\PakmailBundle\Form\Frontend\NewsletterFrontendType;
 
@@ -160,7 +161,7 @@ class DefaultController extends BaseController {
      */
     public function quejasAction(Request $request) {
         $contacto = new Contacto();
-        $form = $this->createForm(new ContactoType(), $contacto);
+        $form = $this->createForm(new QuejaType(), $contacto);
         $em = $this->getDoctrine()->getManager();
 
         if ($request->getMethod() == 'POST') {
@@ -233,12 +234,14 @@ class DefaultController extends BaseController {
                 }
                 $em->flush();
                 $status = 'send';
-                $mensaje = "Se ha enviado el mensaje";
+                $mensaje = "Gracias por su registro.";
                 $registro = new Newsletter();
                 $form = $this->createForm(new NewsletterFrontendType(), $registro);
             } else {
                 $status = 'notsend';
-                $mensaje = "El mensaje no se ha podido enviar";
+                $mensaje = "Gracias por su registro!!.";
+				$registro = new Newsletter();
+                $form = $this->createForm(new NewsletterFrontendType(), $registro);
             }
         } else {
             $status = 'new';

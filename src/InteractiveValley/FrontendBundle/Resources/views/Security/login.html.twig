@@ -5,6 +5,9 @@
 {% block body %}
     <header class="vino">
         <div class="text-align-center">
+			<a class="float-left homeicon" href="{{path('homepage')}}">
+				<img src="{{asset('images/homeicon.png')}}"/>
+			</a>
             <figure class="logo no-margin">
                 <a href="{{path('homepage')}}"><img src="{{asset('images/logo_footer.png')}}"></a>
             </figure>
@@ -65,13 +68,13 @@
                             Recuperar constraseña <a href="{{path('pakmail_recuperar')}}">Recuperar aquí</a><br/>
                             {% if error %}
                                 {% if error %} 
-                                        <div id='error' class='error' style="color: red;">{{ error.message | trans}}</div> 
+                                        <div id='error' class="label label-danger">{{ error.message | trans}}</div> 
                                 {% endif %} 
                             {% else %}
                                 <br/>
                             {% endif %}
                             {% for flashMessage in app.session.flashbag.get('notice') %}
-                                <div class="flash-notice" style="color: #006699;">
+                                <div class="flash-notice label label-info">
                                     {{ flashMessage }}
                                 </div>
                             {% endfor %}
@@ -83,7 +86,8 @@
     </div>
 <footer class="footer">
     <div class="container">
-    <img src="{{asset('images/interactivevalley.png')}}"/>
+    <!--img src="{{asset('images/interactivevalley.png')}}"/-->
+	&nbsp;
     </div>
 </footer>
 {% endblock %}

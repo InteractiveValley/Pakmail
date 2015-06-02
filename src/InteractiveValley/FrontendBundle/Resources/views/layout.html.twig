@@ -54,7 +54,7 @@
         <div class="menu_bar">
             <a href="#" id="bt-menu" class="bt-menu">
                 <img src="{{asset('images/logo_footer.png')}}" alt="" class="logo">
-                <span class="icon-menu">Menu</span>
+                <span class="icon-menu">&nbsp;</span>
             </a>
 	</div>    
         <nav id="navegador">
@@ -154,18 +154,17 @@
                 e.preventDefault();
                 var $form = $("#formNewsletter");
                 var datos = $form.serialize();
-                $(this).attr('disabled', 'disabled').html('Enviando...');
+                $(this).find('img').attr('src','{{asset('images/page-loader.gif')}}');
                 $.ajax({
                     url: $form.attr('action'),
                     type: 'POST',
                     dataType: 'json',
                     data: datos,
                     success: function (data) {
-                        $(".contenedor-form-newsletter").html(data.form);
-                        inicializarBotonEnviarNewsletter();
+                        $(".contenedor-form-newsletter").html(data.mensaje);
                         setTimeout(function () {
-                            $(".alert-success").fadeOut('fast');
-                            $(".alert-error").fadeOut('fast');
+							$(".contenedor-form-newsletter").html(data.form);
+                            inicializarBotonEnviarNewsletter();
                         }, 2000);
                     },
                     error: function (data) {

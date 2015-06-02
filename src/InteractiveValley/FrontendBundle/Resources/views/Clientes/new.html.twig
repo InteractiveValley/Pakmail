@@ -63,6 +63,7 @@
 
 {% block javascripts %}
 {{ parent() }}
+<script src="{{asset('js/bootbox.min.js')}}"></script>
 <script>
     var creacionEnvio = {{creacionEnvio}};
     $(document).on('ready',function(){
@@ -78,26 +79,34 @@
         });
         
         if(creacionEnvio){
-            if(confirm('Desea guardar el envio en sus perfiles de envio?')){
-                var nombrePerfil = prompt('Ingresa el nombre del perfil');
-                if(nombrePerfil.length>0){
-                    $.ajax({
-                        url: '{{path('pakmail_perfiles_create')}}',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {'nombre': nombrePerfil, 'envio': creacionEnvio },
-                        success: function (data) {
-                            alert('Perfil creado');
-                            console.log(data);
-                            location.reload();
-                        },
-                        error: function (data) {
-                            alert("Error al enviar el formulario");
-                            console.log(data);
-                        }
-                    });
-                }
-            }
+			bootbox.confirm('<h3>Gracias nos pondremos en contacto con usted a la brevedad posible.</h3><p>¿Desea guardar el envio en sus perfiles de envio?<br/><span style=\"font-size: .8em;\">*Al guardar un perfil de envío usted podra autorellenar sus campos en futuras operaciones.</span></p>', function (result) {
+              if (result) {
+                  	bootbox.prompt('<p>Por favor introduzca un nombre de referencia para este perfil de envio<br/><span style=\"font-size: .8em;\">Usted puede editar sus perfiles de envio en cualquier momento<br/>ingresando al area de Perfiles de Envio de lado izquierdo.</span></p>', function(nombrePerfil) {                
+					  if (nombrePerfil === null) {                                             
+						bootbox.alert("Nombre de perfil no recibido!");                            
+					  } else {
+						if(nombrePerfil.length>0){
+							$.ajax({
+								url: '{{path('pakmail_perfiles_create')}}',
+								type: 'POST',
+								dataType: 'json',
+								data: {'nombre': nombrePerfil, 'envio': creacionEnvio },
+								success: function (data) {
+									bootbox.alert("Perfil ha sido guardado!");
+									console.log(data);
+									location.reload();
+								},
+								error: function (data) {
+									bootbox.alert("Error: no se ha podido realizar la operacion solicitada!");
+									console.log(data);
+								}
+							});
+						}                          
+					  }	
+					});
+              }
+          	});
+            
         }
         
     });
