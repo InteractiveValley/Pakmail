@@ -147,14 +147,7 @@ class Envio
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fechaSolicitud", type="datetime")
-     */
-    private $fechaSolicitud;
-
+    
     /**
      * @var Cliente
      * @todo Cliente del envio
@@ -194,7 +187,11 @@ class Envio
     const STATUS_EN_PROCESO =   1;
     const STATUS_ACEPTADA   =   2;
     const STATUS_RECHAZADA  =   3;
-
+    
+    public function __construct() {
+        $this->hasPerfil = false;
+    }
+    
     /*
      * Timestable
      */
@@ -207,7 +204,6 @@ class Envio
         if(!$this->getCreatedAt())
         {
           $this->createdAt = new \DateTime();
-          $this->fechaSolicitud = new \DateTime();
         }
         if(!$this->getUpdatedAt())
         {
@@ -245,6 +241,14 @@ class Envio
         }
     }
 
+    public function getStringStatus(){
+        $arreglo=array(
+            self::STATUS_EN_PROCESO=>'En proceso',
+            self::STATUS_ACEPTADA=>'Aceptada',
+            self::STATUS_RECHAZADA=>'Rechazada',
+        );
+        return $arreglo[$this->getStatus()];
+    }
 
     /**
      * Get id
@@ -566,30 +570,6 @@ class Envio
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set fechaSolicitud
-     *
-     * @param \DateTime $fechaSolicitud
-     *
-     * @return Envio
-     */
-    public function setFechaSolicitud($fechaSolicitud)
-    {
-        $this->fechaSolicitud = $fechaSolicitud;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaSolicitud
-     *
-     * @return \DateTime
-     */
-    public function getFechaSolicitud()
-    {
-        return $this->fechaSolicitud;
     }
 
     /**

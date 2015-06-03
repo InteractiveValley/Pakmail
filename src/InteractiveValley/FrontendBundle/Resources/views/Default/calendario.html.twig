@@ -10,7 +10,7 @@
         <div class="tipos-fechas">
             <div class="max-width-960 text-align-left center">
                 {% for tipo in tipos %}
-                <span class="tipo-fecha {{tipo.bg}}"></span>
+                <span class="tipo-fecha {{tipo.bgColor}}"></span>
                 <div class="tipo-fecha-titulo">{{tipo.nombre}}</div> 
                 {% endfor %}
             </div>
@@ -58,10 +58,10 @@
                     {% for semana in calendario %}
                     <tr>
                         {% for dia in semana %}
-                            {% if dia == 0 %}
-                                <td class="tipo-fecha dia-mes-ant">&nbsp;</td>
+                            {% if dia.actual %}
+                                <td id="dia-{{dia.dia}}" class="tipo-fecha">{{dia.dia}}</td>
                             {% else %}
-                                <td id="dia-{{dia}}" class="tipo-fecha">{{dia}}</td>
+                                <td class="tipo-fecha dia-mes-ant">{{dia.dia}}</td>
                             {% endif %}
                         {% endfor %}
                     </tr>
@@ -80,8 +80,8 @@
             {
                 'dia': {{fecha.fecha|date('j')}},
                 'id': '#dia-{{fecha.fecha|date('j')}}',
-                'bg': '{{fecha.bgColor}}',
-                'font': '{{fecha.fontColor}}'
+                'bg': '{{fecha.tipo.bgColor}}',
+                'font': '{{fecha.tipo.fontColor}}'
             }{{ (loop.index < (fechas|length) )?',':'' }} 
             {% endfor %}        
         ];

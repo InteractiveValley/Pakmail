@@ -17,17 +17,17 @@
 
         <!-- Page heading -->
         <div class="page-head">
-            <h2 class="pull-left">Fechas</h2>
+            <h2 class="pull-left">TiposFecha</h2>
             <div class="clearfix"></div>
             <!-- Breadcrumb -->
             <div class="bread-crumb">
                 <a href="{{path('homepage')}}"><i class="fa fa-home"></i>Dashboard</a> 
                 <span class="divider">/</span>
-                <a href="{{path('fechas')}}" class="bread-current">Fechas</a>
+                <a href="{{path('tiposfecha')}}" class="bread-current">TiposFecha</a>
                 <span class="divider">/</span>
-                <a href="{{path('fechas_show',{'id': entity.id})}}" class="bread-current">{{ entity.fecha | date('d-m-Y') }}</a>
+                <a href="{{path('tiposfecha_show',{'id': entity.id})}}" class="bread-current">{{entity.nombre}}</a>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{path('fechas_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear registro</a>
+                    <a href="{{path('tiposfecha_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear servicio</a>
                 {% endif %}
             </div>
 
@@ -45,7 +45,7 @@
                         <div class="col-md-12">
                             <div class="widget">
                                 <div class="widget-head">
-                                    <div class="pull-left">Registro "{{ entity.fecha | date('d-m-Y') }}"</div>
+                                    <div class="pull-left">{{entity.nombre}}</div>
                                     <div class="clearfix"></div>
                                 </div>
 
@@ -58,20 +58,20 @@
                                                     <td>{{ entity.id }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Fecha</th>
-                                                    <td>{{ entity.fecha | date('d-m-Y') }}</td>
-                                                </tr>
-                                                <tr>
                                                     <th>Tipo</th>
-                                                    <td>{{ entity.tipo.nombre }}</td>
+                                                    <td>{{ entity.nombre }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Color de fondo</th>
-                                                    <td>{{ entity.tipo.bgColor }}</td>
+                                                    <th>Color</th>
+                                                    <td>
+                                                        {{ entity.bgColor }}
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Color de letra</th>
-                                                    <td>{{ entity.tipo.fontColor }}</td>
+                                                    <th>Fuente</th>
+                                                    <td>
+                                                        {{ entity.fontColor }}
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <th>Creado</th>
@@ -86,10 +86,10 @@
                                     </div>
                                 </div>
                                 <div class="widget-foot">
-                                    <button id="botonRegresar" class="btn btn-default" onclick="javascript:regresar('{{path('fechas')}}')">Regresar</button>
-                                    <button id="botonEditar" class="btn btn-info" onclick="javascript:editarRegistro('{{path('fechas_edit',{id: entity.id})}}')">Editar</button>
+                                    <button id="botonRegresar" class="btn btn-default" onclick="javascript:regresar('{{path('tiposfecha')}}')">Regresar</button>
+                                    <button id="botonEditar" class="btn btn-info" onclick="javascript:editarRegistro('{{path('tiposfecha_edit',{id: entity.id})}}')">Editar</button>
                                     <div style="float: left; margin-right: 3px;">
-                                        <form id="formEliminar" action="{{ path('fechas_delete', { 'id': entity.id }) }}" method="post">
+                                        <form id="formEliminar" action="{{ path('tiposfecha_delete', { 'id': entity.id }) }}" method="post">
                                             <input name="_method" value="DELETE" type="hidden"/>
 											{{ form_widget(delete_form) }}
                                         </form>

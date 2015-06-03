@@ -17,14 +17,14 @@
     <div class="mainbar">
         <!-- Page heading -->
         <div class="page-head">
-            <h2 class="pull-left">Fechas</h2>
+            <h2 class="pull-left">TiposFecha</h2>
             <div class="clearfix"></div>
             <!-- Breadcrumb -->
             <div class="bread-crumb">
                 <a href="{{path('homepage')}}"><i class="fa fa-home"></i>Dashboard</a> 
                   <span class="divider">/</span>  
-                  <a href="{{path('fechas')}}" class="bread-current">Fechas</a>
-                  <a href="{{path('fechas_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear registro</a>
+                  <a href="{{path('tiposfecha')}}" class="bread-current">TiposFecha</a>
+                  <a href="{{path('tiposfecha_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear servicio</a>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -37,7 +37,7 @@
                 <div class="col-md-12">
                     <div class="widget">
                         <div class="widget-head">
-                            <div class="pull-left">Registro de fechas</div>
+                            <div class="pull-left">Registro de tiposfecha</div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
@@ -45,22 +45,24 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Fecha</th>
                                         <th>Tipo</th>
-                                        <th>Color de fondo</th>
+                                        <th>Color</th>
+                                        <th>Fuente</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="cuerpoTabla">
                                     {% for entity in entities %}
                                         <tr id="registro-{{entity.id}}">
-                                            <td><a href="{{ path('fechas_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                                            <td>{{ entity.fecha | date('d/m/Y') }}</td>
-                                            <td>{{ entity.tipo.nombre }}</td>
-                                            <td>{{ entity.tipo.bgColor }}</td>
+                                            <td><a href="{{ path('tiposfecha_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                            <td>{{ entity.nombre }}</td>
                                             <td>
-                                                <button onclick="javascript:editarRegistro('{{ path('fechas_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
-                                                <button onclick="javascript:editarRegistro('{{ path('fechas_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
+                                                {{ entity.bgColor }}
+                                            </td>
+                                            <td>{{ entity.fontColor }}</td>
+                                            <td>
+                                                <button onclick="javascript:editarRegistro('{{ path('tiposfecha_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
+                                                <button onclick="javascript:editarRegistro('{{ path('tiposfecha_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -119,14 +121,50 @@
     };
     
     $(document).ready(function () {
-          $('#datatable').dataTable({
-              "sPaginationType": "full_numbers",
-              "sNext": "Siguiente",
-              "sLast": "Ultimo",
-              "sFirst": "Primero",
-              "sPrevious": "Anterior",
-          });
+        iniciarlizarSorteable();
     });
+      
+    function iniciarlizarSorteable(){
+        $("#cuerpoTabla").sortable({
+            items: "tr",
+            cursor: 'move',
+            opacity: 0.6,
+            update: function() {
+                sendOrderToServer();
+            }
+        });
+        $("#cuerpoTabla").disableSelection();
+    }
+    function sendOrderToServer() {
+        $(".loader").fadeIn();
+        var order = $("#cuerpoTabla").sortable('serialize');
+        $.ajax({
+            url: '{{path('tiposfecha_ordenar')}}?' + order,
+            type: 'PATCH',
+            data: order,
+            dataType: 'json',
+            success: function(data){
+                noty({
+                    text: 'Actualizacion realizada',
+                    layout:'topRight',
+                    type:'success',
+                    timeout:2000
+                });
+                console.log(data);
+                $(".loader").fadeOut();
+            },
+            error: function(data){
+                noty({
+                    text: 'Error de actualizacion',
+                    layout:'topRight',
+                    type:'error',
+                    timeout:2000
+                });
+                console.log(data);
+                $(".loader").fadeOut();
+            },
+        });
+    }
       
 </script>
 

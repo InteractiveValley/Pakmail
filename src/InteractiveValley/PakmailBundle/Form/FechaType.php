@@ -5,6 +5,7 @@ namespace InteractiveValley\PakmailBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class FechaType extends AbstractType
 {
@@ -20,16 +21,21 @@ class FechaType extends AbstractType
                     'widget' => 'single_text',
                     'format' => 'y-MM-dd'
                 ))
-            ->add('tipo','text',array('label'=>'Tipo de fecha','attr'=>array('class'=>'tipo-fecha form-control')))
-            ->add('bgColor','choice',array(
-                    'label'     =>  'Color',
-                    'choices'   =>  array('azul' => 'Azul', 'verde' => 'Verde'),
-                    'attr'      =>  array('class'=>'bgcolor form-control')
-                ))
-            ->add('fontColor','choice',array(
-                    'label'     =>  'Color de letra',
-                    'choices'   =>  array('white' => 'Blanco', 'black' => 'Negro'),
-                    'attr'      =>  array('class'=>'fontcolor form-control')
+            ->add('tipo','entity',array(
+                'class'=> 'PakmailBundle:TiposFecha',
+                'label'=>'Tipo de fecha',
+                'required'=>true,
+                'read_only'=>false,
+                'property'=>'nombre',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.nombre', 'ASC');
+                },
+                'attr'=>array(
+                    'class'=>'form-control placeholder',
+                    'placeholder'=>'Tipo de fecha',
+                    'data-bind'=>'value: tipo de fecha',
+                    )
                 ))
         ;
     }

@@ -32,25 +32,15 @@ class Fecha
     private $fecha;
 
     /**
-     * @var string
+     * @var \TiposFecha
+     * @todo TiposFecha de la fecha
      *
-     * @ORM\Column(name="tipo", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="TiposFecha", inversedBy="fechas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_fecha_id", referencedColumnName="id")
+     * })
      */
     private $tipo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="bgColor", type="string", length=20)
-     */
-    private $bgColor;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="fontColor", type="string", length=20)
-     */
-    private $fontColor;
     
     /**
      * @var \DateTime
@@ -94,9 +84,10 @@ class Fecha
     }
     
     public function __construct() {
-        $this->fontColor  = "white";
         $this->fecha = new \DateTime();
     }
+
+    
 
     /**
      * Get id
@@ -130,78 +121,6 @@ class Fecha
     public function getFecha()
     {
         return $this->fecha;
-    }
-
-    /**
-     * Set tipo
-     *
-     * @param string $tipo
-     *
-     * @return Fecha
-     */
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-
-        return $this;
-    }
-
-    /**
-     * Get tipo
-     *
-     * @return string
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
-
-    /**
-     * Set bgColor
-     *
-     * @param string $bgColor
-     *
-     * @return Fecha
-     */
-    public function setBgColor($bgColor)
-    {
-        $this->bgColor = $bgColor;
-
-        return $this;
-    }
-
-    /**
-     * Get bgColor
-     *
-     * @return string
-     */
-    public function getBgColor()
-    {
-        return $this->bgColor;
-    }
-
-    /**
-     * Set fontColor
-     *
-     * @param string $fontColor
-     *
-     * @return Fecha
-     */
-    public function setFontColor($fontColor)
-    {
-        $this->fontColor = $fontColor;
-
-        return $this;
-    }
-
-    /**
-     * Get fontColor
-     *
-     * @return string
-     */
-    public function getFontColor()
-    {
-        return $this->fontColor;
     }
 
     /**
@@ -250,5 +169,29 @@ class Fecha
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\TiposFecha $tipo
+     *
+     * @return Fecha
+     */
+    public function setTipo(\InteractiveValley\PakmailBundle\Entity\TiposFecha $tipo = null)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return \InteractiveValley\PakmailBundle\Entity\TiposFecha
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
     }
 }

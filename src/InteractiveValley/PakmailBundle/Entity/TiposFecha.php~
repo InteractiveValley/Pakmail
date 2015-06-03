@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Empresa
+ * TiposFecha
  *
- * @ORM\Table(name="empresas")
- * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\EmpresaRepository")
+ * @ORM\Table(name="tipos_fecha")
+ * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\TiposFechaRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Empresa
+class TiposFecha
 {
     /**
      * @var integer
@@ -27,40 +27,55 @@ class Empresa
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
-     * @Assert\NotBlank(message="Ingresa la razon social de la empresa")
+     * @Assert\NotBlank(message="Ingresa un nombre para el tipo de fechas")
      */
     private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="bgColor", type="string", length=50)
+     * @Assert\NotBlank(message="Ingresa el nombre de un color")
+     */
+    private $bgColor;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fontColor", type="string", length=50)
+     * @Assert\NotBlank(message="Elije el color blanco o negro para el color de la letra")
+     */
+    private $fontColor;
     
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="Cliente",mappedBy="empresa",cascade={"remove"})
-     * @ORM\OrderBy({"nombre" = "ASC"})
+     * @ORM\OneToMany(targetEntity="Fecha",mappedBy="tipo",cascade={"remove"})
+     * @ORM\OrderBy({"fecha" = "ASC"})
      */
-    private $clientes;
+    private $fechas;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="isActive", type="boolean")
+     * @ORM\Column(name="position", type="integer")
      */
-    private $isActive;
+    private $position;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updatedAt", type="datetimetz")
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
-
-
+    
     /*
      * Timestable
      */
@@ -88,14 +103,14 @@ class Empresa
         $this->updatedAt = new \DateTime();
     }
     
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->clientes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->isActive = true;
+    public function __toString() {
+        return $this->getNombre();
     }
+    
+    public function __construct() {
+        $this->fontColor ="black";
+    }
+    
 
     /**
      * Get id
@@ -112,7 +127,7 @@ class Empresa
      *
      * @param string $nombre
      *
-     * @return Empresa
+     * @return TiposFecha
      */
     public function setNombre($nombre)
     {
@@ -132,27 +147,51 @@ class Empresa
     }
 
     /**
-     * Set isActive
+     * Set bgColor
      *
-     * @param boolean $isActive
+     * @param string $bgColor
      *
-     * @return Empresa
+     * @return TiposFecha
      */
-    public function setIsActive($isActive)
+    public function setBgColor($bgColor)
     {
-        $this->isActive = $isActive;
+        $this->bgColor = $bgColor;
 
         return $this;
     }
 
     /**
-     * Get isActive
+     * Get bgColor
      *
-     * @return boolean
+     * @return string
      */
-    public function getIsActive()
+    public function getBgColor()
     {
-        return $this->isActive;
+        return $this->bgColor;
+    }
+
+    /**
+     * Set fontColor
+     *
+     * @param string $fontColor
+     *
+     * @return TiposFecha
+     */
+    public function setFontColor($fontColor)
+    {
+        $this->fontColor = $fontColor;
+
+        return $this;
+    }
+
+    /**
+     * Get fontColor
+     *
+     * @return string
+     */
+    public function getFontColor()
+    {
+        return $this->fontColor;
     }
 
     /**
@@ -160,7 +199,7 @@ class Empresa
      *
      * @param \DateTime $createdAt
      *
-     * @return Empresa
+     * @return TiposFecha
      */
     public function setCreatedAt($createdAt)
     {
@@ -184,7 +223,7 @@ class Empresa
      *
      * @param \DateTime $updatedAt
      *
-     * @return Empresa
+     * @return TiposFecha
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -204,36 +243,36 @@ class Empresa
     }
 
     /**
-     * Add cliente
+     * Add fecha
      *
-     * @param \InteractiveValley\PakmailBundle\Entity\Cliente $cliente
+     * @param \InteractiveValley\PakmailBundle\Entity\Fecha $fecha
      *
-     * @return Empresa
+     * @return TiposFecha
      */
-    public function addCliente(\InteractiveValley\PakmailBundle\Entity\Cliente $cliente)
+    public function addFecha(\InteractiveValley\PakmailBundle\Entity\Fecha $fecha)
     {
-        $this->clientes[] = $cliente;
+        $this->fechas[] = $fecha;
 
         return $this;
     }
 
     /**
-     * Remove cliente
+     * Remove fecha
      *
-     * @param \InteractiveValley\PakmailBundle\Entity\Cliente $cliente
+     * @param \InteractiveValley\PakmailBundle\Entity\Fecha $fecha
      */
-    public function removeCliente(\InteractiveValley\PakmailBundle\Entity\Cliente $cliente)
+    public function removeFecha(\InteractiveValley\PakmailBundle\Entity\Fecha $fecha)
     {
-        $this->clientes->removeElement($cliente);
+        $this->fechas->removeElement($fecha);
     }
 
     /**
-     * Get clientes
+     * Get fechas
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getClientes()
+    public function getFechas()
     {
-        return $this->clientes;
+        return $this->fechas;
     }
 }

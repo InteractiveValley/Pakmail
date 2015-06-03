@@ -29,6 +29,7 @@ class Servicio
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa el nombre del servicio")
      */
     private $nombre;
 
@@ -36,6 +37,7 @@ class Servicio
      * @var string
      *
      * @ORM\Column(name="descricpion", type="text")
+     * @Assert\NotBlank(message="Ingresa la descripcion del servicio")
      */
     private $descripcion;
     

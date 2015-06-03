@@ -49,7 +49,8 @@ class DefaultController extends BaseController {
      */
     public function calendarioAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $tipos = $em->getRepository('PakmailBundle:Fecha')->getTiposFechas();
+        $tipos = $em->getRepository('PakmailBundle:TiposFecha')
+                    ->findBy(array(),array('position'=>'ASC'));
         
         $fecha = new \DateTime();
         $year = $request->query->get('year', $fecha->format('Y'));
@@ -76,18 +77,18 @@ class DefaultController extends BaseController {
         $diasDelMes = $fecha->format('t');
         $diaSemana = $fecha->format('w');
         
-        $calendario = array(
-            '0'=>array(0,0,0,0,0,0,0),
-            '1'=>array(0,0,0,0,0,0,0),
-            '2'=>array(0,0,0,0,0,0,0),
-            '3'=>array(0,0,0,0,0,0,0),
-            '4'=>array(0,0,0,0,0,0,0),
-            '5'=>array(0,0,0,0,0,0,0)
-        );
+        $calendario = array();
+        for($contSemanas = 0; $contSemanas<=5;$contSemanas++){
+            $calendario[$contSemanas]=array();
+            for($contDias = 0;$contDias<=6;$contDias++){
+                $calendario[$contSemanas][$contDias]=array('dia'=>0,'actual'=>false);
+            }
+        }
         
         $semana = 0;
         for($dia = 1; $dia <= $diasDelMes;$dia++){
-            $calendario[$semana][$diaSemana] = $dia;
+            $calendario[$semana][$diaSemana]['dia'] = $dia;
+            $calendario[$semana][$diaSemana]['actual'] = true;
             $diaSemana++;
             if($diaSemana > 6){
                 $semana++;
@@ -95,7 +96,50 @@ class DefaultController extends BaseController {
             }
         }
         
+        for($dia = 1; $dia <= $diasDelMes;$dia++){
+            $calendario[$semana][$diaSemana]['dia'] = $dia;
+            $calendario[$semana][$diaSemana]['actual'] = false;
+            $diaSemana++;
+            if($diaSemana > 6){
+                $semana++;
+                $diaSemana = 0;
+                if($semana>5){
+                    break;
+                }
+            }
+        }
+        
+        return $this->setDiasMesAnterior($month, $year, $calendario);
+    }
+    
+    public function setDiasMesAnterior($month, $year, $calendario){
+        if($month==1){
+            $month = 12;
+            $year--;
+        }else{
+            $month--;
+        }
+        //extraer los dias del mes
+        $fecha = new \DateTime("$year-$month-01 00:00:00");
+        $diasDelMes = $fecha->format('t');
+        //tomar el dia de la semana del ultimo dia del mes
+        $fecha = new \DateTime("$year-$month-$diasDelMes 00:00:00");
+        $diaSemanaUltimo = $fecha->format('w');
+        if($diaSemanaUltimo<6){ //no procede este codigo si el ultimo dia fue sabado
+            //cuantos dias restan de la semana
+            $diasDisponibles = $diasDelMes - ($diaSemanaUltimo + 1);
+            for($dia = $diasDelMes; $dia>=$diasDisponibles; $dia--){
+                $calendario[0][$diaSemanaUltimo]['dia'] = $dia;
+                $calendario[0][$diaSemanaUltimo]['actual'] = false;
+                $diaSemanaUltimo--;
+                if($diaSemanaUltimo==-1){
+                    break;
+                }
+            }
+        }
+        
         return $calendario;
+        
     }
     
 

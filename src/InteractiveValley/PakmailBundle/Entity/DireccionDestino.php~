@@ -3,6 +3,8 @@
 namespace InteractiveValley\PakmailBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * DireccionDestino
@@ -26,6 +28,7 @@ class DireccionDestino
      * @var string
      *
      * @ORM\Column(name="calle", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa el nombre la de calle")
      */
     private $calle;
 
@@ -82,6 +85,7 @@ class DireccionDestino
      * @var string
      *
      * @ORM\Column(name="cp", type="string", length=10)
+     * @Assert\NotBlank(message="Ingresa el codigo postal")
      */
     private $cp;
 
