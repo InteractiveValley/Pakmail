@@ -7,6 +7,7 @@
     <td>
         <button onclick="javascript:editarRegistro('{{ path('envios_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
         <button onclick="javascript:editarRegistro('{{ path('envios_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
+        <a href="{{ path('envios_show', { 'id': entity.id }) }}" data-fancybox-type="ajax" class="btn btn-xs btn-warning vista-rapida-fancybox"><i class="fa fa-eye"></i></a>
         {% if entity.status  is constant('InteractiveValley\\PakmailBundle\\Entity\\Envio::STATUS_EN_PROCESO') %}
             <button data-url="{{path('envios_aceptar', { 'id': entity.id }) }}" onclick="javascript:backend({{entity.id}}, '.aceptar')" class="btn btn-xs btn-success aceptar"><i class="fa fa-check"></i></button>
             <button data-url="{{path('envios_rechazar', { 'id': entity.id }) }}" onclick="javascript:backend({{entity.id}}, '.rechazar')" class="btn btn-xs btn-danger rechazar"><i class="fa fa-times"></i></button>

@@ -1,0 +1,102 @@
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Empresa</th>
+            <td>{{ entity.cliente.empresa.nombre }}</td>
+        </tr>
+        <tr>
+            <th>Usuario de empresa</th>
+            <td>{{ entity.cliente.nombre }}</td>
+        </tr>
+        <tr>
+            <th>Dirección Fiscal</th>
+            <td>
+                <ul>
+                    <li>Calle: {{entity.direccionFiscal.calle}}</li>
+                    <li>Numero Exterior: {{entity.direccionFiscal.numExterior}}</li>
+                    <li>Numero Interior: {{entity.direccionFiscal.numInterior}}</li>
+                    <li>Colonia: {{entity.direccionFiscal.colonia}}</li>
+                    <li>Población: {{entity.direccionFiscal.poblacion}}</li>
+                    <li>Municipio o Delegación: {{entity.direccionFiscal.delegacion}}</li>
+                    <li>Estado o entidad federativa: {{entity.direccionFiscal.estado}}</li>
+                    <li>País: {{entity.direccionFiscal.pais}}</li>
+                    <li>Codigo postal: {{entity.direccionFiscal.cp}}</li>
+                    <li>Teléfono: {{entity.direccionFiscal.telefono}}</li>
+                    <li>Celular: {{entity.direccionFiscal.celular}}</li>
+                    <li>E-mail: {{entity.direccionFiscal.email}}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Dirección Remitente</th>
+            <td>
+                <ul>
+                    <li>Calle: {{entity.direccionRemitente.calle}}</li>
+                    <li>Numero Exterior: {{entity.direccionRemitente.numExterior}}</li>
+                    <li>Numero Interior: {{entity.direccionRemitente.numInterior}}</li>
+                    <li>Colonia: {{entity.direccionRemitente.colonia}}</li>
+                    <li>Población: {{entity.direccionRemitente.poblacion}}</li>
+                    <li>Municipio o Delegación: {{entity.direccionRemitente.delegacion}}</li>
+                    <li>Estado o entidad federativa: {{entity.direccionRemitente.estado}}</li>
+                    <li>País: {{entity.direccionRemitente.pais}}</li>
+                    <li>Codigo postal: {{entity.direccionRemitente.cp}}</li>
+                    <li>Teléfono: {{entity.direccionRemitente.telefono}}</li>
+                    <li>Celular: {{entity.direccionRemitente.celular}}</li>
+                    <li>E-mail: {{entity.direccionRemitente.email}}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Dirección Destino</th>
+            <td>
+                <ul>
+                    <li>Calle: {{entity.direccionDestino.calle}}</li>
+                    <li>Numero Exterior: {{entity.direccionDestino.numExterior}}</li>
+                    <li>Numero Interior: {{entity.direccionDestino.numInterior}}</li>
+                    <li>Colonia: {{entity.direccionDestino.colonia}}</li>
+                    <li>Población: {{entity.direccionDestino.poblacion}}</li>
+                    <li>Municipio o Delegación: {{entity.direccionDestino.delegacion}}</li>
+                    <li>Estado o entidad federativa: {{entity.direccionDestino.estado}}</li>
+                    <li>País: {{entity.direccionDestino.pais}}</li>
+                    <li>Codigo postal: {{entity.direccionDestino.cp}}</li>
+                    <li>Teléfono: {{entity.direccionDestino.telefono}}</li>
+                    <li>Celular: {{entity.direccionDestino.celular}}</li>
+                    <li>E-mail: {{entity.direccionDestino.email}}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Destino del envio</th>
+            <td>
+                <ul>
+                    <li>Referencia: {{entity.referencia}}</li>
+                    <li>Tipo: {{entity.tipo}}</li>
+                    <li>Peso Kg: {{entity.kilogramos}}</li>
+                    <li>Precio: {{entity.precio}}</li>
+                    <li>No. Guia: {{entity.numGuia}}</li>
+                    <li>No. de Control Ticket o Folio: {{entity.folio}}</li>
+                    <li>Desea Asegurar Su Envio?: {{(entity.asegurarEnvio)?"Sí":"No"}}</li>
+                    <li>Monto a Asegurar (Max.$100,000,00): {{entity.montoSeguro}}</li>
+                    <li>Importe del Seguro (2%): {{entity.importeSeguro}}</li>
+                    <li>Observaciones: {{entity.observaciones | raw }}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Estatus de solicitud</th>
+            <td class="status">{{ entity.status | status | raw  }}</td>
+        </tr>
+        <tr>
+            <th>Creado</th>
+            <td>{{ entity.createdAt | date('d-m-Y') }}</td>
+        </tr>
+        <tr>
+            <th>Actualizado</th>
+            <td>{{ entity.updatedAt | date('d-m-Y') }}</td>
+        </tr>
+    </tbody>
+</table>

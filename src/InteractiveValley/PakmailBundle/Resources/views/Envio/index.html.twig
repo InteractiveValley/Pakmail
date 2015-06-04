@@ -9,7 +9,9 @@
     <!-- Widgets stylesheet -->
     <link rel="stylesheet" href="{{asset('css/widgets.css')}}">   
     <!-- Gritter Notifications stylesheet -->
-    <link rel="stylesheet" href="{{asset('css/jquery.gritter.css')}}"> 
+    <link rel="stylesheet" href="{{asset('css/jquery.gritter.css')}}">  
+    <!-- fancybox -->
+    <link rel="stylesheet" href="{{asset('css/fancybox/jquery.fancybox.css')}}">    
 {% endblock %}
 
 {% block mainbar %}
@@ -46,7 +48,7 @@
                         <div class="widget-foot">
                                 <br/>
                                 <br/>
-                                <div class="clearfix"></div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
@@ -63,6 +65,7 @@
 {{ parent() }}
 
 <script src="{{asset('js/jquery-ui-1.9.2.custom.min.js')}}"></script> <!-- jQuery UI -->
+<script src="{{asset('js/fancybox/jquery.fancybox.js')}}"></script> <!-- fancybox -->
 <!-- jQuery Notification - Noty -->
 <script src="{{asset('js/jquery.noty.js')}}"></script> <!-- jQuery Notify -->
 <script src="{{asset('js/themes/default.js')}}"></script> <!-- jQuery Notify -->
@@ -102,7 +105,21 @@
             "sFirst": "Primero",
             "sPrevious": "Anterior",
        });
+        activarFancyBox();
     });
+    function activarFancyBox(){
+        $(".vista-rapida-fancybox").fancybox({
+                    maxWidth	: 800,
+                    maxHeight	: 600,
+                    fitToView	: false,
+                    width	: '100%',
+                    height	: '100%',
+                    autoSize	: false,
+                    closeClick	: false,
+                    openEffect	: 'none',
+                    closeEffect	: 'none'
+            });
+    }
     
     function backend(id,clase){
         $(".loader").fadeIn();

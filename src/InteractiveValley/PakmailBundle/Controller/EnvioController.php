@@ -136,7 +136,7 @@ class EnvioController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -144,6 +144,12 @@ class EnvioController extends Controller
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Envio entity.');
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('PakmailBundle:Envio:envio.html.twig', array(
+                        'entity' => $entity,
+            ));
         }
 
         $deleteForm = $this->createDeleteForm($id);
