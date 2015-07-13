@@ -41,6 +41,8 @@
     {% endif %}
 {% endblock %}
 
+{% set route = app.request.get('_route') %}
+
 {% block body %}  
     <header id="header">
         <div class="logo-redes-sociales">
@@ -61,7 +63,7 @@
             <ul>
                 <li><a href="{{path('homepage')}}">inicio</a></li>
                 <li><a href="{{path('quienes_somos')}}">quienes somos</a></li>
-                <li><a class="servicios-ancla" href="{{path('homepage')}}#servicios">servicios</a></li>
+                <li><a class="servicios-ancla" href="{{path('frontend_servicios')}}">servicios</a></li>
                 <li><a href="{{path('calendario')}}">calendario</a></li>
                 <li><a href="{{path('contacto')}}">ubicación y contacto</a></li>
                 <li><a href="{{path('pakmail_envios')}}">ingreso a clientes</a></li>
@@ -116,6 +118,7 @@
     <script type="text/javascript">
         (function(){
             var contador = 1;
+			var altoAdicional = 180;
             var menuBar = document.getElementById("bt-menu");
             menuBar.addEventListener('click',function(){
                 var nav = document.getElementById("navegador");
@@ -146,24 +149,30 @@
                     }
                 }
             });
-            
-            $(".servicios-ancla").on('click',function(e) {
-                e.preventDefault();
-                var offset = $("#servicios").offset().top - 180;
-                $('html, body').animate({ scrollTop : offset }, 'slow');
-                if($("#bt-menu").is(":visible")){
-                    var nav = document.getElementById("navegador");
-                    if(contador == 1){
-                        nav.style.left = "0";
-                        contador = 2;
-                        console.log("mostrar")
-                    }else{
-                        nav.style.left = "-100%";
-                        contador=1;
-                        console.log("ocultar")
-                    }
-                }
-            });
+            {% if route == 'homepage' or route=='frontend_servicios' %}
+				$(".servicios-ancla").on('click',function(e) {
+					e.preventDefault();
+					var offset = $("#servicios").offset().top - altoAdicional;
+					$('html, body').animate({ scrollTop : offset }, 'slow');
+					if($("#bt-menu").is(":visible")){
+						var nav = document.getElementById("navegador");
+						if(contador == 1){
+							nav.style.left = "0";
+							contador = 2;
+							console.log("mostrar")
+						}else{
+							nav.style.left = "-100%";
+							contador=1;
+							console.log("ocultar")
+						}
+					}
+				});
+			
+				{% if route == 'frontend_servicios' %}
+				setTimeout(function(){$(".servicios-ancla").click()},2000);
+				{% endif %}
+			
+			{% endif %}
 
             inicializarBotonEnviarNewsletter();
 

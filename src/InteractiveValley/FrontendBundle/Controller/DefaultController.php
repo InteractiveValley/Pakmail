@@ -18,6 +18,7 @@ class DefaultController extends BaseController {
 
     /**
      * @Route("/inicio", name="homepage")
+     * @Route("/servicios", name="frontend_servicios")
      * @Template()
      */
     public function indexAction(Request $request) {
