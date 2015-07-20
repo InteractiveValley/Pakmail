@@ -30,7 +30,7 @@ class PerfilFrontendType extends AbstractType
             ->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
             ->add('precio',null,array('label'=>'Precio','attr'=>array('class'=>'form-control')))
             ->add('numGuia','text',array('label'=>'No. Guia','attr'=>array('class'=>'form-control')))
-            ->add('folio','text',array('label'=>'No. de Control Ticket o Folio','attr'=>array('class'=>'form-control')))
+            //->add('folio','text',array('label'=>'No. de Control Ticket o Folio','attr'=>array('class'=>'form-control')))
             ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','attr'=>array(
                 'class'=>'checkbox-inline',
                 'placeholder'=>'asegurar envio',
@@ -52,6 +52,7 @@ class PerfilFrontendType extends AbstractType
                     'placeholder'=>'Es activo',
                     'data-bind'=>'value: isActive'
                 )))
+            ->add('folio','hidden')
             ->add($builder->create('cliente','hidden')->addModelTransformer($clienteTransformer))
         ;
     }

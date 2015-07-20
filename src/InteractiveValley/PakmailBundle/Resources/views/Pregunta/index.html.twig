@@ -17,14 +17,14 @@
     <div class="mainbar">
         <!-- Page heading -->
         <div class="page-head">
-            <h2 class="pull-left">Servicios</h2>
+            <h2 class="pull-left">Preguntas</h2>
             <div class="clearfix"></div>
             <!-- Breadcrumb -->
             <div class="bread-crumb">
                 <a href="{{path('homepage')}}"><i class="fa fa-home"></i>Dashboard</a> 
                   <span class="divider">/</span>  
-                  <a href="{{path('servicios')}}" class="bread-current">Servicios</a>
-                  <a href="{{path('servicios_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear servicio</a>
+                  <a href="{{path('preguntas')}}" class="bread-current">Preguntas</a>
+                  <a href="{{path('preguntas_new')}}" class="btn btn-info pull-right" style="color: white; margin-left: 5px;">Crear pregunta</a>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -37,7 +37,7 @@
                 <div class="col-md-12">
                     <div class="widget">
                         <div class="widget-head">
-                            <div class="pull-left">Registro de servicios</div>
+                            <div class="pull-left">Registro de preguntas</div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
@@ -45,9 +45,8 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Imagen</th>
-                                        <th>Servicio</th>
-                                        <th>Descripcion</th>
+                                        <th>Pregunta</th>
+                                        <th>Respuesta</th>
                                         <th>Fecha</th>
                                         <th>Actions</th>
                                     </tr>
@@ -55,22 +54,17 @@
                                 <tbody id="cuerpoTabla">
                                     {% for entity in entities %}
                                         <tr id="registro-{{entity.id}}">
-                                            <td><a href="{{ path('servicios_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                            <td><a href="{{ path('preguntas_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                                             <td>
-                                                {% if entity.imagen | length > 0 %}
-                                                    <img src="{{entity.webPath}}" alt="{{entity.nombre}}"/>
-                                                {% else %}
-                                                    <img src="/images/icono_servicios.png" alt="{{entity.nombre}}">
-                                                {% endif %}    
+                                                <strong>{{ entity.pregunta | raw }}</strong>
                                             </td>
-                                            <td>{{ entity.nombre }}</td>
                                             <td>
-                                                {{ entity.descripcion | raw }}
+                                                {{ entity.respuesta | raw }}
                                             </td>
                                             <td>{{ entity.createdAt | date('d/m/Y') }}</td>
                                             <td>
-                                                <button onclick="javascript:editarRegistro('{{ path('servicios_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
-                                                <button onclick="javascript:editarRegistro('{{ path('servicios_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
+                                                <button onclick="javascript:editarRegistro('{{ path('preguntas_edit', { 'id': entity.id }) }}')" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> </button>
+                                                <button onclick="javascript:editarRegistro('{{ path('preguntas_show', { 'id': entity.id }) }}', '#registro-{{entity.id}}')" class="btn btn-xs btn-info"><i class="fa fa-folder-open"></i> </button>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -147,7 +141,7 @@
         $(".loader").fadeIn();
         var order = $("#cuerpoTabla").sortable('serialize');
         $.ajax({
-            url: '{{path('servicios_ordenar')}}?' + order,
+            url: '{{path('preguntas_ordenar')}}?' + order,
             type: 'PATCH',
             data: order,
             dataType: 'json',

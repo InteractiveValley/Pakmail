@@ -39,6 +39,7 @@
             ga('send', 'pageview');
         </script>
     {% endif %}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% set route = app.request.get('_route') %}
@@ -62,7 +63,7 @@
         <nav id="navegador">
             <ul>
                 <li><a href="{{path('homepage')}}">inicio</a></li>
-                <li><a href="{{path('quienes_somos')}}">quienes somos</a></li>
+                <li><a href="{{path('quienes_somos')}}">quiénes somos</a></li>
                 <li><a class="servicios-ancla" href="{{path('frontend_servicios')}}">servicios</a></li>
                 <li><a href="{{path('calendario')}}">calendario</a></li>
                 <li><a href="{{path('contacto')}}">ubicación y contacto</a></li>
@@ -83,10 +84,14 @@
     <footer>
         <ul class="info">
             <li class="text-align-right border-r border-r-blanco">
-                <div class="direccion">
-                    pakmall103@pakmail.com.mx
-                    <br>
-                    5202-1193 5202-1259
+                <div class="direccion large">
+                    <span class="fa fa-envelope"></span>&nbsp;pakmall103@pakmail.com.mx<br/>
+                    <span class="fa fa-phone"></span>&nbsp;5202-1193<br/> 
+                    <span class="fa fa-phone"></span>&nbsp;5202-1259<br/>
+                    <br/>
+                    <span class="fa fa-car"></span>&nbsp;Pedregal No. 96 Col. Lomas de Chapultepec<br/>
+                    Del. Miguel Hidalgo. C.P. 11000<br/>
+                    Ciudad de México, Distrito Federal.
                 </div>    
             </li>
             <li class="text-align-left">
@@ -108,7 +113,7 @@
             </li>
         </ul>
         <div class="derechos">
-            <p>2015 PAKMAIL VIRREYES. Todos los derechos reservados. Pedregal No. 96 Col. Lomas de Chapultepec, Del. Miguel Hidalgo. C.P. 11000. Ciudad de México, Distrito Federal.</p>
+            <p>2015 PAKMAIL VIRREYES. Todos los derechos reservados. </p>
         </div>
     </footer>
 {% endblock %}

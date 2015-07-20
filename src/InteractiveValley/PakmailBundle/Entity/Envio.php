@@ -169,6 +169,49 @@ class Envio
      * })
      */
     private $usuario;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medidas_peso", type="string", length=100)
+     */
+    private $medidaPeso;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medidas_largo", type="string", length=100)
+     */
+    private $medidaLargo;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medidas_ancho", type="string", length=100)
+     */
+    private $medidaAncho;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medida_alto", type="string", length=100)
+     */
+    private $medidaAlto;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="generar_gastos_aduana", type="boolean")
+     */
+    private $generarGastosAduana;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valor_declarado", type="string", length=255)
+     */
+    private $valorDeclarado;
 
     /**
      * @var \DateTime
@@ -190,6 +233,7 @@ class Envio
     
     public function __construct() {
         $this->hasPerfil = false;
+        $this->generarGastosAduana = false;
     }
     
     /*
@@ -738,5 +782,149 @@ class Envio
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Set medidaPeso
+     *
+     * @param string $medidaPeso
+     *
+     * @return Envio
+     */
+    public function setMedidaPeso($medidaPeso)
+    {
+        $this->medidaPeso = $medidaPeso;
+
+        return $this;
+    }
+
+    /**
+     * Get medidaPeso
+     *
+     * @return string
+     */
+    public function getMedidaPeso()
+    {
+        return $this->medidaPeso;
+    }
+
+    /**
+     * Set medidaLargo
+     *
+     * @param string $medidaLargo
+     *
+     * @return Envio
+     */
+    public function setMedidaLargo($medidaLargo)
+    {
+        $this->medidaLargo = $medidaLargo;
+
+        return $this;
+    }
+
+    /**
+     * Get medidaLargo
+     *
+     * @return string
+     */
+    public function getMedidaLargo()
+    {
+        return $this->medidaLargo;
+    }
+
+    /**
+     * Set medidaAncho
+     *
+     * @param string $medidaAncho
+     *
+     * @return Envio
+     */
+    public function setMedidaAncho($medidaAncho)
+    {
+        $this->medidaAncho = $medidaAncho;
+
+        return $this;
+    }
+
+    /**
+     * Get medidaAncho
+     *
+     * @return string
+     */
+    public function getMedidaAncho()
+    {
+        return $this->medidaAncho;
+    }
+
+    /**
+     * Set medidasAlto
+     *
+     * @param string $medidasAlto
+     *
+     * @return Envio
+     */
+    public function setMedidaAlto($medidasAlto)
+    {
+        $this->medidaAlto = $medidasAlto;
+
+        return $this;
+    }
+
+    /**
+     * Get medidasAlto
+     *
+     * @return string
+     */
+    public function getMedidaAlto()
+    {
+        return $this->medidaAlto;
+    }
+
+    /**
+     * Set generarGastosAduana
+     *
+     * @param boolean $generarGastosAduana
+     *
+     * @return Envio
+     */
+    public function setGenerarGastosAduana($generarGastosAduana)
+    {
+        $this->generarGastosAduana = $generarGastosAduana;
+
+        return $this;
+    }
+
+    /**
+     * Get generarGastosAduana
+     *
+     * @return boolean
+     */
+    public function getGenerarGastosAduana()
+    {
+        return $this->generarGastosAduana;
+    }
+
+    /**
+     * Set valorDeclarado
+     *
+     * @param string $valorDeclarado
+     *
+     * @return Envio
+     */
+    public function setValorDeclarado($valorDeclarado)
+    {
+        $this->valorDeclarado = $valorDeclarado;
+
+        return $this;
+    }
+
+    /**
+     * Get valorDeclarado
+     *
+     * @return string
+     */
+    public function getValorDeclarado()
+    {
+        return $this->valorDeclarado;
     }
 }

@@ -61,7 +61,7 @@ class Usuarios extends AbstractFixture implements OrderedFixtureInterface, Conta
         $passwordCodificado = $encoder->encodePassword($passwordEnClaro, $admin->getSalt());
         $admin->setPassword($passwordCodificado);
         $admin->setNombre("Administrador general");
-        $admin->setEmail('admin@countdown.com');
+        $admin->setEmail('admin@pakmail.com');
         $admin->setTelefono('55555555');
         $admin->setGrupo(Usuario::GRUPO_ADMIN);
         $manager->persist($admin);
@@ -75,7 +75,7 @@ class Usuarios extends AbstractFixture implements OrderedFixtureInterface, Conta
         $passwordCodificado = $encoder->encodePassword($passwordEnClaro, $usuario->getSalt());
         $usuario->setPassword($passwordCodificado);
         $usuario->setNombre("Usuario 1");
-        $usuario->setEmail('usuario1@countdown.com');
+        $usuario->setEmail('usuario1@pakmail.com');
         $usuario->setTelefono('55555555');
         $usuario->setGrupo(Usuario::GRUPO_USUARIOS);
         $manager->persist($usuario);
@@ -91,7 +91,7 @@ class Usuarios extends AbstractFixture implements OrderedFixtureInterface, Conta
         $passwordCodificado = $encoder->encodePassword($passwordEnClaro, $usuario->getSalt());
         $usuario->setPassword($passwordCodificado);
         $usuario->setNombre("Usuario 2");
-        $usuario->setEmail('usuario2@countdown.com');
+        $usuario->setEmail('usuario2@pakmail.com');
         $usuario->setTelefono('55555555');
         $usuario->setGrupo(Usuario::GRUPO_USUARIOS);
         $manager->persist($usuario);

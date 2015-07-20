@@ -29,7 +29,11 @@
                 {% for servicio in servicios %}
                 <li class="item-servicio">
                     <figure class="item-servicio-contenedor">
-                        <img src="/images/icono_servicios.png" alt="{{servicio.nombre}}">
+                        {% if servicio.imagen | length > 0 %}
+                            <img src="{{servicio.webPath}}" alt="{{servicio.nombre}}" />
+                        {% else %}
+                            <img src="/images/icono_servicios.png" alt="{{servicio.nombre}}" />
+                        {% endif %}
                         <figcaption class="item-servicio-caption">
                             <div class="item-servicio-titulo">
                                 {{servicio.nombre}}

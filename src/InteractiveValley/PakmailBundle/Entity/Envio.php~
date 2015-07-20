@@ -169,6 +169,49 @@ class Envio
      * })
      */
     private $usuario;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medidas_peso", type="string", length=100)
+     */
+    private $medidaPeso;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medidas_largo", type="string", length=100)
+     */
+    private $medidaLargo;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medidas_ancho", type="string", length=100)
+     */
+    private $medidaAncho;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="medidas_alto", type="string", length=100)
+     */
+    private $medidasAlto;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="generar_gastos_aduana", type="boolean")
+     */
+    private $generarGastosAduana;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valor_declarado", type="string", length=255)
+     */
+    private $valorDeclarado;
 
     /**
      * @var \DateTime

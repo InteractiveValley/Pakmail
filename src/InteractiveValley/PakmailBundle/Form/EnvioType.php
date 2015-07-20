@@ -44,6 +44,12 @@ class EnvioType extends AbstractType
                    'data-theme' => 'advanced',
                     )
                 ))
+            ->add('medidaPeso','text',array('label'=>'Peso','attr'=>array('class'=>'form-control')))
+            ->add('medidaLargo','text',array('label'=>'Largo','attr'=>array('class'=>'form-control')))
+            ->add('medidaAncho','text',array('label'=>'Ancho','attr'=>array('class'=>'form-control')))
+            ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control')))
+            ->add('generarGastosAduana',null,array('label'=>'¿Generar gastos de aduana?','attr'=>array('class'=>'form-control')))
+            ->add('valorDeclarado','number',array('label'=>'Valor declarado','attr'=>array('class'=>'form-control')))
             ->add('perfil','hidden')
             ->add('hasPerfil','hidden')
             ->add('status','hidden')

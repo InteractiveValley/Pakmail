@@ -140,7 +140,7 @@ section.carrusel
 footer
 	border-top 16px solid color_gris_claro
 	background-color color_vino
-	height 140px
+	min-height 140px
 	width 100%
 	color white
 	text-align center
@@ -152,14 +152,16 @@ footer
 		padding-top .5em
 		& li
 			display inline-block 
-			vertical-align top
-			width 266px
+			vertical-align middle
+			width 300px
 			&:nth-child(odd)
 				padding-right 1em
 			&:nth-child(even)
 				padding-left 1em
 			& .direccion
 				height 50px
+				&.large
+					height auto
 				&.flat
 					height 25px
 			& figure
@@ -174,6 +176,8 @@ footer
 		
 .menu_bar
 	display none
+
+
 
 .logo-redes-sociales
 	position relative
@@ -314,6 +318,8 @@ footer
 			position absolute
 			top 15px
 			right 6px
+		& p
+			margin 0px
 	& .pregunta-respuesta
 		text-align justify
 		font-size 1.1em
@@ -431,6 +437,19 @@ footer
 	& .informacion
 		color color_vino
 		width 255px
+		& .lista-contacto
+			margin 0
+			padding 0
+			& .item-contacto
+				padding-left 10px
+				list-style none
+				position relative
+				& span
+					position absolute
+					left -4px
+					font-size .8em
+					top 8px
+					display block
 	& .quejas-sugerencias
 		width 600px
 		margin-left 100px
@@ -462,6 +481,11 @@ footer
 				background-color white
 				color color_gris_oscuro
 				box-shadow 0px 0px 40px #E8E8E8 inset, 0px 0px 40px #E8E8E8
+
+.solicitud-envio
+	.help
+		font-size .8em
+		color color_gris_claro
 
 @media screen and (max-width: 1024px )
 	.logo-redes-sociales

@@ -41,7 +41,16 @@ class DefaultController extends BaseController {
      * @Template()
      */
     public function quienesSomosAction(Request $request) {
-        return array();
+        $em = $this->getDoctrine()->getManager();
+        $preguntas = $em->getRepository('PakmailBundle:Pregunta')
+                        ->findBy(array(),array('position'=>'ASC'));
+        $configuracion = $em->getRepository('BackendBundle:Configuraciones')
+                        ->findOneBy(array('slug' => 'quienes-somos'));
+        
+        return array(
+            'preguntas'=>$preguntas,
+            'pagina'=>$configuracion
+        );
     }
     
     /**

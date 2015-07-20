@@ -33,7 +33,37 @@
                             </fieldset>
                             <fieldset>
                                 <legend>Destino de envío</legend>
-                                <div>{{form_rest(form)}}</div>
+                                <div>
+                                {{form_row(form.referencia)}}
+                                {{form_row(form.tipo)}}
+                                {{form_row(form.kilogramos)}}
+                                {{form_row(form.precio)}}
+                                {{form_row(form.numGuia)}}
+                                {{form_row(form.asegurarEnvio)}}
+                                {{form_row(form.montoSeguro)}}
+                                {{form_row(form.importeSeguro)}}
+                                {{form_row(form.observaciones)}}
+                                <table>
+                                    <tr>
+                                        <td>Peso (kg)</td>
+                                        <td>Largo (cm)</td>
+                                        <td>Ancho (cm)</td>
+                                        <td>Largo (cm)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{form_widget(form.medidaPeso)}}</td>
+                                        <td>{{form_widget(form.medidaLargo)}}</td>
+                                        <td>{{form_widget(form.medidaAncho)}}</td>
+                                        <td>{{form_widget(form.medidaAlto)}}</td>
+                                    </tr>
+                                </table>
+                                {{form_row(form.generarGastosAduana)}}
+                                {{form_row(form.valorDeclarado)}}
+                                {{form_rest(form)}}
+                                </div>
+                                <div class="help" style="font-size: .8em; color: silver;">
+                                    El valor declarado tendra que tener una factura por la compra. <br/>Para que se cumpla la garantia del seguro, se tendrá que tener un recibo y/o factura de compra con el valor declarado.
+                                </div>
                             </fieldset>
                             <input type="submit" value="Generar solicitud" class="btn btn-bg btn-danger"/>
                             {{form_end(form)}}

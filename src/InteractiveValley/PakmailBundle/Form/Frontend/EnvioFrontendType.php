@@ -32,7 +32,7 @@ class EnvioFrontendType extends AbstractType
             ->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
             ->add('precio',null,array('label'=>'Precio','attr'=>array('class'=>'form-control')))
             ->add('numGuia','text',array('label'=>'No. Guia','attr'=>array('class'=>'form-control')))
-            ->add('folio','text',array('label'=>'No. de Control Ticket o Folio','attr'=>array('class'=>'form-control')))
+            //->add('folio','text',array('label'=>'No. de Control Ticket o Folio','attr'=>array('class'=>'form-control')))
             ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','attr'=>array(
                 'class'=>'checkbox-inline',
                 'placeholder'=>'asegurar envio',
@@ -48,9 +48,20 @@ class EnvioFrontendType extends AbstractType
                    'data-theme' => 'advanced',
                     )
                 ))
+            ->add('medidaPeso','text',array('label'=>'Peso','attr'=>array('class'=>'form-control')))
+            ->add('medidaLargo','text',array('label'=>'Largo','attr'=>array('class'=>'form-control')))
+            ->add('medidaAncho','text',array('label'=>'Ancho','attr'=>array('class'=>'form-control')))
+            ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control')))
+            ->add('generarGastosAduana',null,array('label'=>'Generar Gastos de Aduana?','attr'=>array(
+                'class'=>'checkbox-inline',
+                'placeholder'=>'generar gastos aduana',
+                'data-bind'=>'value: generarGastosAduana'
+             )))
+            ->add('valorDeclarado','number',array('label'=>'Valor declarado','attr'=>array('class'=>'form-control')))
             ->add('perfil','hidden')
             ->add('hasPerfil','hidden')
             ->add('status','hidden')
+            ->add('folio','hidden')
             ->add($builder->create('cliente','hidden')->addModelTransformer($clienteTransformer))
             ->add($builder->create('usuario', 'hidden')->addModelTransformer($usuarioTransformer))
         ;

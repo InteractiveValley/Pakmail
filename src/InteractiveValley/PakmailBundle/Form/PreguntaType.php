@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ServicioType extends AbstractType
+class PreguntaType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,16 +15,15 @@ class ServicioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre','text',array('label'=>'Servicio','attr'=>array('class'=>'form-control')))
-            ->add('descripcion','textarea',array(
-                'label'=>'Descripción',
+            ->add('pregunta','text',array('label'=>'Pregunta','attr'=>array('class'=>'form-control')))
+            ->add('respuesta','textarea',array(
+                'label'=>'Respuesta',
                 'required'=>true,
                 'attr'=>array(
                     'class'=>'cleditor tinymce form-control placeholder',
                    'data-theme' => 'advanced',
                     )
                 ))
-            ->add('file','file',array('label'=>'Imagen','attr'=>array('class'=>'form-control')))    
             ->add('position','hidden')
         ;
     }
@@ -35,7 +34,7 @@ class ServicioType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'InteractiveValley\PakmailBundle\Entity\Servicio'
+            'data_class' => 'InteractiveValley\PakmailBundle\Entity\Pregunta'
         ));
     }
 
@@ -44,6 +43,6 @@ class ServicioType extends AbstractType
      */
     public function getName()
     {
-        return 'interactivevalley_pakmailbundle_servicio';
+        return 'interactivevalley_pakmailbundle_pregunta';
     }
 }

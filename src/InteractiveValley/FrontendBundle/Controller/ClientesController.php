@@ -172,6 +172,14 @@ class ClientesController extends BaseController {
         $envio->setImporteSeguro($perfil->getImporteSeguro());
         $envio->setObservaciones($perfil->getObservaciones());
         $envio->setPerfil($perfil->getId());
+        
+        $envio->setMedidaPeso($perfil->getMedidaPeso());
+        $envio->setMedidaLargo($perfil->getMedidaLargo());
+        $envio->setMedidaAncho($perfil->getMedidaAncho());
+        $envio->setMedidaAlto($perfil->getMedidaAlto());
+        $envio->setGenerarGastosAduana($perfil->getGenerarGastosAduana());
+        $envio->setValorDeclarado($perfil->getValorDeclarado());
+        
         $envio->setHasPerfil(true);
         return $envio;
     }
@@ -363,6 +371,14 @@ class ClientesController extends BaseController {
         $perfil->setMontoSeguro($envio->getMontoSeguro());
         $perfil->setImporteSeguro($envio->getImporteSeguro());
         $perfil->setObservaciones($envio->getObservaciones());
+        
+        $perfil->setMedidaPeso($envio->getMedidaPeso());
+        $perfil->setMedidaLargo($envio->getMedidaLargo());
+        $perfil->setMedidaAncho($envio->getMedidaAncho());
+        $perfil->setMedidaAlto($envio->getMedidaAlto());
+        $perfil->setGenerarGastosAduana($envio->getGenerarGastosAduana());
+        $perfil->setValorDeclarado($envio->getValorDeclarado());
+        
         return $perfil;
     }
     
