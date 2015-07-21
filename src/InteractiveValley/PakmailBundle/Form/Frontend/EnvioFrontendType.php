@@ -27,11 +27,12 @@ class EnvioFrontendType extends AbstractType
             ->add('direccionFiscal',new DireccionFiscalType(),array('label'=>'DIRECCION FISCAL'))
             ->add('direccionRemitente',new DireccionRemisionType(),array('label'=>'DIRECCION REMITENTE'))
             ->add('direccionDestino',new DireccionDestinoType(),array('label'=>'DIRECCION DESTINO'))
-            ->add('referencia','text',array('attr'=>array('label'=>'Referencia','class'=>'form-control')))
-            ->add('tipo','text',array('attr'=>array('label'=>'Tipo','class'=>'form-control')))
-            ->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
-            ->add('precio',null,array('label'=>'Precio','attr'=>array('class'=>'form-control')))
-            ->add('numGuia','text',array('label'=>'No. Guia','attr'=>array('class'=>'form-control')))
+            ->add('referencia','text',array('label'=>'Referencia *','attr'=>array('class'=>'form-control')))
+            ->add('tipo','text',array('label'=>'Tipo *','attr'=>array('class'=>'form-control')))
+            //->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
+            ->add('kilogramos','hidden')
+            ->add('precio',null,array('label'=>'Precio *','attr'=>array('class'=>'form-control')))
+            ->add('numGuia','text',array('label'=>'No. Guia *','attr'=>array('class'=>'form-control')))
             //->add('folio','text',array('label'=>'No. de Control Ticket o Folio','attr'=>array('class'=>'form-control')))
             ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','attr'=>array(
                 'class'=>'checkbox-inline',
@@ -42,7 +43,7 @@ class EnvioFrontendType extends AbstractType
             ->add('importeSeguro',null,array('label'=>'Importe del Seguro (2%)','attr'=>array('class'=>'form-control')))
             ->add('observaciones',null,array(
                 'label'=>'Observaciones',
-                'required'=>true,
+                'required'=>false,
                 'attr'=>array(
                     'class'=>'cleditor tinymce form-control placeholder',
                    'data-theme' => 'advanced',

@@ -56,6 +56,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="poblacion", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa la poblacion o colonia")
      */
     private $poblacion;
 
@@ -63,6 +64,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="delegacion", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa tu delegacion o municipio")
      */
     private $delegacion;
 
@@ -70,6 +72,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="estado", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa el estado")
      */
     private $estado;
 
@@ -77,6 +80,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="pais", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa tu país")
      */
     private $pais;
 
@@ -92,6 +96,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="telefono", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa un teléfono")
      */
     private $telefono;
 
@@ -106,6 +111,8 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresa un correo")
+     * @Assert\Email()
      */
     private $email;
     
