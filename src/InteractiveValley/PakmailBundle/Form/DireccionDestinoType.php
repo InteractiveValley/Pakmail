@@ -12,19 +12,19 @@ class DireccionDestinoType extends AbstractType
     public function __construct($listaCuidades = array()) {
         $this->listaCuidades = $listaCuidades;
         
-        if(!in_array('Mexico', $this->listaCuidades)){
-            $this->listaCuidades['Mexico'] = 'Mexico';
+        if(!array_key_exists('Mexico', $this->listaCuidades)){
+            $this->listaCuidades = array_merge($this->listaCuidades, array('Mexico'=>'México'));
         }
-        if(!in_array('Estados Unidos', $this->listaCuidades)){
-            $this->listaCuidades['Estados Unidos'] = 'Estados Unidos';
+        if(!array_key_exists('Estados Unidos', $this->listaCuidades)){
+            $this->listaCuidades = array_merge($this->listaCuidades, array('Estados Unidos'=>'Estados Unidos'));
         }
-        if(!in_array('Canada', $this->listaCuidades)){
-            $this->listaCuidades['Canada'] = 'Canada';
+        if(!array_key_exists('Canada', $this->listaCuidades)){
+            $this->listaCuidades  = array_merge($this->listaCuidades, array('Canada'=>'Canada'));
         }
         
-        sort($this->listaCuidades, SORT_STRING);
+        asort($this->listaCuidades, SORT_REGULAR);
         
-        array_push($this->listaCuidades, 'Otro...');
+        $this->listaCuidades = array_merge($this->listaCuidades, array('Otro'=>'Otro...'));
         
     }
     
@@ -71,5 +71,9 @@ class DireccionDestinoType extends AbstractType
     public function getName()
     {
         return 'interactivevalley_pakmailbundle_direcciondestino';
+    }
+    
+    public function getArrayListCuidades(){
+        
     }
 }

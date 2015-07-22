@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block contenido %}
-<!-- Main bar -->
+    <!-- Main bar -->
     <div class="mainbar">
         <!-- Matter -->
         <div class="matter">
@@ -43,42 +43,42 @@
                             <fieldset>
                                 <legend>Destino de envío</legend>
                                 <div>
-                                {{form_row(form.referencia)}}
-                                {{form_row(form.tipo)}}
-                                {{form_row(form.kilogramos)}}
-                                {{form_row(form.precio)}}
-                                {{form_row(form.numGuia)}}
-                                <div class="checkbox">
-                                    <label>
-                                      {{form_widget(form.asegurarEnvio)}} ¿Desea asegurar el envío?
-                                    </label>
-                                </div>
-                                {{form_row(form.montoSeguro)}}
-                                {{form_row(form.importeSeguro)}}
-                                {{form_row(form.observaciones)}}
-                                <table>
-                                    <tr>
-                                        <td></td>
-                                        <td>Peso (kg) *</td>
-                                        <td>Largo (cm) *</td>
-                                        <td>Ancho (cm) *</td>
-                                        <td>Largo (cm) *</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Medidas: &nbsp;</td>
-                                        <td>{{form_widget(form.medidaPeso)}}</td>
-                                        <td>{{form_widget(form.medidaLargo)}}</td>
-                                        <td>{{form_widget(form.medidaAncho)}}</td>
-                                        <td>{{form_widget(form.medidaAlto)}}</td>
-                                    </tr>
-                                </table>
-                                <div class="checkbox">
-                                    <label>
-                                      {{form_widget(form.generarGastosAduana)}} ¿Generar gastos de aduana?
-                                    </label>
-                                </div>
-                                {{form_row(form.valorDeclarado)}}
-                                {{form_rest(form)}}
+                                    {{form_row(form.referencia)}}
+                                    {{form_row(form.tipo)}}
+                                    {{form_row(form.kilogramos)}}
+                                    {{form_row(form.precio)}}
+                                    {{form_row(form.numGuia)}}
+                                    <div class="checkbox">
+                                        <label>
+                                            {{form_widget(form.asegurarEnvio)}} ¿Desea asegurar el envío?
+                                        </label>
+                                    </div>
+                                    {{form_row(form.montoSeguro)}}
+                                    {{form_row(form.importeSeguro)}}
+                                    {{form_row(form.observaciones)}}
+                                    <table>
+                                        <tr>
+                                            <td></td>
+                                            <td>Peso (kg) *</td>
+                                            <td>Largo (cm) *</td>
+                                            <td>Ancho (cm) *</td>
+                                            <td>Largo (cm) *</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Medidas: &nbsp;</td>
+                                            <td>{{form_widget(form.medidaPeso)}}</td>
+                                            <td>{{form_widget(form.medidaLargo)}}</td>
+                                            <td>{{form_widget(form.medidaAncho)}}</td>
+                                            <td>{{form_widget(form.medidaAlto)}}</td>
+                                        </tr>
+                                    </table>
+                                    <div class="checkbox">
+                                        <label>
+                                            {{form_widget(form.generarGastosAduana)}} ¿Generar gastos de aduana?
+                                        </label>
+                                    </div>
+                                    {{form_row(form.valorDeclarado)}}
+                                    {{form_rest(form)}}
                                 </div>
                                 <div class="help" style="font-size: .8em; color: silver;">
                                     El valor declarado tendrá que tener una factura por la compra. <br/>
@@ -92,19 +92,19 @@
                             </fieldset>
                             <input type="submit" value="Generar solicitud" class="btn btn-bg btn-danger"/>
                             {{form_end(form)}}
-                            
+
                         </article>
                     </div>
                     <div class="col-md-4">
                         <h5 class="perfiles-titulo">Perfiles de envios</h5>
                         {% if perfiles | length > 0 %}
-                        <div class="perfiles-guardados">
-                            <ul class="lista-perfiles">
-                                {% for perfil in perfiles %}
-                                    <li class="item-perfil" data-url="{{path('pakmail_perfiles_copia',{'id': perfil.id})}}">{{perfil.nombre}}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                            <div class="perfiles-guardados">
+                                <ul class="lista-perfiles">
+                                    {% for perfil in perfiles %}
+                                        <li class="item-perfil" data-url="{{path('pakmail_perfiles_copia',{'id': perfil.id})}}">{{perfil.nombre}}</li>
+                                        {% endfor %}
+                                </ul>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -117,57 +117,230 @@
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-<script src="{{asset('js/bootbox.min.js')}}"></script>
-<script>
-	{% if creacionEnvio is not defined %}
-		{% set creacionEnvio = 0 %}
-	{% endif %}
-    var creacionEnvio = {{creacionEnvio}};
-    $(document).on('ready',function(){
-        $(".item-perfil").on('click',function(){
-           location.href = $(this).data('url'); 
+    {{ parent() }}
+    <script src="{{asset('js/bootbox.min.js')}}"></script>
+    <script>
+        {% if creacionEnvio is not defined %}
+            {% set creacionEnvio = 0 %}
+        {% endif %}
+        var creacionEnvio = {{creacionEnvio}};
+        var $estado = null;
+        var $delegacion = null;
+        var $colonia = null;
+        var $codigo = null;
+        $(document).on('ready', function () {
+                $(".item-perfil").on('click', function () {
+                    location.href = $(this).data('url');
+                });
+
+                $("#interactivevalley_pakmailbundle_envio_importeSeguro").on('focus', function () {
+                    var monto = $("#interactivevalley_pakmailbundle_envio_montoSeguro").val();
+                    if (monto > 0) {
+                        $(this).val(monto * .02);
+                    }
+                });
+                
+                $("#interactivevalley_pakmailbundle_envio_direccionFiscal_pais").on('change', function () {
+                    if($(this).val()=="Mexico"){
+                        bootbox.prompt("¿Cual es tu codigo postal?", function(codigo) {
+                            if (codigo === null) {                                             
+                                alert("El valor no fue ingresado");
+                            }else{
+                                llamarAMetodosCodigoPostal(codigo, "#interactivevalley_pakmailbundle_envio_direccionFiscal");
+                            }
+                        });
+                    }else if($(this).val()=="Otro"){
+                        agregarPais("#interactivevalley_pakmailbundle_envio_direccionFiscal");
+                        activarCampos("#interactivevalley_pakmailbundle_envio_direccionFiscal");
+                    }else{
+                        activarCampos("#interactivevalley_pakmailbundle_envio_direccionFiscal");
+                    }
+                });
+                
+                $("#interactivevalley_pakmailbundle_envio_direccionRemitente_pais").on('change', function () {
+                    if($(this).val()=="Mexico"){
+                        bootbox.prompt("¿Cual es tu codigo postal?", function(codigo) {
+                            if (codigo === null) {                                             
+                                alert("El valor no fue ingresado");
+                            }else{
+                                llamarAMetodosCodigoPostal(codigo, "#interactivevalley_pakmailbundle_envio_direccionRemitente");
+                            }
+                        });
+                    }else if($(this).val()=="Otro"){
+                        agregarPais("#interactivevalley_pakmailbundle_envio_direccionRemitente");
+                        activarCampos("#interactivevalley_pakmailbundle_envio_direccionRemitente");
+                    }else{
+                        activarCampos("#interactivevalley_pakmailbundle_envio_direccionRemitente");
+                    }
+                });
+                
+                $("#interactivevalley_pakmailbundle_envio_direccionDestino_pais").on('change', function () {
+                    if($(this).val()=="Mexico"){
+                        bootbox.prompt("¿Cual es tu codigo postal?", function(codigo) {
+                            if (codigo === null) {                                             
+                                alert("El valor no fue ingresado");
+                            }else{
+                                llamarAMetodosCodigoPostal(codigo, "#interactivevalley_pakmailbundle_envio_direccionDestino");
+                            }
+                        });
+                    }else if($(this).val()=="Otro"){
+                        agregarPais("#interactivevalley_pakmailbundle_envio_direccionDestino");
+                        activarCampos("#interactivevalley_pakmailbundle_envio_direccionDestino");
+                    }else{
+                        activarCampos("#interactivevalley_pakmailbundle_envio_direccionDestino");
+                    }
+                });
+
+                if (creacionEnvio) {
+                    bootbox.confirm('<h3>Gracias nos pondremos en contacto con usted a la brevedad posible.</h3><p>¿Desea guardar el envio en sus perfiles de envio?<br/><span style=\"font-size: .8em;\">*Al guardar un perfil de envío usted podra autorellenar sus campos en futuras operaciones.</span></p>', function (result) {
+                        if (result) {
+                            bootbox.prompt('<p>Por favor introduzca un nombre de referencia para este perfil de envio<br/><span style=\"font-size: .8em;\">Usted puede editar sus perfiles de envio en cualquier momento<br/>ingresando al area de Perfiles de Envio de lado izquierdo.</span></p>', function (nombrePerfil) {
+                                if (nombrePerfil === null) {
+                                    bootbox.alert("Nombre de perfil no recibido!");
+                                } else {
+                                    if (nombrePerfil.length > 0) {
+                                        $.ajax({
+                                            url: '{{path('pakmail_perfiles_create')}}',
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            data: {'nombre': nombrePerfil, 'envio': creacionEnvio},
+                                            success: function (data) {
+                                                bootbox.alert("Perfil ha sido guardado!");
+                                                console.log(data);
+                                                location.reload();
+                                            },
+                                            error: function (data) {
+                                                bootbox.alert("Error: no se ha podido realizar la operacion solicitada!");
+                                                console.log(data);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                }
+                
+            revisarCampos("#interactivevalley_pakmailbundle_envio_direccionFiscal");
+            revisarCampos("#interactivevalley_pakmailbundle_envio_direccionRemitente");
+            revisarCampos("#interactivevalley_pakmailbundle_envio_direccionDestino");
         });
-        
-        $("#interactivevalley_pakmailbundle_envio_importeSeguro").on('focus',function(){
-            var monto = $("#interactivevalley_pakmailbundle_envio_montoSeguro").val();
-            if(monto>0){
-                $(this).val(monto*.02);
+    function llamarAMetodosCodigoPostal(codigo, idDireccion){
+        if(codigo.length<5){
+            codigo = "0" + codigo;
+        }
+        //$("#interactivevalley_pakmailbundle_envio_direccionFiscal" + elemento)
+        $estado = $(idDireccion+ "_estado");
+        $delegacion = $(idDireccion+ "_delegacion");
+        $colonia = $(idDireccion+ "_poblacion");
+        $codigo = $(idDireccion+ "_cp");
+        var url = 'https://api-codigos-postales.herokuapp.com/codigo_postal/'+codigo;
+        $.ajax({
+            url: url,
+            type: 'get',
+            dataType: 'json',
+            success: function(data){
+                if(data.length>0){
+                    $estado.val(data[0].estado).attr('disabled','disabled');
+                    $delegacion.val(data[0].municipio).attr('disabled','disabled');;
+                    $codigo.val(codigo).attr('disabled','disabled');;
+                }else{
+                    alert("No se encontro el codigo postal ingresado");
+                    return false;
+                }
+                if(data.length==1){
+                    // solo hay una colonia
+                    $colonia.val(data[0].colonia).attr('disabled','disabled');
+                }else{
+                   // cuando hay mas de una colonia  
+                   var options = "";
+                   for(var cont = 0; data.length>cont; cont++){
+                       options += '<option value="'+data[cont].colonia+'">'+data[cont].colonia+'</option>';
+                   }
+                   
+                    bootbox.dialog({
+                        title: "Selecciona tu colonia.",
+                        message: '<div class="row">  ' +
+                            '<div class="col-md-12"> ' +
+                            '<form class="form-horizontal"> ' +
+                            '<div class="form-group"> ' +
+                                '<label class="col-md-4 control-label" for="colonia">Colonia</label> ' +
+                                '<div class="col-md-4"> ' +
+                                    '<select id="colonia" name="colonia" type="text" placeholder="Seleccionar colonia" class="form-control"> ' +
+                                    options +
+                                    '</select>' +
+                                '</div> ' +
+                            '</div> ' +
+                            '</form> </div>  </div>',
+                        buttons: {
+                            success: {
+                                label: "Seleccionar",
+                                className: "btn-success",
+                                callback: function () {
+                                    var colonia = $('#colonia').val();
+                                    $colonia.val(colonia).attr('disabled','disabled');
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }); 
+    }
+    function agregarPais(idDireccion){
+        var $pais = $(idDireccion+ "_pais");
+        var $opciones = $(idDireccion+ "_pais option");
+        bootbox.prompt("Cual es el pais?", function(pais) { 
+            debugger;
+            if (pais === null) {                                             
+              alert("No se ha ingresado ningun pais");                              
+            } else {
+               debugger;
+               pais.trim().toLowerCase();
+               var Letra = pais[0];
+               var encontrado = false;
+               Letra.toUpperCase();
+               pais[0]=Letra;
+               for(var cont=0; cont<$opciones.length; cont++){
+                   if($opciones[cont].value==pais){
+                       encontrado = true;
+                       break;
+                   }
+               }
+               if(!encontrado){
+                   var opcionUltima = $opciones[$opciones.length-1];
+                   var opcionOtro = $opciones[$opciones.length-1];
+                   opcionUltima.value = pais;
+                   opcionUltima.innerHTML = pais;
+                   $pais.append(opcionOtro);
+               }
             }
         });
-        
-        if(creacionEnvio){
-			bootbox.confirm('<h3>Gracias nos pondremos en contacto con usted a la brevedad posible.</h3><p>¿Desea guardar el envio en sus perfiles de envio?<br/><span style=\"font-size: .8em;\">*Al guardar un perfil de envío usted podra autorellenar sus campos en futuras operaciones.</span></p>', function (result) {
-              if (result) {
-                  	bootbox.prompt('<p>Por favor introduzca un nombre de referencia para este perfil de envio<br/><span style=\"font-size: .8em;\">Usted puede editar sus perfiles de envio en cualquier momento<br/>ingresando al area de Perfiles de Envio de lado izquierdo.</span></p>', function(nombrePerfil) {                
-					  if (nombrePerfil === null) {                                             
-						bootbox.alert("Nombre de perfil no recibido!");                            
-					  } else {
-						if(nombrePerfil.length>0){
-							$.ajax({
-								url: '{{path('pakmail_perfiles_create')}}',
-								type: 'POST',
-								dataType: 'json',
-								data: {'nombre': nombrePerfil, 'envio': creacionEnvio },
-								success: function (data) {
-									bootbox.alert("Perfil ha sido guardado!");
-									console.log(data);
-									location.reload();
-								},
-								error: function (data) {
-									bootbox.alert("Error: no se ha podido realizar la operacion solicitada!");
-									console.log(data);
-								}
-							});
-						}                          
-					  }	
-					});
-              }
-          	});
-            
-        }
-        
-    });
+    }
+    function activarCampos(idDireccion){
+        //$("#interactivevalley_pakmailbundle_envio_direccionFiscal" + elemento)
+        $(idDireccion+ "_estado").removeAttr('disabled');
+        $(idDireccion+ "_delegacion").removeAttr('disabled');
+        $(idDireccion+ "_poblacion").removeAttr('disabled');
+        $(idDireccion+ "_cp").removeAttr('disabled');
+    }
     
-</script>
+    function desactivarCampos(idDireccion){
+        //$("#interactivevalley_pakmailbundle_envio_direccionFiscal" + elemento)
+        $(idDireccion+ "_estado").attr('disabled','disabled');
+        $(idDireccion+ "_delegacion").attr('disabled','disabled');
+        $(idDireccion+ "_poblacion").attr('disabled','disabled');
+        $(idDireccion+ "_cp").attr('disabled','disabled');
+    }
+    
+    function revisarCampos(idDireccion){
+        if($(idDireccion+ "_pais").val()=="Mexico"){
+            desactivarCampos(idDireccion)
+        }else{
+            activarCampos(idDireccion)
+        }
+    }
+    
+    </script>
 {% endblock %}
