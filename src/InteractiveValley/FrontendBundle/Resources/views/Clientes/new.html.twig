@@ -20,25 +20,20 @@
                                     <h6 class="subtitulo vino"></h6>
                                 </hgroup>
                             </header>
+							<p style="color: red;">
+                                    * Estos campos son obligatorios. 
+                            </p>
                             {{form_errors(form)}}
                             {{form_start(form)}}
                             <fieldset>
                                 {{form_row(form.direccionFiscal)}}
-                                <p>
-                                    * son obligatorios. 
-                                </p>
+                                
                             </fieldset>
                             <fieldset>
                                 {{form_row(form.direccionRemitente)}}
-                                <p>
-                                    * son obligatorios. 
-                                </p>
                             </fieldset>
                             <fieldset>
                                 {{form_row(form.direccionDestino)}}
-                                <p>
-                                    * son obligatorios. 
-                                </p>
                             </fieldset>
                             <fieldset>
                                 <legend>Destino de envío</legend>
@@ -74,7 +69,7 @@
                                     </table>
                                     <div class="checkbox">
                                         <label>
-                                            {{form_widget(form.generarGastosAduana)}} ¿Generar gastos de aduana?
+                                            {{form_widget(form.generarGastosAduana)}} ¿Genera gastos de aduana?
                                         </label>
                                     </div>
                                     {{form_row(form.valorDeclarado)}}
@@ -86,9 +81,6 @@
                                     se tendrá que tener un recibo y/o 
                                     factura de compra con el valor declarado.
                                 </div>
-                                <p>
-                                    * son obligatorios. 
-                                </p>
                             </fieldset>
                             <input type="submit" value="Generar solicitud" class="btn btn-bg btn-danger"/>
                             {{form_end(form)}}
@@ -242,16 +234,17 @@
             dataType: 'json',
             success: function(data){
                 if(data.length>0){
-                    $estado.val(data[0].estado).attr('disabled','disabled');
-                    $delegacion.val(data[0].municipio).attr('disabled','disabled');;
-                    $codigo.val(codigo).attr('disabled','disabled');;
+                    $estado.val(data[0].estado);
+                    $delegacion.val(data[0].municipio);
+                    $codigo.val(codigo);
+					desactivarCampos(idDireccion);
                 }else{
                     alert("No se encontro el codigo postal ingresado");
                     return false;
                 }
                 if(data.length==1){
                     // solo hay una colonia
-                    $colonia.val(data[0].colonia).attr('disabled','disabled');
+                    $colonia.val(data[0].colonia);
                 }else{
                    // cuando hay mas de una colonia  
                    var options = "";
@@ -279,7 +272,7 @@
                                 className: "btn-success",
                                 callback: function () {
                                     var colonia = $('#colonia').val();
-                                    $colonia.val(colonia).attr('disabled','disabled');
+                                    $colonia.val(colonia)
                                 }
                             }
                         }
@@ -320,18 +313,18 @@
     }
     function activarCampos(idDireccion){
         //$("#interactivevalley_pakmailbundle_envio_direccionFiscal" + elemento)
-        $(idDireccion+ "_estado").removeAttr('disabled');
-        $(idDireccion+ "_delegacion").removeAttr('disabled');
-        $(idDireccion+ "_poblacion").removeAttr('disabled');
-        $(idDireccion+ "_cp").removeAttr('disabled');
+        $(idDireccion+ "_estado").removeAttr('readonly');
+        $(idDireccion+ "_delegacion").removeAttr('readonly');
+        $(idDireccion+ "_poblacion").removeAttr('readonly');
+        $(idDireccion+ "_cp").removeAttr('readonly');
     }
     
     function desactivarCampos(idDireccion){
         //$("#interactivevalley_pakmailbundle_envio_direccionFiscal" + elemento)
-        $(idDireccion+ "_estado").attr('disabled','disabled');
-        $(idDireccion+ "_delegacion").attr('disabled','disabled');
-        $(idDireccion+ "_poblacion").attr('disabled','disabled');
-        $(idDireccion+ "_cp").attr('disabled','disabled');
+        $(idDireccion+ "_estado").attr('readonly','readonly');
+        $(idDireccion+ "_delegacion").attr('readonly','readonly');
+        $(idDireccion+ "_poblacion").attr('readonly','readonly');
+        $(idDireccion+ "_cp").attr('readonly','readonly');
     }
     
     function revisarCampos(idDireccion){

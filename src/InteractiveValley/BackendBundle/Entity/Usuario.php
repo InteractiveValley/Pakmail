@@ -108,6 +108,7 @@ class Usuario implements UserInterface, \Serializable
         $arreglo=array(
             self::GRUPO_ADMIN=>'Administrador',
             self::GRUPO_SUPER_ADMIN=>'Superadmin',
+			self::GRUPO_USUARIOS=>'Usuarios',
         );
         return $arreglo[$this->getGrupo()];
     }

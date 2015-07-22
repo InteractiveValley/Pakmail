@@ -48,7 +48,7 @@ class DireccionRemision
     /**
      * @var string
      *
-     * @ORM\Column(name="colonia", type="string", length=255)
+     * @ORM\Column(name="colonia", type="string", length=255, nullable=true)
      */
     private $colonia;
 
@@ -103,7 +103,7 @@ class DireccionRemision
     /**
      * @var string
      *
-     * @ORM\Column(name="celular", type="string", length=255)
+     * @ORM\Column(name="celular", type="string", length=255, nullable=true)
      */
     private $celular;
 

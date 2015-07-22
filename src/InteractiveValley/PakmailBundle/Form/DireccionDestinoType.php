@@ -36,8 +36,8 @@ class DireccionDestinoType extends AbstractType
     {
         $builder
             ->add('calle','text',array('label'=>'Calle *','attr'=>array('class'=>'form-control')))
-            ->add('numExterior','text',array('label'=>'Numero Exterior','attr'=>array('class'=>'form-control')))
-            ->add('numInterior','text',array('label'=>'Numero Interior','attr'=>array('class'=>'form-control')))
+            ->add('numExterior','text',array('label'=>'Numero Exterior *','attr'=>array('class'=>'form-control')))
+            ->add('numInterior','text',array('label'=>'Numero Interior *','attr'=>array('class'=>'form-control')))
             //->add('colonia','text',array('label'=>'Colonia *','attr'=>array('class'=>'form-control')))
             ->add('colonia','hidden')
             ->add('pais','choice',array(
@@ -50,7 +50,7 @@ class DireccionDestinoType extends AbstractType
             ->add('poblacion','text',array('label'=>'Población o Colonia *','attr'=>array('class'=>'form-control')))
             ->add('cp','text',array('label'=>'Codigo postal *','attr'=>array('class'=>'form-control')))
             ->add('telefono','text',array('label'=>'Teléfono *','attr'=>array('class'=>'form-control')))
-            ->add('celular','text',array('label'=>'Celular ','attr'=>array('class'=>'form-control')))
+            ->add('celular','text',array('label'=>'Celular ','required'=>false,'attr'=>array('class'=>'form-control')))
             ->add('email','text',array('label'=>'E-mail *','attr'=>array('class'=>'form-control')))
         ;
     }

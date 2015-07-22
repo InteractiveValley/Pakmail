@@ -60,6 +60,7 @@ class Envio
      * @var string
      *
      * @ORM\Column(name="referencia", type="text")
+     * @Assert\NotBlank(message="Ingresar la referencia")
      */
     private $referencia;
 
@@ -67,20 +68,21 @@ class Envio
      * @var string
      *
      * @ORM\Column(name="tipo", type="string", length=150)
+     * @Assert\NotBlank(message="Ingresar el tipo")
      */
     private $tipo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="kilogramos", type="decimal", scale=2)
+     * @ORM\Column(name="kilogramos", type="decimal", scale=2, nullable=true)
      */
     private $kilogramos;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="precio", type="decimal", scale=2)
+     * @ORM\Column(name="precio", type="decimal", scale=2, nullable=true)
      */
     private $precio;
 
@@ -88,13 +90,14 @@ class Envio
      * @var string
      *
      * @ORM\Column(name="numGuia", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresar numero de guia")
      */
     private $numGuia;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="folio", type="string", length=255)
+     * @ORM\Column(name="folio", type="string", length=255, nullable=true)
      */
     private $folio;
 
@@ -108,21 +111,21 @@ class Envio
     /**
      * @var string
      *
-     * @ORM\Column(name="montoSeguro", type="decimal", scale=2)
+     * @ORM\Column(name="montoSeguro", type="decimal", scale=2 ,nullable=true)
      */
     private $montoSeguro;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="importeSeguro", type="decimal", scale=2)
+     * @ORM\Column(name="importeSeguro", type="decimal", scale=2, nullable=true)
      */
     private $importeSeguro;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="text")
+     * @ORM\Column(name="observaciones", type="text", nullable=true)
      */
     private $observaciones;
     
@@ -174,6 +177,7 @@ class Envio
      * @var string
      *
      * @ORM\Column(name="medidas_peso", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresar peso en kilogramos")
      */
     private $medidaPeso;
     
@@ -182,6 +186,7 @@ class Envio
      * @var string
      *
      * @ORM\Column(name="medidas_largo", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresar el largo")
      */
     private $medidaLargo;
     
@@ -189,6 +194,7 @@ class Envio
      * @var string
      *
      * @ORM\Column(name="medidas_ancho", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresar el ancho")
      */
     private $medidaAncho;
     
@@ -196,20 +202,21 @@ class Envio
      * @var string
      *
      * @ORM\Column(name="medida_alto", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresar el alto")
      */
     private $medidaAlto;
     
     /**
      * @var string
      *
-     * @ORM\Column(name="generar_gastos_aduana", type="boolean")
+     * @ORM\Column(name="generar_gastos_aduana", type="boolean", nullable=true)
      */
     private $generarGastosAduana;
     
     /**
      * @var string
      *
-     * @ORM\Column(name="valor_declarado", type="string", length=255)
+     * @ORM\Column(name="valor_declarado", type="string", length=255, nullable=true)
      */
     private $valorDeclarado;
 
@@ -233,6 +240,7 @@ class Envio
     
     public function __construct() {
         $this->hasPerfil = false;
+		$this->asegurarEnvio = false;
         $this->generarGastosAduana = false;
     }
     

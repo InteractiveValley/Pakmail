@@ -25,27 +25,38 @@ class PerfilFrontendType extends AbstractType
             ->add('direccionFiscal',new DireccionFiscalType(),array('label'=>'DIRECCION FISCAL'))
             ->add('direccionRemitente',new DireccionRemisionType(),array('label'=>'DIRECCION REMITENTE'))
             ->add('direccionDestino',new DireccionDestinoType(),array('label'=>'DIRECCION DESTINO'))
-            ->add('referencia','text',array('attr'=>array('label'=>'Referencia','class'=>'form-control')))
-            ->add('tipo','text',array('attr'=>array('label'=>'Tipo','class'=>'form-control')))
-            ->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
-            ->add('precio',null,array('label'=>'Precio','attr'=>array('class'=>'form-control')))
-            ->add('numGuia','text',array('label'=>'No. Guia','attr'=>array('class'=>'form-control')))
+            ->add('referencia','text',array('label'=>'Referencia *','attr'=>array('class'=>'form-control')))
+            ->add('tipo','text',array('label'=>'Tipo *','attr'=>array('class'=>'form-control')))
+            //->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
+            ->add('kilogramos','hidden')
+            ->add('precio',null,array('label'=>'Precio *','attr'=>array('class'=>'form-control')))
+            ->add('numGuia','text',array('label'=>'No. Guia *','attr'=>array('class'=>'form-control')))
             //->add('folio','text',array('label'=>'No. de Control Ticket o Folio','attr'=>array('class'=>'form-control')))
-            ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','attr'=>array(
+            ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','required'=>false,'attr'=>array(
                 'class'=>'checkbox-inline',
                 'placeholder'=>'asegurar envio',
                 'data-bind'=>'value: asegurarEnvio'
              )))
-            ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max 100,000,00)','attr'=>array('class'=>'form-control')))
-            ->add('importeSeguro',null,array('label'=>'Importe del Seguro (2%)','attr'=>array('class'=>'form-control')))
+            ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max 100,000,00)','required'=>false,'attr'=>array('class'=>'form-control')))
+            ->add('importeSeguro',null,array('label'=>'Importe del Seguro (2%)','required'=>false,'attr'=>array('class'=>'form-control')))
             ->add('observaciones',null,array(
                 'label'=>'Observaciones',
-                'required'=>true,
+                'required'=>false,
                 'attr'=>array(
                     'class'=>'cleditor tinymce form-control placeholder',
                    'data-theme' => 'advanced',
                     )
-                ))    
+                ))
+            ->add('medidaPeso','text',array('label'=>'Peso','attr'=>array('class'=>'form-control')))
+            ->add('medidaLargo','text',array('label'=>'Largo','attr'=>array('class'=>'form-control')))
+            ->add('medidaAncho','text',array('label'=>'Ancho','attr'=>array('class'=>'form-control')))
+            ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control')))
+            ->add('generarGastosAduana',null,array('label'=>'Generar Gastos de Aduana?','required'=>false,'attr'=>array(
+                'class'=>'checkbox-inline',
+                'placeholder'=>'generar gastos aduana',
+                'data-bind'=>'value: generarGastosAduana'
+             )))
+            ->add('valorDeclarado','number',array('label'=>'Valor declarado','required'=>false,'attr'=>array('class'=>'form-control')))    
             ->add('nombre','text',array('label'=>'Nombre del perfil','attr'=>array('class'=>'form-control')))
             ->add('isActive',null,array('label'=>'Activo?','attr'=>array(
                     'class'=>'checkbox-inline',
