@@ -68,6 +68,7 @@ class Perfil
      * @var string
      *
      * @ORM\Column(name="referencia", type="text")
+     * @Assert\NotBlank(message="Ingresar una referencia")
      */
     private $referencia;
 
@@ -75,20 +76,15 @@ class Perfil
      * @var string
      *
      * @ORM\Column(name="tipo", type="string", length=150)
+     * @Assert\NotBlank(message="Ingresar un tipo")
      */
     private $tipo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="kilogramos", type="decimal", scale=2, nullable=true)
-     */
-    private $kilogramos;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="precio", type="decimal", scale=2)
+     * @Assert\NotBlank(message="Ingresar un precio")
      */
     private $precio;
 
@@ -96,13 +92,14 @@ class Perfil
      * @var string
      *
      * @ORM\Column(name="numGuia", type="string", length=255)
+     * @Assert\NotBlank(message="Ingresar numero de guia")
      */
     private $numGuia;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="folio", type="string", length=255)
+     * @ORM\Column(name="folio", type="string", length=255, nullable=true)
      */
     private $folio;
 
@@ -116,28 +113,28 @@ class Perfil
     /**
      * @var string
      *
-     * @ORM\Column(name="montoSeguro", type="decimal", scale=2)
+     * @ORM\Column(name="montoSeguro", type="decimal", scale=2, nullable=true)
      */
     private $montoSeguro;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="importeSeguro", type="decimal", scale=2)
+     * @ORM\Column(name="importeSeguro", type="decimal", scale=2, nullable=true)
      */
     private $importeSeguro;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="text")
+     * @ORM\Column(name="observaciones", type="text", nullable=true)
      */
     private $observaciones;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetimetz")
+     * @ORM\Column(name="createdAt", type="datetime")
      */
     private $createdAt;
 
@@ -166,7 +163,7 @@ class Perfil
      */
     private $isActive;
 	
-	/**
+    /**
      * @var string
      *
      * @ORM\Column(name="medidas_peso", type="string", length=100)
@@ -239,6 +236,36 @@ class Perfil
     public function setUpdatedAtValue()
     {
         $this->updatedAt = new \DateTime();
+    }
+    
+    /**
+     * @Assert\True(message="Ingresa un monto de seguro valido") 
+     */
+    public function isMontoSeguroValid(){
+        if($this->asegurarEnvio){
+            return $this->getMontoSeguro()>0;
+        }
+        return true;
+    }
+    
+    /**
+     * @Assert\True(message="Ingresa un importe de seguro valido") 
+     */
+    public function isMontoImporteValid(){
+        if($this->asegurarEnvio){
+            return $this->getImporteSeguro()>0;
+        }
+        return true;
+    }
+    
+    /**
+     * @Assert\True(message="Ingresa un valor declarado valido") 
+     */
+    public function isValorDeclaradoValid(){
+        if($this->generarGastosAduana){
+            return $this->getValorDeclarado()>0;
+        }
+        return true;
     }
 
 

@@ -35,6 +35,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="numExterior", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresa el numero exterior")
      */
     private $numExterior;
 
@@ -42,15 +43,9 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="numInterior", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresa el numero interior")
      */
     private $numInterior;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="colonia", type="string", length=255, nullable=true)
-     */
-    private $colonia;
 
     /**
      * @var string

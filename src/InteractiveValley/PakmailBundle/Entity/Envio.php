@@ -75,13 +75,6 @@ class Envio
     /**
      * @var string
      *
-     * @ORM\Column(name="kilogramos", type="decimal", scale=2, nullable=true)
-     */
-    private $kilogramos;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="precio", type="decimal", scale=2, nullable=true)
      */
     private $precio;
@@ -300,6 +293,36 @@ class Envio
             self::STATUS_RECHAZADA=>'Rechazada',
         );
         return $arreglo[$this->getStatus()];
+    }
+    
+    /**
+     * @Assert\True(message="Ingresa un monto de seguro valido") 
+     */
+    public function isMontoSeguroValid(){
+        if($this->asegurarEnvio){
+            return $this->getMontoSeguro()>0;
+        }
+        return true;
+    }
+    
+    /**
+     * @Assert\True(message="Ingresa un importe de seguro valido") 
+     */
+    public function isMontoImporteValid(){
+        if($this->asegurarEnvio){
+            return $this->getImporteSeguro()>0;
+        }
+        return true;
+    }
+    
+    /**
+     * @Assert\True(message="Ingresa un valor declarado valido") 
+     */
+    public function isValorDeclaradoValid(){
+        if($this->generarGastosAduana){
+            return $this->getValorDeclarado()>0;
+        }
+        return true;
     }
 
     /**

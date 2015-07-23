@@ -90,6 +90,7 @@ class BaseController extends Controller
                 ->setSubject($asunto)
                 ->setFrom($usuario->getEmail())
                 ->setTo('logisticavirreyes@gmail.com')
+                //->setTo('richpolis@gmail.com')
                 ->setBody(
                 $this->renderView('FrontendBundle:Default:enviarSolicitudEnvio.html.twig', 
                         compact('usuario', 'envio', 'asunto')), 

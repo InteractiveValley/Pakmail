@@ -20,9 +20,11 @@
                                     <h6 class="subtitulo vino"></h6>
                                 </hgroup>
                             </header>
+                            {{form_errors(form)}}
                             {{form_start(form)}}
                             <fieldset>
                                 {{form_row(form.direccionFiscal)}}
+                                
                             </fieldset>
                             <fieldset>
                                 {{form_row(form.direccionRemitente)}}
@@ -31,9 +33,44 @@
                                 {{form_row(form.direccionDestino)}}
                             </fieldset>
                             <fieldset>
-                                <legend>Datos del envio</legend>
-                                <div>{{form_rest(form)}}</div>
-                            </fieldset>
+                                <legend>Destino de envío</legend>
+                                <div>
+                                    {{form_row(form.referencia)}}
+                                    {{form_row(form.tipo)}}
+                                    {{form_row(form.precio)}}
+                                    {{form_row(form.numGuia)}}
+                                    <div class="checkbox">
+                                        <label>
+                                            {{form_widget(form.asegurarEnvio)}} ¿Desea asegurar el envío?
+                                        </label>
+                                    </div>
+                                    {{form_row(form.montoSeguro)}}
+                                    {{form_row(form.importeSeguro)}}
+                                    {{form_row(form.observaciones)}}
+                                    <table>
+                                        <tr>
+                                            <td></td>
+                                            <td>Peso (kg) *</td>
+                                            <td>Largo (cm) *</td>
+                                            <td>Ancho (cm) *</td>
+                                            <td>Largo (cm) *</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Medidas: &nbsp;</td>
+                                            <td>{{form_widget(form.medidaPeso)}}</td>
+                                            <td>{{form_widget(form.medidaLargo)}}</td>
+                                            <td>{{form_widget(form.medidaAncho)}}</td>
+                                            <td>{{form_widget(form.medidaAlto)}}</td>
+                                        </tr>
+                                    </table>
+                                    <div class="checkbox">
+                                        <label>
+                                            {{form_widget(form.generarGastosAduana)}} ¿Genera gastos de aduana?
+                                        </label>
+                                    </div>
+                                    {{form_row(form.valorDeclarado)}}
+                                    {{form_rest(form)}}
+                                </div>
                             <input type="submit" value="Guardar cambios" class="btn btn-bg btn-danger"/>
                             {{form_end(form)}}
                            

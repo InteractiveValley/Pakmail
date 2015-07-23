@@ -52,9 +52,12 @@ class ClientesController extends BaseController {
             
             if(!$entity->getHasPerfil()){
                 $this->get('session')->set('envio_creado',$entity->getId());
+                $this->get('session')->set('perfil_guardado',0);
             }else{
-                $this->get('session')->set('envio_creado','0');
+                $this->get('session')->set('envio_creado',$entity->getId());
+                $this->get('session')->set('perfil_guardado',1);
             }
+            $this->enviarSolicitudEnvioCreado($this->getUser(), $entity);
             $ruta = $this->generateUrl('pakmail_envios_new');
             return $this->redirect($ruta);
         }
@@ -113,16 +116,24 @@ class ClientesController extends BaseController {
         
         if($session->has('envio_creado') && strlen($session->get('envio_creado'))>0){
             $creacionEnvio = $session->get('envio_creado');
-            $session->set('envio_creado','');
+            $session->set('envio_creado','0');
         }else{
-             $creacionEnvio = '0';
+            $creacionEnvio = '0';
+        }
+        
+        if($session->has('perfil_guardado')){
+            $perfilGuardado = $session->get('perfil_guardado');
+            $session->set('perfil_guardado','0');
+        }else{
+            $perfilGuardado = '0';
         }
         
         return array(
             'entity'    => $entity,
             'form'      => $form->createView(),
             'perfiles'  => $perfiles,
-            'creacionEnvio' => $creacionEnvio
+            'creacionEnvio' => $creacionEnvio,
+            'perfilGuardado'=> $perfilGuardado,
         );
     }
     
@@ -153,7 +164,8 @@ class ClientesController extends BaseController {
             'entity'    => $entity,
             'form'      => $form->createView(),
             'perfiles'  => $perfiles,
-            'creacionEnvio' => '0'
+            'creacionEnvio' => '0',
+            'perfilGuardado'=> '1',
         );
     }
     
@@ -163,7 +175,6 @@ class ClientesController extends BaseController {
         $envio->setDireccionDestino($perfil->getDireccionDestino());
         $envio->setReferencia($perfil->getReferencia());
         $envio->setTipo($perfil->getTipo());
-        $envio->setKilogramos($perfil->getKilogramos());
         $envio->setPrecio($perfil->getPrecio());
         $envio->setNumGuia($perfil->getNumGuia());
         $envio->setFolio($perfil->getFolio());
@@ -363,7 +374,6 @@ class ClientesController extends BaseController {
         $perfil->setDireccionDestino($envio->getDireccionDestino());
         $perfil->setReferencia($envio->getReferencia());
         $perfil->setTipo($envio->getTipo());
-        $perfil->setKilogramos($envio->getKilogramos());
         $perfil->setPrecio($envio->getPrecio());
         $perfil->setNumGuia($envio->getNumGuia());
         $perfil->setFolio($envio->getFolio());

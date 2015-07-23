@@ -25,18 +25,16 @@ class EnvioType extends AbstractType
             ->add('direccionDestino',new DireccionDestinoType(),array('label'=>'DIRECCION DESTINO'))
             ->add('referencia','text',array('label'=>'Referencia *','attr'=>array('class'=>'form-control')))
             ->add('tipo','text',array('label'=>'Tipo *','attr'=>array('class'=>'form-control')))
-            //->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
-            ->add('kilogramos','hidden')
             ->add('precio',null,array('label'=>'Precio *','attr'=>array('class'=>'form-control')))
             ->add('numGuia','text',array('label'=>'No. Guia *','attr'=>array('class'=>'form-control')))
-            ->add('folio','text',array('label'=>'No. de Control Ticket o Folio *','attr'=>array('class'=>'form-control')))
-            ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','attr'=>array(
+            ->add('folio','text',array('label'=>'No. de Control Ticket o Folio','required'=>false,'attr'=>array('class'=>'form-control')))
+            ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','required'=>false,'attr'=>array(
                 'class'=>'checkbox-inline',
                 'placeholder'=>'asegurar envio',
                 'data-bind'=>'value: asegurarEnvio'
              )))
-            ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max 100,000,00)','attr'=>array('class'=>'form-control')))
-            ->add('importeSeguro',null,array('label'=>'Importe del Seguro (2%)','attr'=>array('class'=>'form-control')))
+            ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max 100,000,00)','required'=>false,'attr'=>array('class'=>'form-control')))
+            ->add('importeSeguro',null,array('label'=>'Importe del Seguro (2%)','required'=>false,'attr'=>array('class'=>'form-control')))
             ->add('observaciones',null,array(
                 'label'=>'Observaciones',
                 'required'=>false,
@@ -49,8 +47,8 @@ class EnvioType extends AbstractType
             ->add('medidaLargo','text',array('label'=>'Largo','attr'=>array('class'=>'form-control')))
             ->add('medidaAncho','text',array('label'=>'Ancho','attr'=>array('class'=>'form-control')))
             ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control')))
-            ->add('generarGastosAduana',null,array('label'=>'¿Generar gastos de aduana?','attr'=>array('class'=>'form-control')))
-            ->add('valorDeclarado','number',array('label'=>'Valor declarado','attr'=>array('class'=>'form-control')))
+            ->add('generarGastosAduana',null,array('label'=>'¿Generar gastos de aduana?','required'=>false,'attr'=>array('class'=>'form-control')))
+            ->add('valorDeclarado','number',array('label'=>'Valor declarado','required'=>false,'attr'=>array('class'=>'form-control')))
             ->add('perfil','hidden')
             ->add('hasPerfil','hidden')
             ->add('status','hidden')
