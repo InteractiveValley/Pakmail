@@ -107,12 +107,12 @@ class DireccionRemision
      *
      * @ORM\Column(name="email", type="string", length=255)
      * @Assert\NotBlank(message="Ingresa un correo")
-     * @Assert\Email()
+     * @Assert\Email(message="Ingresa un email correcto")
      */
     private $email;
 
     public function __toString() {
-        return sprintf('s% s% s% s% s%',$this->calle,$this->numExterior,$this->numInterior,$this->colonia
+        return sprintf('s% s% s% s% s%',$this->calle,$this->numExterior,$this->numInterior,$this->poblacion
                 , $this->cp);
     }
     
@@ -199,30 +199,6 @@ class DireccionRemision
     }
 
     /**
-     * Set colonia
-     *
-     * @param string $colonia
-     *
-     * @return DireccionRemision
-     */
-    public function setColonia($colonia)
-    {
-        $this->colonia = $colonia;
-
-        return $this;
-    }
-
-    /**
-     * Get colonia
-     *
-     * @return string
-     */
-    public function getColonia()
-    {
-        return $this->colonia;
-    }
-
-    /**
      * Set poblacion
      *
      * @param string $poblacion
@@ -303,7 +279,7 @@ class DireccionRemision
      */
     public function setPais($pais)
     {
-        $this->pais = $pais;
+        $this->pais = ucwords(strtolower($pais));
 
         return $this;
     }

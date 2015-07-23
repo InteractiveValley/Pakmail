@@ -108,7 +108,7 @@ class DireccionDestino
      *
      * @ORM\Column(name="email", type="string", length=255)
      * @Assert\NotBlank(message="Ingresa un correo")
-     * @Assert\Email()
+     * @Assert\Email(message="Ingresa un email correcto")
      */
     private $email;
     
@@ -304,7 +304,7 @@ class DireccionDestino
      */
     public function setPais($pais)
     {
-        $this->pais = $pais;
+        $this->pais = ucwords(strtolower($pais));
 
         return $this;
     }

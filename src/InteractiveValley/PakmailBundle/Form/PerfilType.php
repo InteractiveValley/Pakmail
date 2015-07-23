@@ -21,7 +21,6 @@ class PerfilType extends AbstractType
             ->add('direccionDestino',new DireccionDestinoType(),array('label'=>'DIRECCION DESTINO'))
             ->add('referencia','text',array('attr'=>array('label'=>'Referencia','class'=>'form-control')))
             ->add('tipo','text',array('attr'=>array('label'=>'Tipo','class'=>'form-control')))
-            ->add('kilogramos','text',array('label'=>'Peso Kg','attr'=>array('class'=>'form-control')))
             ->add('precio',null,array('label'=>'Precio','attr'=>array('class'=>'form-control')))
             ->add('numGuia','text',array('label'=>'No. Guia','attr'=>array('class'=>'form-control')))
             ->add('folio','text',array('label'=>'No. de Control Ticket o Folio','required'=>false,'attr'=>array('class'=>'form-control')))
@@ -40,11 +39,15 @@ class PerfilType extends AbstractType
                    'data-theme' => 'advanced',
                     )
                 ))
-                        ->add('medidaPeso','text',array('label'=>'Peso','attr'=>array('class'=>'form-control')))
+            ->add('medidaPeso','text',array('label'=>'Peso','attr'=>array('class'=>'form-control')))
             ->add('medidaLargo','text',array('label'=>'Largo','attr'=>array('class'=>'form-control')))
             ->add('medidaAncho','text',array('label'=>'Ancho','attr'=>array('class'=>'form-control')))
             ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control')))
-            ->add('generarGastosAduana',null,array('label'=>'¿Generar gastos de aduana?','required'=>false,'attr'=>array('class'=>'form-control')))
+            ->add('generarGastosAduana',null,array('label'=>'¿Genera gastos de Aduana?','required'=>false,'attr'=>array(
+                'class'=>'checkbox-inline',
+                'placeholder'=>'asegurar envio',
+                'data-bind'=>'value: asegurarEnvio'
+             )))
             ->add('valorDeclarado','number',array('label'=>'Valor declarado','required'=>false,'attr'=>array('class'=>'form-control')))
             ->add('nombre','text',array('label'=>'Nombre del perfil','attr'=>array('class'=>'form-control')))
             ->add('isActive',null,array('label'=>'Activo?','attr'=>array(

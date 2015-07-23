@@ -6,9 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use InteractiveValley\PakmailBundle\Form\DataTransformer\ClienteToNumberTransformer;
-use InteractiveValley\PakmailBundle\Form\DireccionFiscalType;
-use InteractiveValley\PakmailBundle\Form\DireccionRemisionType;
-use InteractiveValley\PakmailBundle\Form\DireccionDestinoType;
+use InteractiveValley\PakmailBundle\Form\Frontend\DireccionFiscalFrontendType;
+use InteractiveValley\PakmailBundle\Form\Frontend\DireccionRemisionFrontendType;
+use InteractiveValley\PakmailBundle\Form\Frontend\DireccionDestinoFrontendType;
 
 class PerfilFrontendType extends AbstractType
 {
@@ -19,12 +19,15 @@ class PerfilFrontendType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $em = $options['em'];
+		$paisesDestino = $options['paisesDestino'];
+		$paisesFiscal = $options['paisesFiscal'];
+		$paisesRemision = $options['paisesRemision'];
         $clienteTransformer = new ClienteToNumberTransformer($em);
         
         $builder
-            ->add('direccionFiscal',new DireccionFiscalType(),array('label'=>'DIRECCION FISCAL'))
-            ->add('direccionRemitente',new DireccionRemisionType(),array('label'=>'DIRECCION REMITENTE'))
-            ->add('direccionDestino',new DireccionDestinoType(),array('label'=>'DIRECCION DESTINO'))
+            ->add('direccionFiscal',new DireccionFiscalFrontendType($paisesFiscal),array('label'=>'DIRECCION FISCAL'))
+            ->add('direccionRemitente',new DireccionRemisionFrontendType($paisesRemision),array('label'=>'DIRECCION REMITENTE'))
+            ->add('direccionDestino',new DireccionDestinoFrontendType($paisesDestino),array('label'=>'DIRECCION DESTINO'))
             ->add('referencia','text',array('label'=>'Referencia *','attr'=>array('class'=>'form-control required')))
             ->add('tipo','text',array('label'=>'Tipo *','attr'=>array('class'=>'form-control required')))
             ->add('precio',null,array('label'=>'Precio *','attr'=>array('class'=>'form-control required')))
@@ -73,7 +76,7 @@ class PerfilFrontendType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'InteractiveValley\PakmailBundle\Entity\Perfil'
         ))
-        ->setRequired(array('em'))
+        ->setRequired(array('em','paisesRemision','paisesFiscal','paisesDestino'))
         ->setAllowedTypes(array('em' => 'Doctrine\Common\Persistence\ObjectManager'))
         ;
     }

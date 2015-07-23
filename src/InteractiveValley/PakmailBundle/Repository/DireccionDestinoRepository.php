@@ -10,4 +10,26 @@ namespace InteractiveValley\PakmailBundle\Repository;
  */
 class DireccionDestinoRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getPaises()
+    {
+        $em=$this->getEntityManager();
+       
+        $query=$em->createQuery('
+            SELECT DISTINCT e.pais as value    
+            FROM PakmailBundle:DireccionDestino e
+        ');
+        
+        $paises=$query->getResult();
+        return $paises;
+    }
+	
+	public function getArrayPaises(){
+		$paises = $this->getPaises();
+		$arreglo = array();
+		foreach($paises as $pais){
+			$arreglo[]=$pais['value'];
+		}
+		$convinado = array_combine($arreglo,$arreglo);
+		return $convinado;
+	}
 }

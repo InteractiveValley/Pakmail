@@ -85,10 +85,18 @@ class ClientesController extends BaseController {
      */
     private function createCreateFormEnvio(Envio $entity)
     {
+		$em = $this->getDoctrine()->getManager();
+		$paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayPaises();
+		$paisesFiscal = $em->getRepository('PakmailBundle:DireccionFiscal')->getArrayPaises();
+		$paisesRemision = $em->getRepository('PakmailBundle:DireccionRemision')->getArrayPaises();
+		
         $form = $this->createForm(new EnvioFrontendType(), $entity, array(
             'action' => $this->generateUrl('pakmail_envios_create'),
             'method' => 'POST',
-            'em'=>$this->getDoctrine()->getManager(),
+            'em'=>$em,
+			'paisesDestino'=>$paisesDestino,
+			'paisesFiscal'=>$paisesFiscal,
+			'paisesRemision'=>$paisesRemision
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Create'));
@@ -247,10 +255,18 @@ class ClientesController extends BaseController {
     */
     private function createEditFormPerfil(Perfil $entity)
     {
+		$em = $this->getDoctrine()->getManager();
+		$paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayPaises();
+		$paisesFiscal = $em->getRepository('PakmailBundle:DireccionFiscal')->getArrayPaises();
+		$paisesRemision = $em->getRepository('PakmailBundle:DireccionRemision')->getArrayPaises();
+		
         $form = $this->createForm(new PerfilFrontendType(), $entity, array(
             'action' => $this->generateUrl('pakmail_perfiles_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-            'em'=>$this->getDoctrine()->getManager(),
+            'em'=>$em,
+			'paisesDestino'=>$paisesDestino,
+			'paisesFiscal'=>$paisesFiscal,
+			'paisesRemision'=>$paisesRemision
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Update'));

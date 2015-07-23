@@ -448,30 +448,6 @@ class Perfil
     }
 
     /**
-     * Set kilogramos
-     *
-     * @param string $kilogramos
-     *
-     * @return Perfil
-     */
-    public function setKilogramos($kilogramos)
-    {
-        $this->kilogramos = $kilogramos;
-
-        return $this;
-    }
-
-    /**
-     * Get kilogramos
-     *
-     * @return string
-     */
-    public function getKilogramos()
-    {
-        return $this->kilogramos;
-    }
-
-    /**
      * Set precio
      *
      * @param string $precio

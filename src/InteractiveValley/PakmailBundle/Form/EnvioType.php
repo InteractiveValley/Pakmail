@@ -47,7 +47,11 @@ class EnvioType extends AbstractType
             ->add('medidaLargo','text',array('label'=>'Largo','attr'=>array('class'=>'form-control')))
             ->add('medidaAncho','text',array('label'=>'Ancho','attr'=>array('class'=>'form-control')))
             ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control')))
-            ->add('generarGastosAduana',null,array('label'=>'¿Generar gastos de aduana?','required'=>false,'attr'=>array('class'=>'form-control')))
+            ->add('generarGastosAduana',null,array('label'=>'¿Genera gastos de Aduana?','required'=>false,'attr'=>array(
+                'class'=>'checkbox-inline',
+                'placeholder'=>'asegurar envio',
+                'data-bind'=>'value: asegurarEnvio'
+             )))
             ->add('valorDeclarado','number',array('label'=>'Valor declarado','required'=>false,'attr'=>array('class'=>'form-control')))
             ->add('perfil','hidden')
             ->add('hasPerfil','hidden')

@@ -286,14 +286,14 @@
     function agregarPais(idDireccion){
         var $pais = $(idDireccion+ "_pais");
         var $opciones = $(idDireccion+ "_pais option");
-        bootbox.prompt("Cual es el pais?", function(pais) { 
+        bootbox.prompt("Cual es el pais?", function(paisIngresado) { 
             debugger;
-            if (pais === null) {                                             
+            if (paisIngresado === null) {                                             
               alert("No se ha ingresado ningun pais");                              
             } else {
                debugger;
-               pais = pais.trim();
-               pais = pais.toLowerCase();
+               var pais = new String(paisIngresado);
+               pais.toLowerCase();
                var Letra = pais[0];
                var encontrado = false;
                Letra.toUpperCase();
@@ -306,10 +306,11 @@
                }
                if(!encontrado){
                    var opcionUltima = $opciones[$opciones.length-1];
-                   var opcionOtro = $opciones[$opciones.length-1];
+                   var opcionOtro = $('<option value="Otro">');
+				   opcionOtro.html("Otro...");
                    opcionUltima.value = pais;
                    opcionUltima.innerHTML = pais;
-                   $pais.push(opcionOtro);
+                   $pais.append(opcionOtro);
                }
             }
         });
