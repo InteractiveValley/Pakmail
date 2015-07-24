@@ -15,12 +15,6 @@ class DireccionDestinoFrontendType extends AbstractType
         if(!array_key_exists('Mexico', $this->listaCuidades)){
             $this->listaCuidades = array_merge($this->listaCuidades, array('Mexico'=>'México'));
         }
-        if(!array_key_exists('Estados Unidos', $this->listaCuidades)){
-            $this->listaCuidades = array_merge($this->listaCuidades, array('Estados Unidos'=>'Estados Unidos'));
-        }
-        if(!array_key_exists('Canada', $this->listaCuidades)){
-            $this->listaCuidades  = array_merge($this->listaCuidades, array('Canada'=>'Canada'));
-        }
         
         asort($this->listaCuidades, SORT_REGULAR);
         

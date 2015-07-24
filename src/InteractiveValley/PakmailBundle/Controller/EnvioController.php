@@ -34,7 +34,7 @@ class EnvioController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('PakmailBundle:Envio')
-                        ->findBy(array(),array('cliente'=>'ASC'));
+                       ->findByCreatedAt();
 
         return array(
             'entities' => $entities,

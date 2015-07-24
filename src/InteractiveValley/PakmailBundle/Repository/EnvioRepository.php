@@ -10,4 +10,18 @@ namespace InteractiveValley\PakmailBundle\Repository;
  */
 class EnvioRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function queryFindByCreatedAt()
+    {
+        $query= $this->getEntityManager()->createQueryBuilder();
+        $query->select('e')
+                ->from('InteractiveValley\PakmailBundle\Entity\Envio', 'e')
+                ->orderBy('e.createdAt', 'DESC');
+        return $query->getQuery();
+    }
+    
+    public function findByCreatedAt()
+    {
+        $query= $this->queryFindByCreatedAt();
+        return $query->getResult();
+    }
 }

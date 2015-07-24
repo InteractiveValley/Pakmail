@@ -130,38 +130,6 @@ class Perfil
      * @ORM\Column(name="observaciones", type="text", nullable=true)
      */
     private $observaciones;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="createdAt", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updatedAt", type="datetime")
-     */
-    private $updatedAt;
-
-    /**
-     * @var Cliente
-     * @todo Cliente del perfil
-     *
-     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="perfiles")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
-     * })
-     */
-    private $cliente;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="isActive", type="boolean")
-     */
-    private $isActive;
 	
     /**
      * @var string
@@ -170,7 +138,6 @@ class Perfil
      * @Assert\NotBlank(message="Ingresar peso en kilogramos")
      */
     private $medidaPeso;
-    
     
     /**
      * @var string
@@ -209,6 +176,38 @@ class Perfil
      * @ORM\Column(name="valor_declarado", type="string", length=255, nullable=true)
      */
     private $valorDeclarado;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     * @var Cliente
+     * @todo Cliente del perfil
+     *
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="perfiles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
+     * })
+     */
+    private $cliente;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isActive", type="boolean")
+     */
+    private $isActive;
 
 
     /*
@@ -268,7 +267,6 @@ class Perfil
         return true;
     }
 
-
     /**
      * Get id
      *
@@ -301,102 +299,6 @@ class Perfil
     public function getNombre()
     {
         return $this->nombre;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Perfil
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return Perfil
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return Perfil
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * Set cliente
-     *
-     * @param \InteractiveValley\PakmailBundle\Entity\Cliente $cliente
-     *
-     * @return Perfil
-     */
-    public function setCliente(\InteractiveValley\PakmailBundle\Entity\Cliente $cliente = null)
-    {
-        $this->cliente = $cliente;
-
-        return $this;
-    }
-
-    /**
-     * Get cliente
-     *
-     * @return \InteractiveValley\PakmailBundle\Entity\Cliente
-     */
-    public function getCliente()
-    {
-        return $this->cliente;
     }
 
     /**
@@ -616,78 +518,6 @@ class Perfil
     }
 
     /**
-     * Set direccionFiscal
-     *
-     * @param \InteractiveValley\PakmailBundle\Entity\DireccionFiscal $direccionFiscal
-     *
-     * @return Perfil
-     */
-    public function setDireccionFiscal(\InteractiveValley\PakmailBundle\Entity\DireccionFiscal $direccionFiscal = null)
-    {
-        $this->direccionFiscal = $direccionFiscal;
-
-        return $this;
-    }
-
-    /**
-     * Get direccionFiscal
-     *
-     * @return \InteractiveValley\PakmailBundle\Entity\DireccionFiscal
-     */
-    public function getDireccionFiscal()
-    {
-        return $this->direccionFiscal;
-    }
-
-    /**
-     * Set direccionRemitente
-     *
-     * @param \InteractiveValley\PakmailBundle\Entity\DireccionRemision $direccionRemitente
-     *
-     * @return Perfil
-     */
-    public function setDireccionRemitente(\InteractiveValley\PakmailBundle\Entity\DireccionRemision $direccionRemitente = null)
-    {
-        $this->direccionRemitente = $direccionRemitente;
-
-        return $this;
-    }
-
-    /**
-     * Get direccionRemitente
-     *
-     * @return \InteractiveValley\PakmailBundle\Entity\DireccionRemision
-     */
-    public function getDireccionRemitente()
-    {
-        return $this->direccionRemitente;
-    }
-
-    /**
-     * Set direccionDestino
-     *
-     * @param \InteractiveValley\PakmailBundle\Entity\DireccionDestino $direccionDestino
-     *
-     * @return Perfil
-     */
-    public function setDireccionDestino(\InteractiveValley\PakmailBundle\Entity\DireccionDestino $direccionDestino = null)
-    {
-        $this->direccionDestino = $direccionDestino;
-
-        return $this;
-    }
-
-    /**
-     * Get direccionDestino
-     *
-     * @return \InteractiveValley\PakmailBundle\Entity\DireccionDestino
-     */
-    public function getDireccionDestino()
-    {
-        return $this->direccionDestino;
-    }
-
-    /**
      * Set medidaPeso
      *
      * @param string $medidaPeso
@@ -829,5 +659,173 @@ class Perfil
     public function getValorDeclarado()
     {
         return $this->valorDeclarado;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Perfil
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Perfil
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Perfil
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set direccionFiscal
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\DireccionFiscal $direccionFiscal
+     *
+     * @return Perfil
+     */
+    public function setDireccionFiscal(\InteractiveValley\PakmailBundle\Entity\DireccionFiscal $direccionFiscal = null)
+    {
+        $this->direccionFiscal = $direccionFiscal;
+
+        return $this;
+    }
+
+    /**
+     * Get direccionFiscal
+     *
+     * @return \InteractiveValley\PakmailBundle\Entity\DireccionFiscal
+     */
+    public function getDireccionFiscal()
+    {
+        return $this->direccionFiscal;
+    }
+
+    /**
+     * Set direccionRemitente
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\DireccionRemision $direccionRemitente
+     *
+     * @return Perfil
+     */
+    public function setDireccionRemitente(\InteractiveValley\PakmailBundle\Entity\DireccionRemision $direccionRemitente = null)
+    {
+        $this->direccionRemitente = $direccionRemitente;
+
+        return $this;
+    }
+
+    /**
+     * Get direccionRemitente
+     *
+     * @return \InteractiveValley\PakmailBundle\Entity\DireccionRemision
+     */
+    public function getDireccionRemitente()
+    {
+        return $this->direccionRemitente;
+    }
+
+    /**
+     * Set direccionDestino
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\DireccionDestino $direccionDestino
+     *
+     * @return Perfil
+     */
+    public function setDireccionDestino(\InteractiveValley\PakmailBundle\Entity\DireccionDestino $direccionDestino = null)
+    {
+        $this->direccionDestino = $direccionDestino;
+
+        return $this;
+    }
+
+    /**
+     * Get direccionDestino
+     *
+     * @return \InteractiveValley\PakmailBundle\Entity\DireccionDestino
+     */
+    public function getDireccionDestino()
+    {
+        return $this->direccionDestino;
+    }
+
+    /**
+     * Set cliente
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\Cliente $cliente
+     *
+     * @return Perfil
+     */
+    public function setCliente(\InteractiveValley\PakmailBundle\Entity\Cliente $cliente = null)
+    {
+        $this->cliente = $cliente;
+
+        return $this;
+    }
+
+    /**
+     * Get cliente
+     *
+     * @return \InteractiveValley\PakmailBundle\Entity\Cliente
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
     }
 }

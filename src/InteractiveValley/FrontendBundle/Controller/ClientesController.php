@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace InteractiveValley\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -19,19 +20,17 @@ use InteractiveValley\PakmailBundle\Form\Frontend\PerfilFrontendType;
  * @Route("/pakmail")
  */
 class ClientesController extends BaseController {
-    
-    
-    
+
     /**
      * @Route("/envios", name="pakmail_envios")
      * @Method("GET")
      * @Template("FrontendBundle:Clientes:index.html.twig")
      */
     public function indexAction(Request $request) {
-        
+
         return $this->redirect($this->generateUrl('pakmail_envios_new'));
     }
-    
+
     /**
      * Creates a new Envio entity.
      *
@@ -39,8 +38,7 @@ class ClientesController extends BaseController {
      * @Method("POST")
      * @Template("FrontendBundle:Clientes:new.html.twig")
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new Envio();
         $form = $this->createCreateFormEnvio($entity);
         $form->handleRequest($request);
@@ -49,29 +47,29 @@ class ClientesController extends BaseController {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            
-            if(!$entity->getHasPerfil()){
-                $this->get('session')->set('envio_creado',$entity->getId());
-                $this->get('session')->set('perfil_guardado',0);
-            }else{
-                $this->get('session')->set('envio_creado',$entity->getId());
-                $this->get('session')->set('perfil_guardado',1);
+
+            if (!$entity->getHasPerfil()) {
+                $this->get('session')->set('envio_creado', $entity->getId());
+                $this->get('session')->set('perfil_guardado', 0);
+            } else {
+                $this->get('session')->set('envio_creado', $entity->getId());
+                $this->get('session')->set('perfil_guardado', 1);
             }
             $this->enviarSolicitudEnvioCreado($this->getUser(), $entity);
             $ruta = $this->generateUrl('pakmail_envios_new');
             return $this->redirect($ruta);
         }
-        
+
         $cliente = $this->getUser();
-        if(!isset($em)){
+        if (!isset($em)) {
             $em = $this->getDoctrine()->getManager();
         }
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                       ->findBy(array('cliente'=>$cliente),array('nombre'=>'ASC'));
+                ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
             'perfiles' => $perfiles
         );
     }
@@ -83,20 +81,20 @@ class ClientesController extends BaseController {
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateFormEnvio(Envio $entity)
-    {
-		$em = $this->getDoctrine()->getManager();
-		$paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayPaises();
-		$paisesFiscal = $em->getRepository('PakmailBundle:DireccionFiscal')->getArrayPaises();
-		$paisesRemision = $em->getRepository('PakmailBundle:DireccionRemision')->getArrayPaises();
-		
+    private function createCreateFormEnvio(Envio $entity) {
+        $em = $this->getDoctrine()->getManager();
+        
+        $paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayUserPaises($this->getUser());
+        $paisesFiscal = $em->getRepository('PakmailBundle:DireccionFiscal')->getArrayUserPaises($this->getUser());
+        $paisesRemision = $em->getRepository('PakmailBundle:DireccionRemision')->getArrayUserPaises($this->getUser());
+
         $form = $this->createForm(new EnvioFrontendType(), $entity, array(
             'action' => $this->generateUrl('pakmail_envios_create'),
             'method' => 'POST',
-            'em'=>$em,
-			'paisesDestino'=>$paisesDestino,
-			'paisesFiscal'=>$paisesFiscal,
-			'paisesRemision'=>$paisesRemision
+            'em' => $em,
+            'paisesDestino' => $paisesDestino,
+            'paisesFiscal' => $paisesFiscal,
+            'paisesRemision' => $paisesRemision
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Create'));
@@ -111,40 +109,39 @@ class ClientesController extends BaseController {
      * @Method("GET")
      * @Template("FrontendBundle:Clientes:new.html.twig")
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $entity = new Envio();
         $cliente = $this->getUser();
         $entity->setCliente($cliente);
-        $form   = $this->createCreateFormEnvio($entity);
+        $form = $this->createCreateFormEnvio($entity);
         $em = $this->getDoctrine()->getManager();
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                       ->findBy(array('cliente'=>$cliente),array('nombre'=>'ASC'));
+                       ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
         $session = $this->get('session');
-        
-        if($session->has('envio_creado') && strlen($session->get('envio_creado'))>0){
+
+        if ($session->has('envio_creado') && strlen($session->get('envio_creado')) > 0) {
             $creacionEnvio = $session->get('envio_creado');
-            $session->set('envio_creado','0');
-        }else{
+            $session->set('envio_creado', '0');
+        } else {
             $creacionEnvio = '0';
         }
-        
-        if($session->has('perfil_guardado')){
+
+        if ($session->has('perfil_guardado')) {
             $perfilGuardado = $session->get('perfil_guardado');
-            $session->set('perfil_guardado','0');
-        }else{
+            $session->set('perfil_guardado', '0');
+        } else {
             $perfilGuardado = '0';
         }
-        
+
         return array(
-            'entity'    => $entity,
-            'form'      => $form->createView(),
-            'perfiles'  => $perfiles,
+            'entity' => $entity,
+            'form' => $form->createView(),
+            'perfiles' => $perfiles,
             'creacionEnvio' => $creacionEnvio,
-            'perfilGuardado'=> $perfilGuardado,
+            'perfilGuardado' => $perfilGuardado,
         );
     }
-    
+
     /**
      * Displays a form to create a new Envio entity.
      *
@@ -152,35 +149,36 @@ class ClientesController extends BaseController {
      * @Method("GET")
      * @Template("FrontendBundle:Clientes:new.html.twig")
      */
-    public function perfilCopiaAction(Request $request,$id)
-    {
+    public function perfilCopiaAction(Request $request, $id) {
         $entity = new Envio();
         $cliente = $this->getUser();
         $entity->setCliente($cliente);
         $em = $this->getDoctrine()->getManager();
         $perfil = $em->getRepository('PakmailBundle:Perfil')
-                       ->find($id);
-        
+                     ->find($id);
+
         $entity = $this->copiaPerfilAEnvio($perfil, $entity);
-        
+
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                       ->findBy(array('cliente'=>$cliente),array('nombre'=>'ASC'));
-        
-        $form   = $this->createCreateFormEnvio($entity);
-        
+                       ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
+
+        $form = $this->createCreateFormEnvio($entity);
+
         return array(
-            'entity'    => $entity,
-            'form'      => $form->createView(),
-            'perfiles'  => $perfiles,
+            'entity' => $entity,
+            'form' => $form->createView(),
+            'perfiles' => $perfiles,
             'creacionEnvio' => '0',
-            'perfilGuardado'=> '1',
+            'perfilGuardado' => '1',
         );
     }
-    
-    public function copiaPerfilAEnvio($perfil,Envio $envio){
-        $envio->setDireccionFiscal($perfil->getDireccionFiscal());
-        $envio->setDireccionRemitente($perfil->getDireccionRemitente());
-        $envio->setDireccionDestino($perfil->getDireccionDestino());
+
+    public function copiaPerfilAEnvio($perfil, Envio $envio) {
+        
+        $envio->setDireccionFiscalToModel($perfil->getDireccionFiscal());
+        $envio->setDireccionRemitenteToModel($perfil->getDireccionRemitente());
+        $envio->setDireccionDestinoToModel($perfil->getDireccionDestino());
+        
         $envio->setReferencia($perfil->getReferencia());
         $envio->setTipo($perfil->getTipo());
         $envio->setPrecio($perfil->getPrecio());
@@ -191,34 +189,34 @@ class ClientesController extends BaseController {
         $envio->setImporteSeguro($perfil->getImporteSeguro());
         $envio->setObservaciones($perfil->getObservaciones());
         $envio->setPerfil($perfil->getId());
-        
+
         $envio->setMedidaPeso($perfil->getMedidaPeso());
         $envio->setMedidaLargo($perfil->getMedidaLargo());
         $envio->setMedidaAncho($perfil->getMedidaAncho());
         $envio->setMedidaAlto($perfil->getMedidaAlto());
         $envio->setGenerarGastosAduana($perfil->getGenerarGastosAduana());
         $envio->setValorDeclarado($perfil->getValorDeclarado());
-        
+
         $envio->setHasPerfil(true);
         return $envio;
     }
-    
+
     /**
      * @Route("/perfiles", name="pakmail_perfiles")
      * @Method("GET")
      * @Template("FrontendBundle:Perfiles:index.html.twig")
      */
     public function perfilesAction(Request $request) {
-        
+
         $cliente = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                       ->findBy(array('cliente'=>$cliente),array('nombre'=>'ASC'));
+                ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
         return array(
-            'perfiles'  => $perfiles
+            'perfiles' => $perfiles
         );
     }
-    
+
     /**
      * Displays a form to edit an existing Perfil entity.
      *
@@ -226,8 +224,7 @@ class ClientesController extends BaseController {
      * @Method("GET")
      * @Template("FrontendBundle:Perfiles:edit.html.twig")
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('PakmailBundle:Perfil')->find($id);
@@ -240,40 +237,39 @@ class ClientesController extends BaseController {
         $deleteForm = $this->createDeleteFormPerfil($id);
 
         return array(
-            'entity'      => $entity,
-            'form'        => $editForm->createView(),
+            'entity' => $entity,
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView()
         );
     }
 
     /**
-    * Creates a form to edit a Perfil entity.
-    *
-    * @param Perfil $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditFormPerfil(Perfil $entity)
-    {
-		$em = $this->getDoctrine()->getManager();
-		$paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayPaises();
-		$paisesFiscal = $em->getRepository('PakmailBundle:DireccionFiscal')->getArrayPaises();
-		$paisesRemision = $em->getRepository('PakmailBundle:DireccionRemision')->getArrayPaises();
-		
+     * Creates a form to edit a Perfil entity.
+     *
+     * @param Perfil $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditFormPerfil(Perfil $entity) {
+        $em = $this->getDoctrine()->getManager();
+        $paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayUserPaises($this->getUser());
+        $paisesFiscal = $em->getRepository('PakmailBundle:DireccionFiscal')->getArrayUserPaises($this->getUser());
+        $paisesRemision = $em->getRepository('PakmailBundle:DireccionRemision')->getArrayUserPaises($this->getUser());
+
         $form = $this->createForm(new PerfilFrontendType(), $entity, array(
             'action' => $this->generateUrl('pakmail_perfiles_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-            'em'=>$em,
-			'paisesDestino'=>$paisesDestino,
-			'paisesFiscal'=>$paisesFiscal,
-			'paisesRemision'=>$paisesRemision
+            'em' => $em,
+            'paisesDestino' => $paisesDestino,
+            'paisesFiscal' => $paisesFiscal,
+            'paisesRemision' => $paisesRemision
         ));
 
         //$form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
-    
+
     /**
      * Edits an existing Perfil entity.
      *
@@ -281,8 +277,7 @@ class ClientesController extends BaseController {
      * @Method("PUT")
      * @Template("FrontendBundle:Perfiles:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('PakmailBundle:Perfil')->find($id);
@@ -302,20 +297,19 @@ class ClientesController extends BaseController {
         }
 
         return array(
-            'entity'      => $entity,
-            'form'   => $editForm->createView(),
+            'entity' => $entity,
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView()
         );
     }
-    
+
     /**
      * Deletes a Perfil entity.
      *
      * @Route("/{id}/perfil/borrar", name="pakmail_perfiles_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         if ($request->isMethod('DELETE')) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('PakmailBundle:Perfil')->find($id);
@@ -327,15 +321,15 @@ class ClientesController extends BaseController {
             //$em->remove($entity);
             $entity->setIsActive(false);
             $em->flush();
-			
-			return new JsonResponse(array('borrado'=>'ok'));
-        }else{
-			return new JsonResponse(array('borrado'=>'not'));
-		}
+
+            return new JsonResponse(array('borrado' => 'ok'));
+        } else {
+            return new JsonResponse(array('borrado' => 'not'));
+        }
 
         return $this->redirect($this->generateUrl('perfiles_envio'));
     }
-    
+
     /**
      * Crear un formulario para eliminar un perfil.
      *
@@ -343,51 +337,49 @@ class ClientesController extends BaseController {
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteFormPerfil($id)
-    {
+    private function createDeleteFormPerfil($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('pakmail_perfiles_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            //->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                    ->setAction($this->generateUrl('pakmail_perfiles_delete', array('id' => $id)))
+                    ->setMethod('DELETE')
+                    //->add('submit', 'submit', array('label' => 'Delete'))
+                    ->getForm()
         ;
     }
-    
+
     /**
      * Creates a new Perfil entity.
      *
      * @Route("/perfiles", name="pakmail_perfiles_create")
      * @Method("POST")
      */
-    public function createPerfilAction(Request $request)
-    {
+    public function createPerfilAction(Request $request) {
         $entity = new Perfil();
         $em = $this->getDoctrine()->getManager();
         $envio = $em->getRepository('PakmailBundle:Envio')
-                       ->find($request->request->get('envio'));
-        if($envio){
+                ->find($request->request->get('envio'));
+        if ($envio) {
             $entity->setCliente($this->getUser());
             $entity->setNombre($request->request->get('nombre'));
             $entity->setIsActive(true);
-            $entity = $this->copiaEnvioAPerfil($envio,$entity);
-            
+            $entity = $this->copiaEnvioAPerfil($envio, $entity);
+
             $em->persist($entity);
             $em->flush();
-            
+
             return new JsonResponse(array(
-                'status'=>'ok'
+                'status' => 'ok'
             ));
-        }else{
+        } else {
             return new JsonResponse(array(
-                'status'=>'bat'
+                'status' => 'bat'
             ));
         }
     }
-    
-    public function copiaEnvioAPerfil($envio,Perfil $perfil){
-        $perfil->setDireccionFiscal($envio->getDireccionFiscal());
-        $perfil->setDireccionRemitente($envio->getDireccionRemitente());
-        $perfil->setDireccionDestino($envio->getDireccionDestino());
+
+    public function copiaEnvioAPerfil($envio, Perfil $perfil) {
+        $perfil->setDireccionFiscalToModel($envio->getDireccionFiscal());
+        $perfil->setDireccionRemitenteToModel($envio->getDireccionRemitente());
+        $perfil->setDireccionDestinoToModel($envio->getDireccionDestino());
         $perfil->setReferencia($envio->getReferencia());
         $perfil->setTipo($envio->getTipo());
         $perfil->setPrecio($envio->getPrecio());
@@ -397,17 +389,17 @@ class ClientesController extends BaseController {
         $perfil->setMontoSeguro($envio->getMontoSeguro());
         $perfil->setImporteSeguro($envio->getImporteSeguro());
         $perfil->setObservaciones($envio->getObservaciones());
-        
+
         $perfil->setMedidaPeso($envio->getMedidaPeso());
         $perfil->setMedidaLargo($envio->getMedidaLargo());
         $perfil->setMedidaAncho($envio->getMedidaAncho());
         $perfil->setMedidaAlto($envio->getMedidaAlto());
         $perfil->setGenerarGastosAduana($envio->getGenerarGastosAduana());
         $perfil->setValorDeclarado($envio->getValorDeclarado());
-        
+
         return $perfil;
     }
-    
+
     /**
      * @Route("/registro",name="pakmail_registro")
      * @Template()
@@ -484,8 +476,5 @@ class ClientesController extends BaseController {
             'isNew' => $isNew,
         );
     }
-    
-    
 
-    
 }

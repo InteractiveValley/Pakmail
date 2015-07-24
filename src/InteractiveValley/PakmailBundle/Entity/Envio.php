@@ -5,6 +5,10 @@ namespace InteractiveValley\PakmailBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use InteractiveValley\PakmailBundle\Entity\DireccionDestino;
+use InteractiveValley\PakmailBundle\Entity\DireccionFiscal;
+use InteractiveValley\PakmailBundle\Entity\DireccionRemision;
+
 /**
  * Envio
  *
@@ -233,7 +237,7 @@ class Envio
     
     public function __construct() {
         $this->hasPerfil = false;
-		$this->asegurarEnvio = false;
+	$this->asegurarEnvio = false;
         $this->generarGastosAduana = false;
     }
     
@@ -325,6 +329,7 @@ class Envio
         return true;
     }
 
+
     /**
      * Get id
      *
@@ -381,30 +386,6 @@ class Envio
     public function getTipo()
     {
         return $this->tipo;
-    }
-
-    /**
-     * Set kilogramos
-     *
-     * @param string $kilogramos
-     *
-     * @return Envio
-     */
-    public function setKilogramos($kilogramos)
-    {
-        $this->kilogramos = $kilogramos;
-
-        return $this;
-    }
-
-    /**
-     * Get kilogramos
-     *
-     * @return string
-     */
-    public function getKilogramos()
-    {
-        return $this->kilogramos;
     }
 
     /**
@@ -648,6 +629,150 @@ class Envio
     }
 
     /**
+     * Set medidaPeso
+     *
+     * @param string $medidaPeso
+     *
+     * @return Envio
+     */
+    public function setMedidaPeso($medidaPeso)
+    {
+        $this->medidaPeso = $medidaPeso;
+
+        return $this;
+    }
+
+    /**
+     * Get medidaPeso
+     *
+     * @return string
+     */
+    public function getMedidaPeso()
+    {
+        return $this->medidaPeso;
+    }
+
+    /**
+     * Set medidaLargo
+     *
+     * @param string $medidaLargo
+     *
+     * @return Envio
+     */
+    public function setMedidaLargo($medidaLargo)
+    {
+        $this->medidaLargo = $medidaLargo;
+
+        return $this;
+    }
+
+    /**
+     * Get medidaLargo
+     *
+     * @return string
+     */
+    public function getMedidaLargo()
+    {
+        return $this->medidaLargo;
+    }
+
+    /**
+     * Set medidaAncho
+     *
+     * @param string $medidaAncho
+     *
+     * @return Envio
+     */
+    public function setMedidaAncho($medidaAncho)
+    {
+        $this->medidaAncho = $medidaAncho;
+
+        return $this;
+    }
+
+    /**
+     * Get medidaAncho
+     *
+     * @return string
+     */
+    public function getMedidaAncho()
+    {
+        return $this->medidaAncho;
+    }
+
+    /**
+     * Set medidaAlto
+     *
+     * @param string $medidaAlto
+     *
+     * @return Envio
+     */
+    public function setMedidaAlto($medidaAlto)
+    {
+        $this->medidaAlto = $medidaAlto;
+
+        return $this;
+    }
+
+    /**
+     * Get medidaAlto
+     *
+     * @return string
+     */
+    public function getMedidaAlto()
+    {
+        return $this->medidaAlto;
+    }
+
+    /**
+     * Set generarGastosAduana
+     *
+     * @param boolean $generarGastosAduana
+     *
+     * @return Envio
+     */
+    public function setGenerarGastosAduana($generarGastosAduana)
+    {
+        $this->generarGastosAduana = $generarGastosAduana;
+
+        return $this;
+    }
+
+    /**
+     * Get generarGastosAduana
+     *
+     * @return boolean
+     */
+    public function getGenerarGastosAduana()
+    {
+        return $this->generarGastosAduana;
+    }
+
+    /**
+     * Set valorDeclarado
+     *
+     * @param string $valorDeclarado
+     *
+     * @return Envio
+     */
+    public function setValorDeclarado($valorDeclarado)
+    {
+        $this->valorDeclarado = $valorDeclarado;
+
+        return $this;
+    }
+
+    /**
+     * Get valorDeclarado
+     *
+     * @return string
+     */
+    public function getValorDeclarado()
+    {
+        return $this->valorDeclarado;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -705,6 +830,33 @@ class Envio
     public function setDireccionFiscal(\InteractiveValley\PakmailBundle\Entity\DireccionFiscal $direccionFiscal = null)
     {
         $this->direccionFiscal = $direccionFiscal;
+
+        return $this;
+    }
+    
+    /**
+     * Set direccionFiscal
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\DireccionFiscal $direccionFiscal
+     *
+     * @return Envio
+     */
+    public function setDireccionFiscalToModel(\InteractiveValley\PakmailBundle\Entity\DireccionFiscal $direccionFiscal = null)
+    {
+        $this->direccionFiscal = new DireccionFiscal();
+        
+        $this->direccionFiscal->setCalle($direccionFiscal->getCalle());
+        $this->direccionFiscal->setNumInterior($direccionFiscal->getNumInterior());
+        $this->direccionFiscal->setNumExterior($direccionFiscal->getNumExterior());
+        $this->direccionFiscal->setPais($direccionFiscal->getPais());
+        $this->direccionFiscal->setEstado($direccionFiscal->getEstado());
+        $this->direccionFiscal->setDelegacion($direccionFiscal->getDelegacion());
+        $this->direccionFiscal->setPoblacion($direccionFiscal->getPoblacion());
+        $this->direccionFiscal->setCp($direccionFiscal->getCp());
+        $this->direccionFiscal->setTelefono($direccionFiscal->getTelefono());
+        $this->direccionFiscal->setCelular($direccionFiscal->getCelular());
+        $this->direccionFiscal->setEmail($direccionFiscal->getEmail());
+        
 
         return $this;
     }
@@ -813,149 +965,5 @@ class Envio
     public function getUsuario()
     {
         return $this->usuario;
-    }
-
-    /**
-     * Set medidaPeso
-     *
-     * @param string $medidaPeso
-     *
-     * @return Envio
-     */
-    public function setMedidaPeso($medidaPeso)
-    {
-        $this->medidaPeso = $medidaPeso;
-
-        return $this;
-    }
-
-    /**
-     * Get medidaPeso
-     *
-     * @return string
-     */
-    public function getMedidaPeso()
-    {
-        return $this->medidaPeso;
-    }
-
-    /**
-     * Set medidaLargo
-     *
-     * @param string $medidaLargo
-     *
-     * @return Envio
-     */
-    public function setMedidaLargo($medidaLargo)
-    {
-        $this->medidaLargo = $medidaLargo;
-
-        return $this;
-    }
-
-    /**
-     * Get medidaLargo
-     *
-     * @return string
-     */
-    public function getMedidaLargo()
-    {
-        return $this->medidaLargo;
-    }
-
-    /**
-     * Set medidaAncho
-     *
-     * @param string $medidaAncho
-     *
-     * @return Envio
-     */
-    public function setMedidaAncho($medidaAncho)
-    {
-        $this->medidaAncho = $medidaAncho;
-
-        return $this;
-    }
-
-    /**
-     * Get medidaAncho
-     *
-     * @return string
-     */
-    public function getMedidaAncho()
-    {
-        return $this->medidaAncho;
-    }
-
-    /**
-     * Set medidasAlto
-     *
-     * @param string $medidasAlto
-     *
-     * @return Envio
-     */
-    public function setMedidaAlto($medidasAlto)
-    {
-        $this->medidaAlto = $medidasAlto;
-
-        return $this;
-    }
-
-    /**
-     * Get medidasAlto
-     *
-     * @return string
-     */
-    public function getMedidaAlto()
-    {
-        return $this->medidaAlto;
-    }
-
-    /**
-     * Set generarGastosAduana
-     *
-     * @param boolean $generarGastosAduana
-     *
-     * @return Envio
-     */
-    public function setGenerarGastosAduana($generarGastosAduana)
-    {
-        $this->generarGastosAduana = $generarGastosAduana;
-
-        return $this;
-    }
-
-    /**
-     * Get generarGastosAduana
-     *
-     * @return boolean
-     */
-    public function getGenerarGastosAduana()
-    {
-        return $this->generarGastosAduana;
-    }
-
-    /**
-     * Set valorDeclarado
-     *
-     * @param string $valorDeclarado
-     *
-     * @return Envio
-     */
-    public function setValorDeclarado($valorDeclarado)
-    {
-        $this->valorDeclarado = $valorDeclarado;
-
-        return $this;
-    }
-
-    /**
-     * Get valorDeclarado
-     *
-     * @return string
-     */
-    public function getValorDeclarado()
-    {
-        return $this->valorDeclarado;
     }
 }
