@@ -39,7 +39,7 @@ class DireccionRemisionRepository extends \Doctrine\ORM\EntityRepository {
             SELECT DISTINCT d.pais as value    
             FROM PakmailBundle:Envio e 
             LEFT JOIN e.usuario u 
-            LEFT JOIN e.direccionRemision d 
+            LEFT JOIN e.direccionRemitente d 
             WHERE u.id =:usuario
         ')->setParameter('usuario', $user->getId());
 

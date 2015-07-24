@@ -58,7 +58,10 @@ class ClientesController extends BaseController {
             $this->enviarSolicitudEnvioCreado($this->getUser(), $entity);
             $ruta = $this->generateUrl('pakmail_envios_new');
             return $this->redirect($ruta);
-        }
+        }else{
+			$creacionEnvio = 0;
+			$perfilGuardado = (!$entity->getHasPerfil())?0:1;
+		}
 
         $cliente = $this->getUser();
         if (!isset($em)) {
@@ -70,7 +73,9 @@ class ClientesController extends BaseController {
         return array(
             'entity' => $entity,
             'form' => $form->createView(),
-            'perfiles' => $perfiles
+            'perfiles' => $perfiles,
+            'creacionEnvio' => $creacionEnvio,
+            'perfilGuardado' => $perfilGuardado,
         );
     }
 

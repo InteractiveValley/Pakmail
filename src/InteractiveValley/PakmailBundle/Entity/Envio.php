@@ -237,7 +237,7 @@ class Envio
     
     public function __construct() {
         $this->hasPerfil = false;
-	$this->asegurarEnvio = false;
+		$this->asegurarEnvio = false;
         $this->generarGastosAduana = false;
     }
     

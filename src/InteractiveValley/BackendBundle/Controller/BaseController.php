@@ -84,13 +84,16 @@ class BaseController extends Controller
     }
     
     protected function enviarSolicitudEnvioCreado($usuario, $envio) {
+		$em = $this->getDoctrine()->getManager();
+		$configuracion = $em->getRepository('BackendBundle:Configuraciones')
+                        			->findOneBy(array('slug' => 'email-solicitudes'));
+		
         $asunto = 'Solicitud de envio creada.';
         $isNew = true;
         $message = \Swift_Message::newInstance()
                 ->setSubject($asunto)
                 ->setFrom($usuario->getEmail())
-                //->setTo('logisticavirreyes@gmail.com')
-                ->setTo('richpolis@gmail.com')
+                ->setTo($configuracion->getTexto())
                 ->setBody(
                 $this->renderView('FrontendBundle:Default:enviarSolicitudEnvio.html.twig', 
                         compact('usuario', 'envio', 'asunto')), 
