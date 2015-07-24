@@ -884,6 +884,32 @@ class Envio
 
         return $this;
     }
+    
+    /**
+     * Set direccionRemitente
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\DireccionRemision $direccionRemitente
+     *
+     * @return Envio
+     */
+    public function setDireccionRemitenteToModel(\InteractiveValley\PakmailBundle\Entity\DireccionRemision $direccionRemitente = null)
+    {
+        $this->direccionRemitente = new DireccionRemision();
+        
+        $this->direccionRemitente->setCalle($direccionRemitente->getCalle());
+        $this->direccionRemitente->setNumInterior($direccionRemitente->getNumInterior());
+        $this->direccionRemitente->setNumExterior($direccionRemitente->getNumExterior());
+        $this->direccionRemitente->setPais($direccionRemitente->getPais());
+        $this->direccionRemitente->setEstado($direccionRemitente->getEstado());
+        $this->direccionRemitente->setDelegacion($direccionRemitente->getDelegacion());
+        $this->direccionRemitente->setPoblacion($direccionRemitente->getPoblacion());
+        $this->direccionRemitente->setCp($direccionRemitente->getCp());
+        $this->direccionRemitente->setTelefono($direccionRemitente->getTelefono());
+        $this->direccionRemitente->setCelular($direccionRemitente->getCelular());
+        $this->direccionRemitente->setEmail($direccionRemitente->getEmail());
+
+        return $this;
+    }
 
     /**
      * Get direccionRemitente
@@ -906,6 +932,32 @@ class Envio
     {
         $this->direccionDestino = $direccionDestino;
 
+        return $this;
+    }
+    
+    /**
+     * Set direccionDestino
+     *
+     * @param \InteractiveValley\PakmailBundle\Entity\DireccionDestino $direccionDestino
+     *
+     * @return Envio
+     */
+    public function setDireccionDestinoToModel(\InteractiveValley\PakmailBundle\Entity\DireccionDestino $direccionDestino = null)
+    {
+        $this->direccionDestino = new DireccionDestino();
+        
+        $this->direccionDestino->setCalle($direccionDestino->getCalle());
+        $this->direccionDestino->setNumInterior($direccionDestino->getNumInterior());
+        $this->direccionDestino->setNumExterior($direccionDestino->getNumExterior());
+        $this->direccionDestino->setPais($direccionDestino->getPais());
+        $this->direccionDestino->setEstado($direccionDestino->getEstado());
+        $this->direccionDestino->setDelegacion($direccionDestino->getDelegacion());
+        $this->direccionDestino->setPoblacion($direccionDestino->getPoblacion());
+        $this->direccionDestino->setCp($direccionDestino->getCp());
+        $this->direccionDestino->setTelefono($direccionDestino->getTelefono());
+        $this->direccionDestino->setCelular($direccionDestino->getCelular());
+        $this->direccionDestino->setEmail($direccionDestino->getEmail());
+        
         return $this;
     }
 
