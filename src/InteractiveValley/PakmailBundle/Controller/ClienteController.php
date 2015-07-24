@@ -50,6 +50,7 @@ class ClienteController extends BaseController
         $entity = new Cliente();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
+		$data = $form->getData();
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $this->setSecurePassword($entity);
@@ -57,6 +58,9 @@ class ClienteController extends BaseController
             $em->flush();
             $ruta = $this->generateUrl('clientes_show', array('id' => $entity->getId()));
             $return = $this->get('session')->get('return','');
+			
+			$this->enviarUsuarioCreado($data->getEmail(), $password, $entity);
+			
             if(strlen($return)>0){
                 $session = $this->get('session');
                 $session->set('return','');

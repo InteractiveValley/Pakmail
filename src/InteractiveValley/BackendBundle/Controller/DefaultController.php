@@ -2,6 +2,7 @@
 
 namespace InteractiveValley\BackendBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -67,7 +68,7 @@ class DefaultController extends Controller
     
     /**
      * @Route("/backend/recuperar",name="backend_recuperar")
-     * @Template()
+     * @Template("BackendBundle:Security:recuperar.html.twig")
      * @Method({"GET","POST"})
      */
     public function recuperarAction(Request $request) {
