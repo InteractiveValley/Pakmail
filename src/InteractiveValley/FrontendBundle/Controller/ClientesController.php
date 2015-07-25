@@ -13,6 +13,7 @@ use InteractiveValley\PakmailBundle\Entity\Envio;
 use InteractiveValley\PakmailBundle\Form\Frontend\EnvioFrontendType;
 use InteractiveValley\PakmailBundle\Entity\Perfil;
 use InteractiveValley\PakmailBundle\Form\Frontend\PerfilFrontendType;
+use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
 
 /**
  * Clientes aplicacion Pakmail controller.
@@ -76,6 +77,7 @@ class ClientesController extends BaseController {
             'perfiles' => $perfiles,
             'creacionEnvio' => $creacionEnvio,
             'perfilGuardado' => $perfilGuardado,
+            'errores' => RpsStms::getErrorMessages($form),
         );
     }
 
@@ -144,6 +146,7 @@ class ClientesController extends BaseController {
             'perfiles' => $perfiles,
             'creacionEnvio' => $creacionEnvio,
             'perfilGuardado' => $perfilGuardado,
+            'errores' => RpsStms::getErrorMessages($form),
         );
     }
 
@@ -175,6 +178,7 @@ class ClientesController extends BaseController {
             'perfiles' => $perfiles,
             'creacionEnvio' => '0',
             'perfilGuardado' => '1',
+            'errores' => RpsStms::getErrorMessages($form),
         );
     }
 
@@ -244,7 +248,8 @@ class ClientesController extends BaseController {
         return array(
             'entity' => $entity,
             'form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView()
+            'delete_form' => $deleteForm->createView(),
+            'errores' => RpsStms::getErrorMessages($form),
         );
     }
 
@@ -304,7 +309,8 @@ class ClientesController extends BaseController {
         return array(
             'entity' => $entity,
             'form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView()
+            'delete_form' => $deleteForm->createView(),
+            'errores' => RpsStms::getErrorMessages($form),
         );
     }
 

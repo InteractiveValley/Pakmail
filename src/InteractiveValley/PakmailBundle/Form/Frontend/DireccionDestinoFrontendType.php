@@ -35,7 +35,9 @@ class DireccionDestinoFrontendType extends AbstractType
                 'label'=>'País *',
                 'attr'=>array('class'=>'form-control'),
                 'choices'=>$this->listaCuidades,
-                'required'=>true
+                'required'=>true,
+                'empty_value' => 'Seleccionar país',
+                'empty_data'  => null
                 ))
             ->add('estado','text',array('label'=>'Estado o entidad federativa *','attr'=>array('class'=>'form-control required')))
             ->add('delegacion','text',array('label'=>'Municipio o Delegación *','attr'=>array('class'=>'form-control required')))
@@ -43,7 +45,7 @@ class DireccionDestinoFrontendType extends AbstractType
             ->add('cp','text',array('label'=>'Codigo postal *','attr'=>array('class'=>'form-control required')))
             ->add('telefono','text',array('label'=>'Teléfono *','attr'=>array('class'=>'form-control required')))
             ->add('celular','text',array('label'=>'Celular ','required'=>false,'attr'=>array('class'=>'form-control')))
-            ->add('email','text',array('label'=>'E-mail *','attr'=>array('class'=>'form-control required')))
+            ->add('email','text',array('label'=>'E-mail *','attr'=>array('class'=>'form-control required email')))
         ;
     }
     

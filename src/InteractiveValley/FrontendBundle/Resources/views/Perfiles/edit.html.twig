@@ -21,13 +21,13 @@
                                 </hgroup>
                             </header>
                             <p style="color: red;">
-                                Los campos marcados con * son obligatorios. 
+                                Los campos marcados con * son obligatorios.
+                                {{form_errors(form)}}
                             </p>
-                            {{form_errors(form)}}
                             {{form_start(form)}}
                             <fieldset>
                                 {{form_row(form.direccionFiscal)}}
-
+                                
                             </fieldset>
                             <fieldset>
                                 {{form_row(form.direccionRemitente)}}
@@ -40,15 +40,36 @@
                                 <div>
                                     {{form_row(form.referencia)}}
                                     {{form_row(form.tipo)}}
-                                    {{form_row(form.precio)}}
+                                    <div class="form-group">
+                                        {{form_label(form.precio)}}
+                                        <div class="input-group">
+                                          <div class="input-group-addon">$</div>
+                                          {{form_widget(form.precio)}}
+                                          <div class="input-group-addon visualizar_precio"></div>
+                                        </div>
+                                    </div>
                                     {{form_row(form.numGuia)}}
                                     <div class="checkbox">
                                         <label>
                                             {{form_widget(form.asegurarEnvio)}} ¿Desea asegurar el envío?
                                         </label>
                                     </div>
-                                    {{form_row(form.montoSeguro)}}
-                                    {{form_row(form.importeSeguro)}}
+                                    <div class="form-group">
+                                        {{form_label(form.montoSeguro)}}
+                                        <div class="input-group">
+                                          <div class="input-group-addon">$</div>
+                                          {{form_widget(form.montoSeguro)}}
+                                          <div class="input-group-addon visualizar_monto_seguro"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {{form_label(form.importeSeguro)}}
+                                        <div class="input-group">
+                                          <div class="input-group-addon">$</div>
+                                          {{form_widget(form.importeSeguro)}}
+                                          <div class="input-group-addon visualizar_importe_seguro"></div>
+                                        </div>
+                                    </div>      
                                     {{form_row(form.observaciones)}}
                                     <table>
                                         <tr>
@@ -71,7 +92,14 @@
                                             {{form_widget(form.generarGastosAduana)}} ¿Genera gastos de aduana?
                                         </label>
                                     </div>
-                                    {{form_row(form.valorDeclarado)}}
+                                    <div class="form-group">
+                                        {{form_label(form.valorDeclarado)}}
+                                        <div class="input-group">
+                                          <div class="input-group-addon">$</div>
+                                          {{form_widget(form.valorDeclarado)}}
+                                          <div class="input-group-addon visualizar_valor_declarado"></div>
+                                        </div>
+                                    </div>
                                     {{form_rest(form)}}
                                 </div>
                                 <input type="submit" value="Guardar cambios" class="btn btn-bg btn-danger"/>
@@ -94,188 +122,26 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{asset('js/bootbox.min.js')}}"></script>
+        <!-- jQuery Notification - Noty -->
+    <script src="{{asset('js/jquery.noty.js')}}"></script> <!-- jQuery Notify -->
+    <script src="{{asset('js/themes/default.js')}}"></script> <!-- jQuery Notify -->
+    <script src="{{asset('js/layouts/bottom.js')}}"></script> <!-- jQuery Notify -->
+    <script src="{{asset('js/layouts/topRight.js')}}"></script> <!-- jQuery Notify -->
+    <script src="{{asset('js/layouts/top.js')}}"></script> <!-- jQuery Notify -->
     <script>
-        var $estado = null;
-        var $delegacion = null;
-        var $colonia = null;
-        var $codigo = null;
-        $(document).ready(function () {
-            $("#interactivevalley_pakmailbundle_perfil_importeSeguro").on('focus', function () {
-                var monto = $("#interactivevalley_pakmailbundle_perfil_montoSeguro").val();
-                if (monto > 0) {
-                    $(this).val(monto * .02);
-                }
-            });
-
-            $("#interactivevalley_pakmailbundle_perfil_direccionFiscal_pais").on('change', function () {
-                if ($(this).val() == "Mexico") {
-                    bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
-                        if (codigo === null) {
-                            alert("El valor no fue ingresado");
-                        } else {
-                            llamarAMetodosCodigoPostal(codigo, "#interactivevalley_pakmailbundle_perfil_direccionFiscal");
-                        }
-                    });
-                } else if ($(this).val() == "Otro") {
-                    agregarPais("#interactivevalley_pakmailbundle_perfil_direccionFiscal");
-                    activarCampos("#interactivevalley_pakmailbundle_perfil_direccionFiscal");
-                } else {
-                    activarCampos("#interactivevalley_pakmailbundle_perfil_direccionFiscal");
-                }
-            });
-
-            $("#interactivevalley_pakmailbundle_perfil_direccionRemitente_pais").on('change', function () {
-                if ($(this).val() == "Mexico") {
-                    bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
-                        if (codigo === null) {
-                            alert("El valor no fue ingresado");
-                        } else {
-                            llamarAMetodosCodigoPostal(codigo, "#interactivevalley_pakmailbundle_perfil_direccionRemitente");
-                        }
-                    });
-                } else if ($(this).val() == "Otro") {
-                    agregarPais("#interactivevalley_pakmailbundle_perfil_direccionRemitente");
-                    activarCampos("#interactivevalley_pakmailbundle_perfil_direccionRemitente");
-                } else {
-                    activarCampos("#interactivevalley_pakmailbundle_perfil_direccionRemitente");
-                }
-            });
-
-            $("#interactivevalley_pakmailbundle_perfil_direccionDestino_pais").on('change', function () {
-                if ($(this).val() == "Mexico") {
-                    bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
-                        if (codigo === null) {
-                            alert("El valor no fue ingresado");
-                        } else {
-                            llamarAMetodosCodigoPostal(codigo, "#interactivevalley_pakmailbundle_perfil_direccionDestino");
-                        }
-                    });
-                } else if ($(this).val() == "Otro") {
-                    agregarPais("#interactivevalley_pakmailbundle_perfil_direccionDestino");
-                    activarCampos("#interactivevalley_pakmailbundle_perfil_direccionDestino");
-                } else {
-                    activarCampos("#interactivevalley_pakmailbundle_perfil_direccionDestino");
-                }
-            });
-        });
-        function llamarAMetodosCodigoPostal(codigo, idDireccion) {
-            if (codigo.length < 5) {
-                codigo = "0" + codigo;
-            }
-            //$("#interactivevalley_pakmailbundle_perfil_direccionFiscal" + elemento)
-            $estado = $(idDireccion + "_estado");
-            $delegacion = $(idDireccion + "_delegacion");
-            $colonia = $(idDireccion + "_poblacion");
-            $codigo = $(idDireccion + "_cp");
-            var url = 'https://api-codigos-postales.herokuapp.com/codigo_postal/' + codigo;
-            $.ajax({
-                url: url,
-                type: 'get',
-                dataType: 'json',
-                success: function (data) {
-                    if (data.length > 0) {
-                        $estado.val(data[0].estado);
-                        $delegacion.val(data[0].municipio);
-                        $codigo.val(codigo);
-                        desactivarCampos(idDireccion);
-                    } else {
-                        alert("No se encontro el codigo postal ingresado");
-                        return false;
-                    }
-                    if (data.length == 1) {
-                        // solo hay una colonia
-                        $colonia.val(data[0].colonia);
-                    } else {
-                        // cuando hay mas de una colonia  
-                        var options = "";
-                        for (var cont = 0; data.length > cont; cont++) {
-                            options += '<option value="' + data[cont].colonia + '">' + data[cont].colonia + '</option>';
-                        }
-
-                        bootbox.dialog({
-                            title: "Selecciona tu colonia.",
-                            message: '<div class="row">  ' +
-                                    '<div class="col-md-12"> ' +
-                                    '<form class="form-horizontal"> ' +
-                                    '<div class="form-group"> ' +
-                                    '<label class="col-md-4 control-label" for="colonia">Colonia</label> ' +
-                                    '<div class="col-md-4"> ' +
-                                    '<select id="colonia" name="colonia" type="text" placeholder="Seleccionar colonia" class="form-control"> ' +
-                                    options +
-                                    '</select>' +
-                                    '</div> ' +
-                                    '</div> ' +
-                                    '</form> </div>  </div>',
-                            buttons: {
-                                success: {
-                                    label: "Seleccionar",
-                                    className: "btn-success",
-                                    callback: function () {
-                                        var colonia = $('#colonia').val();
-                                        $colonia.val(colonia)
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
-        function agregarPais(idDireccion) {
-            var $pais = $(idDireccion + "_pais");
-            var $opciones = $(idDireccion + "_pais option");
-            bootbox.prompt("Cual es el pais?", function (paisIngresado) {
-                debugger;
-                if (paisIngresado === null) {
-                    alert("No se ha ingresado ningun pais");
-                } else {
-                    debugger;
-                    var pais = new String(paisIngresado);
-                    pais.toLowerCase();
-                    var Letra = pais[0];
-                    var encontrado = false;
-                    Letra.toUpperCase();
-                    pais[0] = Letra;
-                    for (var cont = 0; cont < $opciones.length; cont++) {
-                        if ($opciones[cont].value == pais) {
-                            encontrado = true;
-                            break;
-                        }
-                    }
-                    if (!encontrado) {
-                        var opcionUltima = $opciones[$opciones.length - 1];
-                        var opcionOtro = $('<option value="Otro">');
-                        opcionOtro.html("Otro...");
-                        opcionUltima.value = pais;
-                        opcionUltima.innerHTML = pais;
-                        $pais.append(opcionOtro);
-                    }
-                }
-            });
-        }
-        function activarCampos(idDireccion) {
-            //$("#interactivevalley_pakmailbundle_perfil_direccionFiscal" + elemento)
-            /*$(idDireccion+ "_estado").removeAttr('readonly');
-             $(idDireccion+ "_delegacion").removeAttr('readonly');
-             $(idDireccion+ "_poblacion").removeAttr('readonly');
-             $(idDireccion+ "_cp").removeAttr('readonly');*/
-        }
-
-        function desactivarCampos(idDireccion) {
-            //$("#interactivevalley_pakmailbundle_perfil_direccionFiscal" + elemento)
-            /*$(idDireccion+ "_estado").attr('readonly','readonly');
-             $(idDireccion+ "_delegacion").attr('readonly','readonly');
-             $(idDireccion+ "_poblacion").attr('readonly','readonly');
-             $(idDireccion+ "_cp").attr('readonly','readonly');*/
-        }
-
-        function revisarCampos(idDireccion) {
-            if ($(idDireccion + "_pais").val() == "Mexico") {
-                //desactivarCampos(idDireccion)
-            } else {
-                //activarCampos(idDireccion)
-            }
-        }
-
+        $(document).ready(function(){
+           {% if errores | length > 0 %}
+            {% for error in errores %}
+                noty({
+                    text: '{{ error }}',
+                    layout: 'topRight',
+                    type: 'error',
+                    timeout: 2000
+                });
+                {% endfor %}    
+            {% endif %}
+       });
     </script>
+    <script src="{{asset('bundles/frontend/js/editar_perfil.js')}}"></script>
+    
 {% endblock %}

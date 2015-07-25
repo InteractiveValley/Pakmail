@@ -32,15 +32,15 @@ class EnvioFrontendType extends AbstractType
             ->add('direccionDestino',new DireccionDestinoFrontendType($paisesDestino),array('label'=>'DIRECCION DESTINO'))
             ->add('referencia','text',array('label'=>'Referencia *','attr'=>array('class'=>'form-control required')))
             ->add('tipo','text',array('label'=>'Tipo *','attr'=>array('class'=>'form-control required')))
-            ->add('precio',null,array('label'=>'Precio *','attr'=>array('class'=>'form-control required')))
+            ->add('precio',null,array('label'=>'Precio *','attr'=>array('class'=>'form-control required money')))
             ->add('numGuia','text',array('label'=>'No. Guia *','attr'=>array('class'=>'form-control required')))
             ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','required'=>false,'attr'=>array(
                 'class'=>'checkbox-inline',
                 'placeholder'=>'asegurar envio',
                 'data-bind'=>'value: asegurarEnvio'
              )))
-            ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max 100,000,00)','required'=>false,'attr'=>array('class'=>'form-control')))
-            ->add('importeSeguro',null,array('label'=>'Importe del Seguro (2%)','required'=>false,'attr'=>array('class'=>'form-control')))
+            ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max $100,000.00)','required'=>false,'attr'=>array('class'=>'form-control money')))
+            ->add('importeSeguro',null,array('label'=>'Importe del Seguro (3%)','required'=>false,'attr'=>array('class'=>'form-control money')))
             ->add('observaciones',null,array(
                 'label'=>'Observaciones',
                 'required'=>false,
@@ -49,16 +49,16 @@ class EnvioFrontendType extends AbstractType
                    'data-theme' => 'advanced',
                     )
                 ))
-            ->add('medidaPeso','text',array('label'=>'Peso','attr'=>array('class'=>'form-control required')))
-            ->add('medidaLargo','text',array('label'=>'Largo','attr'=>array('class'=>'form-control required')))
-            ->add('medidaAncho','text',array('label'=>'Ancho','attr'=>array('class'=>'form-control required')))
-            ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control required')))
+            ->add('medidaPeso','text',array('label'=>'Peso','attr'=>array('class'=>'form-control required number')))
+            ->add('medidaLargo','text',array('label'=>'Largo','attr'=>array('class'=>'form-control required number')))
+            ->add('medidaAncho','text',array('label'=>'Ancho','attr'=>array('class'=>'form-control required number')))
+            ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control required number')))
             ->add('generarGastosAduana',null,array('label'=>'Generar Gastos de Aduana?','required'=>false,'attr'=>array(
                 'class'=>'checkbox-inline',
                 'placeholder'=>'generar gastos aduana',
                 'data-bind'=>'value: generarGastosAduana'
              )))
-            ->add('valorDeclarado','number',array('label'=>'Valor declarado','required'=>false,'attr'=>array('class'=>'form-control')))
+            ->add('valorDeclarado','number',array('label'=>'Valor declarado','required'=>false,'attr'=>array('class'=>'form-control money')))
             ->add('perfil','hidden')
             ->add('hasPerfil','hidden')
             ->add('status','hidden')
