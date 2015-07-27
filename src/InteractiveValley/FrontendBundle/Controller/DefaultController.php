@@ -171,7 +171,7 @@ class DefaultController extends BaseController {
                 $message = \Swift_Message::newInstance()
                         ->setSubject('Contacto desde pagina')
                         //->setFrom($this->container->getParameter('richpolis.emails.to_email'))
-                        ->setFrom($datos->getEmail())
+                        ->setFrom($this->container->getParameter('richpolis.emails.to_email'))
                         ->setTo($configuracion->getTexto())
                         ->setBody($this->renderView('FrontendBundle:Default:contactoEmail.html.twig', array('datos' => $datos)), 'text/html');
                 $this->get('mailer')->send($message);
@@ -228,7 +228,7 @@ class DefaultController extends BaseController {
                 $message = \Swift_Message::newInstance()
                         ->setSubject('Contacto desde pagina')
                         //->setFrom($this->container->getParameter('richpolis.emails.to_email'))
-                        ->setFrom($datos->getEmail())
+                        ->setFrom($this->container->getParameter('richpolis.emails.to_email'))
                         ->setTo($configuracion->getTexto())
                         ->setBody($this->renderView('FrontendBundle:Default:quejaEmail.html.twig', array('datos' => $datos)), 'text/html');
                 $this->get('mailer')->send($message);
