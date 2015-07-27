@@ -36,11 +36,10 @@ class DireccionDestinoRepository extends \Doctrine\ORM\EntityRepository {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery('
-            SELECT DISTINCT d.pais as value    
+            SELECT DISTINCT d.pais as value     
             FROM PakmailBundle:Envio e 
-            LEFT JOIN e.usuario u 
-            LEFT JOIN e.direccionDestino d 
-            WHERE u.id =:usuario
+            JOIN e.direccionDestino d 
+            WHERE e.cliente=:usuario
         ')->setParameter('usuario', $user->getId());
 
         $paises = $query->getResult();

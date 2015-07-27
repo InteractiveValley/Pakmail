@@ -41,7 +41,7 @@ class ClientesController extends BaseController {
      */
     public function createAction(Request $request) {
         $entity = new Envio();
-        $form = $this->createCreateFormEnvio($entity,$request);
+        $form = $this->createCreateFormEnvio($entity, $request);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -59,17 +59,17 @@ class ClientesController extends BaseController {
             $this->enviarSolicitudEnvioCreado($this->getUser(), $entity);
             $ruta = $this->generateUrl('pakmail_envios_new');
             return $this->redirect($ruta);
-        }else{
-			$creacionEnvio = 0;
-			$perfilGuardado = (!$entity->getHasPerfil())?0:1;
-		}
+        } else {
+            $creacionEnvio = 0;
+            $perfilGuardado = (!$entity->getHasPerfil()) ? 0 : 1;
+        }
 
         $cliente = $this->getUser();
         if (!isset($em)) {
             $em = $this->getDoctrine()->getManager();
         }
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
+                       ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
 
         return array(
             'entity' => $entity,
@@ -88,32 +88,32 @@ class ClientesController extends BaseController {
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateFormEnvio(Envio $entity, $request=null) {
+    private function createCreateFormEnvio(Envio $entity, $request = null) {
         $em = $this->getDoctrine()->getManager();
-        
-		$paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayUserPaises($this->getUser());
+
+        $paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayUserPaises($this->getUser());
         $paisesFiscal = $em->getRepository('PakmailBundle:DireccionFiscal')->getArrayUserPaises($this->getUser());
         $paisesRemision = $em->getRepository('PakmailBundle:DireccionRemision')->getArrayUserPaises($this->getUser());
-		
-		if(!$request==null){
-			$datos = $request->request->get('interactivevalley_pakmailbundle_envio');
-			$paisDestino = $datos['direccionDestino']['pais'];
-			$paisFiscal = $datos['direccionFiscal']['pais'];
-			$paisRemitente = $datos['direccionRemitente']['pais'];
-			
-			if(!array_key_exists($paisDestino, $paisesDestino)){
-				$paisesDestino = array_merge($paisesDestino, array("$paisDestino"=>"$paisDestino"));
-			}
 
-			if(!array_key_exists($paisFiscal, $paisesFiscal)){
-				$paisesFiscal = array_merge($paisesFiscal, array("$paisFiscal"=>"$paisFiscal"));
-			}
+        if (!$request == null) {
+            $datos = $request->request->get('interactivevalley_pakmailbundle_envio');
+            $paisDestino = $datos['direccionDestino']['pais'];
+            $paisFiscal = $datos['direccionFiscal']['pais'];
+            $paisRemitente = $datos['direccionRemitente']['pais'];
 
-			if(!array_key_exists($paisRemitente, $paisesRemision)){
-				$paisesRemision = array_merge($paisesRemision, array("$paisRemitente"=>"$paisRemitente"));
-			}
-		}
-		
+            if (!array_key_exists($paisDestino, $paisesDestino)) {
+                $paisesDestino = array_merge($paisesDestino, array("$paisDestino" => "$paisDestino"));
+            }
+
+            if (!array_key_exists($paisFiscal, $paisesFiscal)) {
+                $paisesFiscal = array_merge($paisesFiscal, array("$paisFiscal" => "$paisFiscal"));
+            }
+
+            if (!array_key_exists($paisRemitente, $paisesRemision)) {
+                $paisesRemision = array_merge($paisesRemision, array("$paisRemitente" => "$paisRemitente"));
+            }
+        }
+
         $form = $this->createForm(new EnvioFrontendType(), $entity, array(
             'action' => $this->generateUrl('pakmail_envios_create'),
             'method' => 'POST',
@@ -182,12 +182,12 @@ class ClientesController extends BaseController {
         $entity->setCliente($cliente);
         $em = $this->getDoctrine()->getManager();
         $perfil = $em->getRepository('PakmailBundle:Perfil')
-                     ->find($id);
+                ->find($id);
 
         $entity = $this->copiaPerfilAEnvio($perfil, $entity);
 
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                       ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
+                ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
 
         $form = $this->createCreateFormEnvio($entity);
 
@@ -202,11 +202,11 @@ class ClientesController extends BaseController {
     }
 
     public function copiaPerfilAEnvio($perfil, Envio $envio) {
-        
+
         $envio->setDireccionFiscalToModel($perfil->getDireccionFiscal());
         $envio->setDireccionRemitenteToModel($perfil->getDireccionRemitente());
         $envio->setDireccionDestinoToModel($perfil->getDireccionDestino());
-        
+
         $envio->setReferencia($perfil->getReferencia());
         $envio->setTipo($perfil->getTipo());
         $envio->setPrecio($perfil->getPrecio());
@@ -239,7 +239,7 @@ class ClientesController extends BaseController {
         $cliente = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
+                       ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
         return array(
             'perfiles' => $perfiles
         );
@@ -279,31 +279,31 @@ class ClientesController extends BaseController {
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditFormPerfil(Perfil $entity, $request=null) {
+    private function createEditFormPerfil(Perfil $entity, $request = null) {
         $em = $this->getDoctrine()->getManager();
         $paisesDestino = $em->getRepository('PakmailBundle:DireccionDestino')->getArrayUserPaises($this->getUser());
         $paisesFiscal = $em->getRepository('PakmailBundle:DireccionFiscal')->getArrayUserPaises($this->getUser());
         $paisesRemision = $em->getRepository('PakmailBundle:DireccionRemision')->getArrayUserPaises($this->getUser());
-		
-		if(!$request==null){
-			$datos = $request->request->get('interactivevalley_pakmailbundle_perfil');
-			$paisDestino = $datos['direccionDestino']['pais'];
-			$paisFiscal = $datos['direccionFiscal']['pais'];
-			$paisRemitente = $datos['direccionRemitente']['pais'];
-			
-			if(!array_key_exists($paisDestino, $paisesDestino)){
-				$paisesDestino = array_merge($paisesDestino, array("$paisDestino"=>"$paisDestino"));
-			}
 
-			if(!array_key_exists($paisFiscal, $paisesFiscal)){
-				$paisesFiscal = array_merge($paisesFiscal, array("$paisFiscal"=>"$paisFiscal"));
-			}
+        if (!$request == null) {
+            $datos = $request->request->get('interactivevalley_pakmailbundle_perfil');
+            $paisDestino = $datos['direccionDestino']['pais'];
+            $paisFiscal = $datos['direccionFiscal']['pais'];
+            $paisRemitente = $datos['direccionRemitente']['pais'];
 
-			if(!array_key_exists($paisRemitente, $paisesRemision)){
-				$paisesRemision = array_merge($paisesRemision, array("$paisRemitente"=>"$paisRemitente"));
-			}
-		}
-		
+            if (!array_key_exists($paisDestino, $paisesDestino)) {
+                $paisesDestino = array_merge($paisesDestino, array("$paisDestino" => "$paisDestino"));
+            }
+
+            if (!array_key_exists($paisFiscal, $paisesFiscal)) {
+                $paisesFiscal = array_merge($paisesFiscal, array("$paisFiscal" => "$paisFiscal"));
+            }
+
+            if (!array_key_exists($paisRemitente, $paisesRemision)) {
+                $paisesRemision = array_merge($paisesRemision, array("$paisRemitente" => "$paisRemitente"));
+            }
+        }
+
         $form = $this->createForm(new PerfilFrontendType(), $entity, array(
             'action' => $this->generateUrl('pakmail_perfiles_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -367,8 +367,8 @@ class ClientesController extends BaseController {
                 throw $this->createNotFoundException('Unable to find Perfil entity.');
             }
 
-            //$em->remove($entity);
-            $entity->setIsActive(false);
+            $em->remove($entity);
+            //$entity->setIsActive(false);
             $em->flush();
 
             return new JsonResponse(array('borrado' => 'ok'));
@@ -388,10 +388,10 @@ class ClientesController extends BaseController {
      */
     private function createDeleteFormPerfil($id) {
         return $this->createFormBuilder()
-                    ->setAction($this->generateUrl('pakmail_perfiles_delete', array('id' => $id)))
-                    ->setMethod('DELETE')
-                    //->add('submit', 'submit', array('label' => 'Delete'))
-                    ->getForm()
+                        ->setAction($this->generateUrl('pakmail_perfiles_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        //->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
 
