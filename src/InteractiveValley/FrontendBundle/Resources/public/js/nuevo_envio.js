@@ -131,7 +131,6 @@ $(document).on('ready', function () {
     var $requeridos = $(".required");
     $requeridos.on("blur", function () {
         var $input = $(this);
-        debugger;
         var $parent = $input.parent();
         if ($input.val() == "") {
             $parent.addClass('has-error').removeClass('has-success');
@@ -222,6 +221,15 @@ $(document).on('ready', function () {
            if(!validarEmail($emails[cont].value)){
               alert("El email: " + $emails[cont].value+' es incorrecto');
               var offset = $($emails[cont]).offset().top - 180;
+               $('html, body').animate({ scrollTop : offset }, 'slow');
+              liberar = false;
+              break;
+          }
+       }
+       for(var cont=0;cont<$requeridos.length;cont++){
+           if($requeridos[cont].value == ""){
+              alert("Favor de ingresar todos los datos requeridos");
+              var offset = $($requeridos[cont]).offset().top - 180;
                $('html, body').animate({ scrollTop : offset }, 'slow');
               liberar = false;
               break;

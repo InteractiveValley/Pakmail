@@ -192,6 +192,15 @@ $(document).on('ready', function () {
               break;
           }
        }
+       for(var cont=0;cont<$requeridos.length;cont++){
+           if($requeridos[cont].value == ""){
+              alert("Favor de ingresar todos los datos requeridos");
+              var offset = $($requeridos[cont]).offset().top - 180;
+               $('html, body').animate({ scrollTop : offset }, 'slow');
+              liberar = false;
+              break;
+          }
+       }
        return liberar;
     });
     
