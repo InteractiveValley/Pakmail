@@ -92,7 +92,7 @@ class BaseController extends Controller
         $isNew = true;
         $message = \Swift_Message::newInstance()
                 ->setSubject($asunto)
-                ->setFrom($usuario->getEmail())
+                ->setFrom($this->container->getParameter('richpolis.emails.to_email'))
                 ->setTo($configuracion->getTexto())
                 ->setBody(
                 $this->renderView('FrontendBundle:Default:enviarSolicitudEnvio.html.twig', 
