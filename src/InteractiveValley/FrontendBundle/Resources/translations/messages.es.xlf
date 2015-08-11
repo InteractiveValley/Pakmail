@@ -8,7 +8,7 @@
             </trans-unit> 
             <trans-unit id="2"> 
                 <source>Bad credentials</source> 
-                <target>Email o Contraseña Incorrecto.</target> 
+                <target>Credenciales invalidas.</target> 
             </trans-unit> 
             <trans-unit id="3"> 
                 <source>The presented password is invalid.</source> 

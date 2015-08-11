@@ -85,7 +85,7 @@ class BaseController extends Controller
     
     protected function enviarSolicitudEnvioCreado($usuario, $envio) {
         $em = $this->getDoctrine()->getManager();
-	$configuracion = $em->getRepository('BackendBundle:Configuraciones')
+		$configuracion = $em->getRepository('BackendBundle:Configuraciones')
                             ->findOneBy(array('slug' => 'email-solicitudes'));
 		
         $asunto = 'Solicitud de envio creada.';

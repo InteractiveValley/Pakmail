@@ -51,6 +51,7 @@ class ClienteController extends BaseController
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 		$data = $form->getData();
+		$password = $data->getPassword();
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $this->setSecurePassword($entity);
