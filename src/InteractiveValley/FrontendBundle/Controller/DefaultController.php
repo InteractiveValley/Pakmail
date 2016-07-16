@@ -114,25 +114,15 @@ class DefaultController extends BaseController {
     }
     
     /**
-     * @Route("/aviso-privacidad", name="aviso-privacidad")
+     * @Route("/aviso-privacidad", name="aviso_privacidad")
      * @Template()
      */
-    public function avisoAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $menus = $em->getRepository('PakmailBundle:Menu')
-                          ->findBy(array(), array('position'=>'ASC'));
-        $configuracion = $em->getRepository('BackendBundle:Configuraciones')
-                ->findOneBy(array('slug' => 'aviso-privacidad'));
-        return array(
-            'section' => 'servicios',
-            'menus'=>$menus,
-            'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
-            'configuracion' => $configuracion,
-        );
+    public function avisoPrivacidadAction(Request $request){
+       return array();
     }
     
     /**
-     * @Route("/terminos-condiciones", name="terminos-condiciones")
+     * @Route("/terminos-condiciones", name="terminos_condiciones")
      * @Template()
      */
     public function terminosAction(Request $request) {
