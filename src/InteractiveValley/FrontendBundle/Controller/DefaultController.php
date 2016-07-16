@@ -323,4 +323,13 @@ class DefaultController extends BaseController {
                     'mensaje' => $mensaje
         ));
     }
+	
+	/**
+     * @Route("/aviso/privacidad", name="aviso_privacidad")
+     * @Template()
+     */
+    public function avisoPrivacidadAction(Request $request) {
+        return array();
+    }
+	
 }

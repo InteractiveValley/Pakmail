@@ -2,11 +2,12 @@
 
 {% block title %}Pakmail | Virreyes{% endblock %}
 
-{% set urlAbsolutaFoto = 'http://'
+{% set urlAbsolutaFoto = 'https://'
                              ~ app.request.server.get('SERVER_NAME')
                              ~ asset('images/logo.png') %}
 {% block stylesheets %}
-    {% block redes_sociales %}
+    
+	{% block redes_sociales %}
         <meta property="og:url" content="{{url('homepage')}}" />
         <meta property="og:title" content="Pakmail Virreyes" />
         <meta property="og:image" content="{{urlAbsolutaFoto}}" />
@@ -22,6 +23,7 @@
         <meta name="twitter:image:src" content="{{urlAbsolutaFoto}}">
         <meta name="twitter:domain" content="{{url('homepage')}}">
     {% endblock %}
+	
     {% if app.environment == 'prod' %}
         <script>
             (function (i, s, o, g, r, a, m) {
@@ -40,6 +42,7 @@
         </script>
     {% endif %}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{{asset('css/fancybox/jquery.fancybox.css')}}">
 {% endblock %}
 
 {% set route = app.request.get('_route') %}
@@ -103,7 +106,7 @@
         <ul class="info">
             <li class="text-align-right border-r border-r-vino">
                 <div class="direccion flat">
-                    <a class="aviso-privacidad" href="#">Aviso de Privacidad</a> 
+                    <a class="aviso-privacidad" href="{{path('aviso_privacidad')}}">Aviso de Privacidad</a> 
                 </div>    
             </li>
             <li class="text-align-left">
@@ -120,6 +123,7 @@
 
 {% block javascripts %}
     <script src="{{asset('js/jquery.js')}}"></script>
+	<script src="{{asset('js/fancybox/jquery.fancybox.js')}}"></script>
     <script type="text/javascript">
         (function(){
             var contador = 1;
@@ -178,6 +182,18 @@
 				{% endif %}
 			
 			{% endif %}
+			
+			$("a.aviso-privacidad").on("click",function(e){
+				e.preventDefault();
+				var url = $(this).attr("href");
+				$.fancybox({
+					width: "75%",
+					height: "75%",
+					autoSize: false,
+					href: url,
+					type: 'ajax'
+				});
+			});
 
             inicializarBotonEnviarNewsletter();
 
@@ -207,5 +223,6 @@
                 });
             });
         }
+		
     </script>
 {% endblock %}
