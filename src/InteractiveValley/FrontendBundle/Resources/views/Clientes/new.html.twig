@@ -2,166 +2,332 @@
 
 {% block stylesheets %}
     {{ parent() }}
+<link href="{{asset('css/select2.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('css/demo_style.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('css/smart_wizard_vertical.css')}}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block contenido %}
-    <!-- Main bar -->
-    <div class="mainbar">
-        <!-- Matter -->
-        <div class="matter">
-            <div class="container">
-                <!-- Table -->
-                <div class="row">
-                    <div class="col-md-8">
-                        <article class="solicitud-envio">
-                            <header>
-                                <hgroup>
-                                    <h3 class="titulo vino">Generar solicitud de envío</h3>
-                                    <h6 class="subtitulo vino"></h6>
-                                </hgroup>
-                            </header>
-                            <p style="color: red;">
-                                Los campos marcados con * son obligatorios.
+<!-- Main bar -->
+<div class="mainbar">
+    <!-- Matter -->
+    <div class="matter">
+        <div class="container">
+            <!-- Table -->
+            <div class="row">
+                <div class="col-md-9">
+                    <article class="solicitud-envio">
+                        <header>
+                            <hgroup>
+                                <h3 class="titulo vino">Generar solicitud de envío</h3>
+                                <h6 class="subtitulo vino"></h6>
+                            </hgroup>
+                        </header>
+                        <p style="color: red;">
+                            Los campos marcados con * son obligatorios.
                                 {{form_errors(form)}}
-                            </p>
+                        </p>
                             {{form_start(form)}}
-                            <fieldset>
-                                {{form_row(form.direccionFiscal)}}
-                                
-                            </fieldset>
-                            <fieldset>
-                                {{form_row(form.direccionRemitente)}}
-                            </fieldset>
-                            <fieldset>
-                                {{form_row(form.direccionDestino)}}
-                            </fieldset>
-                            <fieldset>
-                                <legend>Destino de envío</legend>
-                                <div>
-                                    {{form_row(form.referencia)}}
-                                    {{form_row(form.tipo)}}
-                                    <div class="form-group">
-                                        {{form_label(form.precio)}}
-                                        <div class="input-group">
-                                          <div class="input-group-addon">$</div>
-                                          {{form_widget(form.precio)}}
-                                          <div class="input-group-addon visualizar_precio"></div>
-                                        </div>
-                                    </div>
-                                    {{form_row(form.numGuia)}}
-                                    <div class="checkbox">
-                                        <label>
-                                            {{form_widget(form.asegurarEnvio)}} ¿Desea asegurar el envío?
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-                                        {{form_label(form.montoSeguro)}}
-                                        <div class="input-group">
-                                          <div class="input-group-addon">$</div>
-                                          {{form_widget(form.montoSeguro)}}
-                                          <div class="input-group-addon visualizar_monto_seguro"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        {{form_label(form.importeSeguro)}}
-                                        <div class="input-group">
-                                          <div class="input-group-addon">$</div>
-                                          {{form_widget(form.importeSeguro)}}
-                                          <div class="input-group-addon visualizar_importe_seguro"></div>
-                                        </div>
-                                    </div>      
-                                    {{form_row(form.observaciones)}}
-                                    <table>
-                                        <tr>
-                                            <td></td>
-                                            <td>Peso (kg) *</td>
-                                            <td>Largo (cm) *</td>
-                                            <td>Ancho (cm) *</td>
-                                            <td>Alto (cm) *</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Medidas: &nbsp;</td>
-                                            <td>{{form_widget(form.medidaPeso)}}</td>
-                                            <td>{{form_widget(form.medidaLargo)}}</td>
-                                            <td>{{form_widget(form.medidaAncho)}}</td>
-                                            <td>{{form_widget(form.medidaAlto)}}</td>
-                                        </tr>
-                                    </table>
-                                    <div class="checkbox">
-                                        <label>
-                                            {{form_widget(form.generarGastosAduana)}} ¿Genera gastos de aduana?
-                                        </label>
-                                    </div>
-                                    <div class="form-group">
-                                        {{form_label(form.valorDeclarado)}}
-                                        <div class="input-group">
-                                          <div class="input-group-addon">$</div>
-                                          {{form_widget(form.valorDeclarado)}}
-                                          <div class="input-group-addon visualizar_valor_declarado"></div>
-                                        </div>
-                                    </div>
-                                    {{form_rest(form)}}
-                                </div>
-                                <div class="help" style="font-size: .8em; color: silver;">
-                                    El valor declarado tendrá que tener una factura por la compra. <br/>
-                                    Para que se cumpla la garantía del seguro, 
-                                    se tendrá que tener un recibo y/o 
-                                    factura de compra con el valor declarado.
-                                </div>
-                            </fieldset>
-                            <input type="submit" value="Generar solicitud" class="btn btn-bg btn-danger"/>
-                            {{form_end(form)}}
-                        </article>
-                    </div>
-                    <div class="col-md-4">
-                        <h5 class="perfiles-titulo">Perfiles de envios</h5>
-                        {% if perfiles | length > 0 %}
-                            <div class="perfiles-guardados">
-                                <ul class="lista-perfiles">
-                                    {% for perfil in perfiles %}
-                                        <li class="item-perfil" data-url="{{path('pakmail_perfiles_copia',{'id': perfil.id})}}">{{perfil.nombre}}</li>
-                                        {% endfor %}
-                                </ul>
+                        <div id="wizard" class="swMain col-md-12">
+                            <ul>
+                                <li><a href="#step-2">
+                                        <label class="stepNumber">1</label>
+                                        <span class="stepDesc">
+                                            Paso 1<br />
+                                            <small>Dirección remitente</small>
+                                        </span>
+                                    </a></li>
+                                <li><a href="#step-3">
+                                        <label class="stepNumber">2</label>
+                                        <span class="stepDesc">
+                                            Paso 2<br />
+                                            <small>Dirección destino</small>
+                                        </span>
+                                    </a></li>
+                                <li><a href="#step-4">
+                                        <label class="stepNumber">3</label>
+                                        <span class="stepDesc">
+                                            Paso 3<br />
+                                            <small>Información de envío</small>
+                                        </span>
+                                    </a></li>
+                                <li><a href="#step-1">
+                                        <label class="stepNumber">4</label>
+                                        <span class="stepDesc">
+                                            Paso 4<br />
+                                            <small>Dirección fiscal</small>
+                                        </span>
+                                    </a></li>
+                            </ul>
+                            <div id="step-1" class="col-md-12">
+                                <fieldset>
+                                        {{form_row(form.direccionFiscal)}}
+                                </fieldset>
                             </div>
-                        {% endif %}
+                            <div id="step-2" class="col-md-12">
+                                <fieldset>
+                                        {{form_row(form.direccionRemitente)}}
+                                </fieldset>
+                            </div>
+                            <div id="step-3" class="col-md-12">
+                                <fieldset>
+                                        {{form_row(form.direccionDestino)}}
+                                </fieldset>
+                            </div>
+                            <div id="step-4" class="col-md-12">
+                                <fieldset>
+                                    <legend>INFORMACIÓN DE ENVÍO</legend>
+                                    <div>
+                                                {{form_row(form.referencia)}}
+                                                {{form_row(form.tipo)}}
+                                        <div class="checkbox">
+                                            <label>
+                                                        {{form_widget(form.asegurarEnvio)}} ¿Desea asegurar el envío?
+                                            </label>
+                                        </div>
+                                        <div class="form-group div-seguro">
+                                                    {{form_label(form.montoSeguro)}}
+                                            <div class="input-group">
+                                                <div class="input-group-addon">$</div>
+                                                      {{form_widget(form.montoSeguro)}}
+                                                <div class="input-group-addon visualizar_monto_seguro"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group div-seguro">
+                                                    {{form_label(form.importeSeguro)}}
+                                            <div class="input-group">
+                                                <div class="input-group-addon">$</div>
+                                                      {{form_widget(form.importeSeguro)}}
+                                                <div class="input-group-addon visualizar_importe_seguro"></div>
+                                            </div>
+                                        </div>
+                                                {{form_row(form.observaciones)}}
+                                        <table>
+                                            <tr>
+                                                <td></td>
+                                                <td>Peso (kg) *</td>
+                                                <td>Largo (cm) *</td>
+                                                <td>Ancho (cm) *</td>
+                                                <td>Alto (cm) *</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Medidas: &nbsp;</td>
+                                                <td>{{form_widget(form.medidaPeso)}}</td>
+                                                <td>{{form_widget(form.medidaLargo)}}</td>
+                                                <td>{{form_widget(form.medidaAncho)}}</td>
+                                                <td>{{form_widget(form.medidaAlto)}}</td>
+                                            </tr>
+                                        </table>
+                                        <div class="form-group">
+                                                    {{form_label(form.valorDeclarado)}}
+                                            <div class="input-group">
+                                                <div class="input-group-addon">$</div>
+                                                      {{form_widget(form.valorDeclarado)}}
+                                                <div class="input-group-addon visualizar_valor_declarado"></div>
+                                            </div>
+                                        </div>
+                                                {{form_rest(form)}}
+                                    </div>
+                                    <div class="help" style="font-size: .8em; color: silver;">
+                                        El valor declarado tendrá que tener una factura por la compra. <br/>
+                                        Para que se cumpla la garantía del seguro,
+                                        se tendrá que tener un recibo y/o
+                                        factura de compra con el valor declarado.
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                            {{form_end(form)}}
+                    </article>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="perfiles-titulo">Perfiles de envíos</h5>
+                        {% if perfiles | length > 0 %}
+                    <div class="perfiles-guardados">
+                        <ul class="lista-perfiles">
+                                    {% for perfil in perfiles %}
+                            <li class="item-perfil" data-url="{{path('pakmail_perfiles_copia',{'id': perfil.id})}}">{{perfil.nombre}}</li>
+                                        {% endfor %}
+                        </ul>
                     </div>
+                        {% endif %}
                 </div>
             </div>
         </div>
-        <!-- Matter ends -->
     </div>
-    <!-- Mainbar ends -->        
-    <div class="clearfix"></div>
+    <!-- Matter ends -->
+</div>
+<!-- Mainbar ends -->
+<div class="clearfix"></div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{asset('js/bootbox.min.js')}}"></script>
-        <!-- jQuery Notification - Noty -->
-    <script src="{{asset('js/jquery.noty.js')}}"></script> <!-- jQuery Notify -->
-    <script src="{{asset('js/themes/default.js')}}"></script> <!-- jQuery Notify -->
-    <script src="{{asset('js/layouts/bottom.js')}}"></script> <!-- jQuery Notify -->
-    <script src="{{asset('js/layouts/topRight.js')}}"></script> <!-- jQuery Notify -->
-    <script src="{{asset('js/layouts/top.js')}}"></script> <!-- jQuery Notify -->
-    <script>
-        {% if creacionEnvio is not defined %}
-            {% set creacionEnvio = 0 %}
-        {% endif %}
-        var creacionEnvio = {{creacionEnvio}};
-        var perfilGuardado = {{perfilGuardado}};
-        var urlCrear = '{{path('pakmail_perfiles_create')}}';
-       $(document).ready(function(){
-           {% if errores | length > 0 %}
+<script src="{{asset('js/bootbox.min.js')}}"></script>
+<!-- jQuery Notification - Noty -->
+<script src="{{asset('js/jquery.noty.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/themes/default.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/layouts/bottom.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/layouts/topRight.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/layouts/top.js')}}"></script> <!-- jQuery Notify -->
+<script src="{{asset('js/jquery.maskedinput.js')}}"></script>
+<script src="{{asset('js/select2.js')}}" type="text/javascript"></script>
+<script src="{{asset('js/jquery.smartWizard.js')}}"></script>
+
+<script>
+    {% if creacionEnvio is not defined %}
+        {% set creacionEnvio = 0 %}
+    {% endif %}
+    var creacionEnvio = {{creacionEnvio}};
+    var perfilGuardado = {{perfilGuardado}};
+    var urlCrear = '{{path('pakmail_perfiles_create')}}';
+    $(document).ready(function() {
+        {% if errores | length > 0 %}
             {% for error in errores %}
-                noty({
-                    text: '{{ error }}',
-                    layout: 'topRight',
-                    type: 'error',
-                    timeout: 2000
-                });
-                {% endfor %}    
-            {% endif %}
-       });
-    </script>
-    <script src="{{asset('bundles/frontend/js/nuevo_envio.js')}}"></script> 
+        noty({
+            text: '{{ error }}',
+            layout: 'topRight',
+            type: 'error',
+            timeout: 2000
+        });
+            {% endfor %}
+        {% endif %}
+        $('.input-mask-phone').mask('(99) 9999-9999');
+        $(".search-select").select2({
+            placeholder: "Seleccionar país",
+            allowClear: true
+        });
+        $('#wizard').smartWizard({transitionEffect: 'slide', onLeaveStep: leaveAStepCallback, onFinish: onFinishCallback, enableFinishButton: true});
+        $('#interactivevalley_pakmailbundle_envio_asegurarEnvio').change(function() {
+            if (this.checked) {
+                $('.div-seguro').show();
+            } else {
+                $('.div-seguro').hide();
+            }
+        });
+
+        $('input[type="text"]').removeAttr('required');
+        $('select').removeAttr('required');
+
+        $('.div-seguro').hide();
+        function leaveAStepCallback(obj) {
+            var step_num = obj.attr('rel');
+            return validateSteps(step_num);
+        }
+
+        function onFinishCallback() {
+            if (validateAllSteps()) {
+                $('form').submit();
+            }
+        }
+
+        function validateSteps(step) {
+            var isStepValid = true;
+            // validate step 1
+            if (step == 1) {
+                if (validateStep1() == false) {
+                    isStepValid = false;
+                    $('#wizard').smartWizard('showMessage', 'Corrija los errores en el paso ' + step + ' y haga click en Siguiente.');
+                    $('#wizard').smartWizard('setError', {stepnum: step, iserror: true});
+                } else {
+                    $('#wizard').smartWizard('hideMessage');
+                    $('#wizard').smartWizard('setError', {stepnum: step, iserror: false});
+                }
+            }
+            // validate step 2
+            if (step == 2) {
+                if (validateStep2() == false) {
+                    isStepValid = false;
+                    $('#wizard').smartWizard('showMessage', 'Corrija los errores en el paso' + step + ' y haga click en Siguiente.');
+                    $('#wizard').smartWizard('setError', {stepnum: step, iserror: true});
+                } else {
+                    $('#wizard').smartWizard('hideMessage');
+                    $('#wizard').smartWizard('setError', {stepnum: step, iserror: false});
+                }
+            }
+
+            // validate step3
+            if (step == 3) {
+                if (validateStep3() == false) {
+                    isStepValid = false;
+                    $('#wizard').smartWizard('showMessage', 'Corrija los errores en el paso' + step + ' y haga click en Siguiente.');
+                    $('#wizard').smartWizard('setError', {stepnum: step, iserror: true});
+                } else {
+                    $('#wizard').smartWizard('hideMessage');
+                    $('#wizard').smartWizard('setError', {stepnum: step, iserror: false});
+                }
+            }
+
+            // validate step4
+            if (step == 4) {
+                /**
+                if (validateStep4() == false) {
+                    isStepValid = false;
+                    $('#wizard').smartWizard('showMessage', 'Corrija los errores en el paso' + step + ' y haga click en Siguiente.');
+                    $('#wizard').smartWizard('setError', {stepnum: step, iserror: true});
+                } else {
+                    $('#wizard').smartWizard('hideMessage');
+                    $('#wizard').smartWizard('setError', {stepnum: step, iserror: false});
+                }
+                */
+               
+            }
+
+            return isStepValid;
+        }
+
+        function validateStep1() {
+            var isValid = true;
+            var prefijo = 'interactivevalley_pakmailbundle_envio_direccionRemitente_';
+            var campos = Array('nombre', 'calle', 'numExterior', 'numInterior', 'pais', 'estado', 'delegacion', 'poblacion', 'cp', 'telefono', 'email');
+            for(posicion in campos) {
+                var id = '#' + prefijo + campos[posicion];
+                if($(id).val() == '') {
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        function validateStep2() {
+            var isValid = true;
+            var prefijo = 'interactivevalley_pakmailbundle_envio_direccionDestino_';
+            var campos = Array('nombre', 'calle', 'numExterior', 'numInterior', 'pais', 'estado', 'delegacion', 'poblacion', 'cp', 'telefono', 'email');
+            for(posicion in campos) {
+                var id = '#' + prefijo + campos[posicion];
+                if($(id).val() == '') {
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        function validateStep3() {
+            var isValid = true;
+            var prefijo = 'interactivevalley_pakmailbundle_envio_';
+            var campos = Array('referencia', 'tipo', 'medidaPeso', 'medidaLargo', 'medidaAncho', 'medidaAlto');
+            for(posicion in campos) {
+                var id = '#' + prefijo + campos[posicion];
+                if($(id).val() == '') {
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        function validateStep4() {
+            var isValid = true;
+            var prefijo = 'interactivevalley_pakmailbundle_envio_direccionFiscal_';
+            var campos = Array('calle', 'numExterior', 'numInterior', 'pais', 'estado', 'delegacion', 'poblacion', 'cp', 'telefono', 'email');
+            for(posicion in campos) {
+                var id = '#' + prefijo + campos[posicion];
+                if($(id).val() == '') {
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+    });
+</script>
+<script src="{{asset('bundles/frontend/js/nuevo_envio.js')}}"></script>
 {% endblock %}

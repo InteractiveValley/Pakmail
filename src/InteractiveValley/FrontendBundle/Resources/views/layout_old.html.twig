@@ -1,0 +1,217 @@
+{% extends '::baseFrontend.html.twig' %}
+
+{% block title %}Pakmail | Virreyes{% endblock %}
+
+{% set urlAbsolutaFoto = 'http://' ~ app.request.server.get('SERVER_NAME') ~ asset('images/logo.png') %}
+{% block stylesheets %}
+    {% block redes_sociales %}
+        <meta property="og:url" content="{{url('homepage')}}" />
+        <meta property="og:title" content="Pakmail Virreyes" />
+        <meta property="og:image" content="{{urlAbsolutaFoto}}" />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="pakmail.com" />
+        <!--meta property="fb:admins" content="USER_ID1,USER_ID2"/-->
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@Pakmail">
+        <meta name="twitter:title" content="Pakmail">
+        <meta name="twitter:description" content="Pakmail, enviar sus paquetes a todo el pais">
+        <meta name="twitter:creator" content="@richpolis">
+        <meta name="twitter:image:src" content="{{urlAbsolutaFoto}}">
+        <meta name="twitter:domain" content="{{url('homepage')}}">
+    {% endblock %}
+    {% if app.environment == 'prod' %}
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-xxxxxx-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+    {% endif %}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{asset('css/fancybox/jquery.fancybox.css')}}"/>
+{% endblock %}
+
+{% set route = app.request.get('_route') %}
+
+{% block body %}  
+    <header id="header">
+        <div class="logo-redes-sociales">
+            <figure class="logo">
+                <a href="{{path('_portada')}}"><img src="{{asset('images/logo.png')}}"></a>
+            </figure>
+        </div>
+        <div class="menu_bar">
+            <a href="#" id="bt-menu" class="bt-menu">
+                <img src="{{asset('images/logo_footer.png')}}" alt="" class="logo">
+                <span class="icon-menu">&nbsp;</span>
+            </a>
+        </div>
+        <nav id="navegador">
+            <ul>
+                {% for menu in menus %}<li><a {% if section is defined and section == menu.section %}class="active" {% endif %}href="{{path(menu.path)}}">{{ menu.nombre }}</a></li>{% endfor %}
+                <li><a href="{{ facebook.texto }}" target="_blank"><img src="{{asset('images/facebook.png')}}" alt="" class="logo"></a></li>
+            </ul>
+        </nav>
+        <div class="boletin">
+            <div class="leyenda">
+                Suscríbete para recibir ofertas y promociones
+                <img src="{{asset('images/newsletter.png')}}" alt="">
+            </div>
+            <div class="form-newsletter contenedor-form-newsletter">
+                {{render(controller('FrontendBundle:Default:newsletter'))}}
+            </div>
+        </div>
+    </header>
+    {% block contenido %} {% endblock %}
+    <footer>
+        <ul class="info">
+            <li class="text-align-right border-r border-r-blanco">
+                <div class="direccion large">
+                    <span class="fa fa-envelope"></span>&nbsp;pakmail103mx@pakmail.com.mx<br/>
+                    <span class="fa fa-phone"></span>&nbsp;5202-1193<br/> 
+                    <span class="fa fa-fax"></span>&nbsp;5202-1259<br/>
+                    <br/>
+                    <span class="fa fa-car"></span>&nbsp;Pedregal No. 96 Col. Lomas de Chapultepec<br/>
+                    Del. Miguel Hidalgo. C.P. 11000<br/>
+                    Ciudad de México, Distrito Federal.
+                </div>    
+            </li>
+            <li class="text-align-left">
+                <figure class="logo-footer">
+                    <img src="{{asset('images/logo_footer.png')}}" alt=""> 
+                </figure>
+            </li>
+        </ul>
+        <ul class="info">
+            <li class="text-align-right border-r border-r-vino">
+                <div class="direccion flat">
+                    <a class="aviso-privacidad fancybox" data-fancybox-type="ajax" href="{{path('aviso-privacidad')}}">Aviso de Privacidad</a> 
+                </div>
+            </li>
+            <li class="text-align-left">
+                <div class="direccion flat">
+                    <a class="terminos-condiciones fancybox" data-fancybox-type="ajax" href="{{path('terminos-condiciones')}}">Términos y Condiciones</a> 
+                </div> 
+            </li>
+        </ul>
+        <div class="derechos">
+            <p>2015 PAKMAIL VIRREYES. Todos los derechos reservados. </p>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/fancybox/jquery.fancybox.pack.js')}}"></script>
+    <script type="text/javascript">
+            (function () {
+                var contador = 1;
+                var altoAdicional = 180;
+                var menuBar = document.getElementById("bt-menu");
+                menuBar.addEventListener('click', function () {
+                    var nav = document.getElementById("navegador");
+                    if (contador == 1) {
+                        nav.style.left = "0";
+                        contador = 2;
+                        console.log("mostrar")
+                    } else {
+                        nav.style.left = "-100%";
+                        contador = 1;
+                        console.log("ocultar")
+                    }
+                });
+                $(window).on('scroll', function () {
+                    var altura_del_header = $('#header').outerHeight(true);
+                    var altura_del_menu = $('#navegador').outerHeight(true);
+                    if ($(document).width() > 960) {
+                        if ($(window).scrollTop() >= altura_del_header) {
+                            if (!$('#navegador').hasClass('fixed')) {
+                                $('#navegador').css({'opacity': '0'}).addClass('fixed').animate({'opacity': '1'}, 'slow');
+                            }
+                        } else {
+                            if ($('#navegador').hasClass('fixed')) {
+                                $('#navegador').removeClass('fixed');
+                            }
+                        }
+                    }
+                });
+        {% if route == 'homepage' or route=='frontend_servicios' %}
+                $(".servicios-ancla").on('click', function (e) {
+                    e.preventDefault();
+                    var offset = $("#servicios").offset().top - altoAdicional;
+                    $('html, body').animate({scrollTop: offset}, 'slow');
+                    if ($("#bt-menu").is(":visible")) {
+                        var nav = document.getElementById("navegador");
+                        if (contador == 1) {
+                            nav.style.left = "0";
+                            contador = 2;
+                            console.log("mostrar")
+                        } else {
+                            nav.style.left = "-100%";
+                            contador = 1;
+                            console.log("ocultar")
+                        }
+                    }
+                });
+
+            {% if route == 'frontend_servicios' %}
+                    setTimeout(function () {
+                        $(".servicios-ancla").click()
+                    }, 2000);
+            {% endif %}
+
+        {% endif %}
+
+                inicializarBotonEnviarNewsletter();
+                activarFancyBox();
+            })();
+            function inicializarBotonEnviarNewsletter() {
+                $("#botonEnviarNewsletter").on('click', function (e) {
+                    e.preventDefault();
+                    var $form = $("#formNewsletter");
+                    var datos = $form.serialize();
+                    $(this).find('img').attr('src', '{{asset('images/page-loader.gif')}}');
+                    $.ajax({
+                        url: $form.attr('action'),
+                        type: 'POST',
+                        dataType: 'json',
+                        data: datos,
+                        success: function (data) {
+                            $(".contenedor-form-newsletter").html(data.mensaje);
+                            setTimeout(function () {
+                                $(".contenedor-form-newsletter").html(data.form);
+                                inicializarBotonEnviarNewsletter();
+                            }, 2000);
+                        },
+                        error: function (data) {
+                            alert("Error al enviar el formulario");
+                            console.log(data);
+                        }
+                    });
+                });
+            }
+            function activarFancyBox(){
+                $(".fancybox").fancybox({
+                    maxWidth	: 800,
+                    maxHeight	: 600,
+                    fitToView	: false,
+                    width	: '100%',
+                    height	: '100%',
+                    autoSize	: false,
+                    closeClick	: false,
+                    openEffect	: 'none',
+                    closeEffect	: 'none'
+                });
+            }
+    </script>
+{% endblock %}

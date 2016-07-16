@@ -12,8 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\DireccionFiscalRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class DireccionFiscal
-{
+class DireccionFiscal {
+
     /**
      * @var integer
      *
@@ -35,7 +35,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="numExterior", type="string", length=100)
-     * @Assert\NotBlank(message="Ingresa el numero exterior")
+     * @Assert\NotBlank(message="Ingresa el número exterior")
      */
     private $numExterior;
 
@@ -43,7 +43,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="numInterior", type="string", length=100)
-     * @Assert\NotBlank(message="Ingresa el numero interior")
+     * @Assert\NotBlank(message="Ingresa el número interior")
      */
     private $numInterior;
 
@@ -83,7 +83,7 @@ class DireccionFiscal
      * @var string
      *
      * @ORM\Column(name="cp", type="string", length=10)
-     * @Assert\NotBlank(message="Ingresa el codigo postal")
+     * @Assert\NotBlank(message="Ingresa el código postal")
      */
     private $cp;
 
@@ -105,14 +105,35 @@ class DireccionFiscal
     /**
      * @var string
      *
+     * @ORM\Column(name="denominacion", type="string", length=150, nullable=true)
+     */
+    private $denominacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rfc", type="string", length=12, nullable=true)
+     */
+    private $rfc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre_comercial", type="string", length=150, nullable=true)
+     */
+    private $nombreComercial;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="email", type="string", length=255)
      * @Assert\NotBlank(message="Ingresa un correo")
      * @Assert\Email(message="Ingresa un email correcto")
      */
     private $email;
-    
+
     public function __toString() {
-        return sprintf('s% s% s% s% s%',$this->calle,$this->numExterior,$this->numInterior,$this->poblacion
+        return sprintf('s% s% s% s% s%', $this->calle, $this->numExterior, $this->numInterior, $this->poblacion
                 , $this->cp);
     }
 
@@ -121,8 +142,7 @@ class DireccionFiscal
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -133,8 +153,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setCalle($calle)
-    {
+    public function setCalle($calle) {
         $this->calle = $calle;
 
         return $this;
@@ -145,8 +164,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getCalle()
-    {
+    public function getCalle() {
         return $this->calle;
     }
 
@@ -157,8 +175,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setNumExterior($numExterior)
-    {
+    public function setNumExterior($numExterior) {
         $this->numExterior = $numExterior;
 
         return $this;
@@ -169,8 +186,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getNumExterior()
-    {
+    public function getNumExterior() {
         return $this->numExterior;
     }
 
@@ -181,8 +197,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setNumInterior($numInterior)
-    {
+    public function setNumInterior($numInterior) {
         $this->numInterior = $numInterior;
 
         return $this;
@@ -193,8 +208,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getNumInterior()
-    {
+    public function getNumInterior() {
         return $this->numInterior;
     }
 
@@ -205,8 +219,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setColonia($colonia)
-    {
+    public function setColonia($colonia) {
         $this->colonia = $colonia;
 
         return $this;
@@ -217,8 +230,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getColonia()
-    {
+    public function getColonia() {
         return $this->colonia;
     }
 
@@ -229,8 +241,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setPoblacion($poblacion)
-    {
+    public function setPoblacion($poblacion) {
         $this->poblacion = $poblacion;
 
         return $this;
@@ -241,8 +252,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getPoblacion()
-    {
+    public function getPoblacion() {
         return $this->poblacion;
     }
 
@@ -253,8 +263,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setDelegacion($delegacion)
-    {
+    public function setDelegacion($delegacion) {
         $this->delegacion = $delegacion;
 
         return $this;
@@ -265,8 +274,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getDelegacion()
-    {
+    public function getDelegacion() {
         return $this->delegacion;
     }
 
@@ -277,8 +285,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setEstado($estado)
-    {
+    public function setEstado($estado) {
         $this->estado = $estado;
 
         return $this;
@@ -289,8 +296,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getEstado()
-    {
+    public function getEstado() {
         return $this->estado;
     }
 
@@ -301,8 +307,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setPais($pais)
-    {
+    public function setPais($pais) {
         $this->pais = ucwords(strtolower($pais));
 
         return $this;
@@ -313,8 +318,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getPais()
-    {
+    public function getPais() {
         return $this->pais;
     }
 
@@ -325,8 +329,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setCp($cp)
-    {
+    public function setCp($cp) {
         $this->cp = $cp;
 
         return $this;
@@ -337,8 +340,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getCp()
-    {
+    public function getCp() {
         return $this->cp;
     }
 
@@ -349,8 +351,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setTelefono($telefono)
-    {
+    public function setTelefono($telefono) {
         $this->telefono = $telefono;
 
         return $this;
@@ -361,8 +362,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getTelefono()
-    {
+    public function getTelefono() {
         return $this->telefono;
     }
 
@@ -373,8 +373,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setCelular($celular)
-    {
+    public function setCelular($celular) {
         $this->celular = $celular;
 
         return $this;
@@ -385,8 +384,7 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getCelular()
-    {
+    public function getCelular() {
         return $this->celular;
     }
 
@@ -397,8 +395,7 @@ class DireccionFiscal
      *
      * @return DireccionFiscal
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -409,8 +406,71 @@ class DireccionFiscal
      *
      * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
+
+    /**
+     * Set denominacion
+     *
+     * @param string $denominacion
+     *
+     * @return DireccionFiscal
+     */
+    public function setDenominacion($denominacion) {
+        $this->denominacion = $denominacion;
+        return $this;
+    }
+
+    /**
+     * Get denominacion
+     *
+     * @return string
+     */
+    public function getDenominacion() {
+        return $this->denominacion;
+    }
+
+    /**
+     * Set rfc
+     *
+     * @param string $rfc
+     *
+     * @return DireccionFiscal
+     */
+    public function setRfc($rfc) {
+        $this->rfc = $rfc;
+        return $this;
+    }
+
+    /**
+     * Get rfc
+     *
+     * @return string
+     */
+    public function getRfc() {
+        return $this->rfc;
+    }
+
+    /**
+     * Set nombreComercial
+     *
+     * @param string $nombreComercial
+     *
+     * @return DireccionFiscal
+     */
+    public function setNombreComercial($nombreComercial) {
+        $this->nombreComercial = $nombreComercial;
+        return $this;
+    }
+
+    /**
+     * Get nombreComercial
+     *
+     * @return string
+     */
+    public function getNombreComercial() {
+        return $this->nombreComercial;
+    }
+
 }

@@ -14,8 +14,8 @@ use InteractiveValley\BackendBundle\Utils\Richsys as RpsStms;
  * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\PromocionRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Promocion
-{
+class Promocion {
+
     /**
      * @var integer
      *
@@ -38,14 +38,28 @@ class Promocion
      * @ORM\Column(name="imagen", type="string", length=255)
      */
     private $imagen;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="position", type="integer")
      */
     private $position;
-    
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="inicio", type="datetime")
+     */
+    private $inicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fin", type="datetime")
+     */
+    private $fin;
+
     /**
      * @var \DateTime
      *
@@ -60,48 +74,42 @@ class Promocion
      */
     private $updatedAt;
 
-    
     /*
      * Timestable
      */
-    
+
     /**
-     ** @ORM\PrePersist
+     * * @ORM\PrePersist
      */
-    public function setCreatedAtValue()
-    {
-        if(!$this->getCreatedAt())
-        {
-          $this->createdAt = new \DateTime();
+    public function setCreatedAtValue() {
+        if (!$this->getCreatedAt()) {
+            $this->createdAt = new \DateTime();
         }
-        if(!$this->getUpdatedAt())
-        {
-          $this->updatedAt = new \DateTime();
+        if (!$this->getUpdatedAt()) {
+            $this->updatedAt = new \DateTime();
         }
     }
 
     /**
      * @ORM\PreUpdate
      */
-    public function setUpdatedAtValue()
-    {
+    public function setUpdatedAtValue() {
         $this->updatedAt = new \DateTime();
     }
-    
-    /*** uploads ***/
-    
+
+    /*     * * uploads ** */
+
     /**
      * @Assert\File(maxSize="6000000")
      */
     public $file;
-    
+
     /**
      * Sets file.
      *
      * @param UploadedFile $file
      */
-    public function setFile(UploadedFile $file = null)
-    {
+    public function setFile(UploadedFile $file = null) {
         $this->file = $file;
         // check if we have an old image path
         if (isset($this->imagen)) {
@@ -112,39 +120,36 @@ class Promocion
             $this->imagen = 'initial';
         }
     }
-    
+
     /**
      * Get file.
      *
      * @return UploadedFile
      */
-    public function getFile()
-    {
+    public function getFile() {
         return $this->file;
     }
-    
-   /**
-    * @ORM\PrePersist()
-    * @ORM\PreUpdate()
-    */
-    public function preUpload()
-    {
-      $var = true;  
-      if (null !== $this->getFile()) {
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload() {
+        $var = true;
+        if (null !== $this->getFile()) {
             // do whatever you want to generate a unique name
             $filename = sha1(uniqid(mt_rand(), true));
-            $this->imagen = $filename.'.'.$this->getFile()->guessExtension();
+            $this->imagen = $filename . '.' . $this->getFile()->guessExtension();
         }
     }
 
     /**
-    * @ORM\PostPersist()
-    * @ORM\PostUpdate()
-    */
-    public function upload()
-    {
-      $var = true;  
-      if (null === $this->getFile()) {
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload() {
+        $var = true;
+        if (null === $this->getFile()) {
             return;
         }
 
@@ -156,44 +161,39 @@ class Promocion
         // check if we have an old image
         if (isset($this->temp)) {
             // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->temp);
+            unlink($this->getUploadRootDir() . '/' . $this->temp);
             // clear the temp image path
             $this->temp = null;
         }
-        
+
         $this->file = null;
     }
 
     /**
-    * @ORM\PostRemove
-    */
-    public function removeUpload()
-    {
-      if ($file = $this->getAbsolutePath()) {
-        if(file_exists($file)){
-            unlink($file);
+     * @ORM\PostRemove
+     */
+    public function removeUpload() {
+        if ($file = $this->getAbsolutePath()) {
+            if (file_exists($file)) {
+                unlink($file);
+            }
         }
-      }
     }
-    
-    protected function getUploadDir()
-    {
+
+    protected function getUploadDir() {
         return '/uploads/promociones';
     }
 
-    protected function getUploadRootDir()
-    {
-        return __DIR__.'/../../../../web'.$this->getUploadDir();
+    protected function getUploadRootDir() {
+        return __DIR__ . '/../../../../web' . $this->getUploadDir();
     }
-    
-    public function getWebPath()
-    {
-        return null === $this->imagen ? null : $this->getUploadDir().'/'.$this->imagen;
+
+    public function getWebPath() {
+        return null === $this->imagen ? null : $this->getUploadDir() . '/' . $this->imagen;
     }
-    
-    public function getAbsolutePath()
-    {
-        return null === $this->imagen ? null : $this->getUploadRootDir().'/'.$this->imagen;
+
+    public function getAbsolutePath() {
+        return null === $this->imagen ? null : $this->getUploadRootDir() . '/' . $this->imagen;
     }
 
     /**
@@ -201,8 +201,7 @@ class Promocion
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -213,8 +212,7 @@ class Promocion
      *
      * @return Promocion
      */
-    public function setNombre($nombre)
-    {
+    public function setNombre($nombre) {
         $this->nombre = $nombre;
 
         return $this;
@@ -225,8 +223,7 @@ class Promocion
      *
      * @return string
      */
-    public function getNombre()
-    {
+    public function getNombre() {
         return $this->nombre;
     }
 
@@ -237,8 +234,7 @@ class Promocion
      *
      * @return Promocion
      */
-    public function setImagen($imagen)
-    {
+    public function setImagen($imagen) {
         $this->imagen = $imagen;
 
         return $this;
@@ -249,8 +245,7 @@ class Promocion
      *
      * @return string
      */
-    public function getImagen()
-    {
+    public function getImagen() {
         return $this->imagen;
     }
 
@@ -261,8 +256,7 @@ class Promocion
      *
      * @return Promocion
      */
-    public function setPosition($position)
-    {
+    public function setPosition($position) {
         $this->position = $position;
 
         return $this;
@@ -273,9 +267,34 @@ class Promocion
      *
      * @return integer
      */
-    public function getPosition()
-    {
+    public function getPosition() {
         return $this->position;
+    }
+
+    /**
+     * Set inicio
+     *
+     * @param \DateTime $inicio
+     *
+     * @return Promocion
+     */
+    public function setInicio($inicio) {
+        $this->inicio = $inicio;
+
+        return $this;
+    }
+
+    /**
+     * Set fin
+     *
+     * @param \DateTime $fin
+     *
+     * @return Promocion
+     */
+    public function setFin($fin) {
+        $this->fin = $fin;
+
+        return $this;
     }
 
     /**
@@ -285,11 +304,28 @@ class Promocion
      *
      * @return Promocion
      */
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * Get inicio
+     *
+     * @return \DateTime
+     */
+    public function getInicio() {
+        return $this->inicio;
+    }
+
+    /**
+     * Get fin
+     *
+     * @return \DateTime
+     */
+    public function getFin() {
+        return $this->fin;
     }
 
     /**
@@ -297,8 +333,7 @@ class Promocion
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->createdAt;
     }
 
@@ -309,8 +344,7 @@ class Promocion
      *
      * @return Promocion
      */
-    public function setUpdatedAt($updatedAt)
-    {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
 
         return $this;
@@ -321,8 +355,8 @@ class Promocion
      *
      * @return \DateTime
      */
-    public function getUpdatedAt()
-    {
+    public function getUpdatedAt() {
         return $this->updatedAt;
     }
+
 }

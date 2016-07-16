@@ -87,7 +87,6 @@ class Envio
      * @var string
      *
      * @ORM\Column(name="numGuia", type="string", length=255)
-     * @Assert\NotBlank(message="Ingresar numero de guia")
      */
     private $numGuia;
 
@@ -147,6 +146,20 @@ class Envio
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo_envio", type="integer")
+     */
+    private $tipoEnvio;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo_entrega", type="integer")
+     */
+    private $tipoEntrega;
     
     /**
      * @var Cliente
@@ -629,6 +642,54 @@ class Envio
     }
 
     /**
+     * Set tipoEnvio
+     *
+     * @param integer $tipoEnvio
+     *
+     * @return Envio
+     */
+    public function setTipoEnvio($tipoEnvio)
+    {
+        $this->tipoEnvio = $tipoEnvio;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoEnvio
+     *
+     * @return integer
+     */
+    public function getTipoEnvio()
+    {
+        return $this->tipoEnvio;
+    }
+
+    /**
+     * Set tipoEntrega
+     *
+     * @param integer $tipoEntrega
+     *
+     * @return Envio
+     */
+    public function setTipoEntrega($tipoEntrega)
+    {
+        $this->tipoEntrega = $tipoEntrega;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoEntrega
+     *
+     * @return integer
+     */
+    public function getTipoEntrega()
+    {
+        return $this->tipoEntrega;
+    }
+
+    /**
      * Set medidaPeso
      *
      * @param string $medidaPeso
@@ -896,6 +957,7 @@ class Envio
     {
         $this->direccionRemitente = new DireccionRemision();
         
+        $this->direccionRemitente->setNombre($direccionRemitente->getNombre());
         $this->direccionRemitente->setCalle($direccionRemitente->getCalle());
         $this->direccionRemitente->setNumInterior($direccionRemitente->getNumInterior());
         $this->direccionRemitente->setNumExterior($direccionRemitente->getNumExterior());

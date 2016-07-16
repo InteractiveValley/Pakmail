@@ -28,7 +28,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Envio: 
+                        Envío: 
                     </td>
                     <td class="total-envio">
                         <%= 50.00 %> MXN

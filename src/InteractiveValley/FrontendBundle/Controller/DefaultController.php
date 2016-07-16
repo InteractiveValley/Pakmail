@@ -18,21 +18,25 @@ class DefaultController extends BaseController {
 
     /**
      * @Route("/inicio", name="homepage")
-     * @Route("/servicios", name="frontend_servicios")
      * @Template()
      */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $promociones = $em->getRepository('PakmailBundle:Promocion')
-                          ->findBy(array(), array('position'=>'ASC'));
-        
+                          ->findActivas();
         $servicios = $em->getRepository('PakmailBundle:Servicio')
                           ->findBy(array(), array('position'=>'ASC'));
-        
-        
+        $aliados = $em->getRepository('PakmailBundle:Aliado')
+                          ->findBy(array(), array('position'=>'ASC'));
+        $menus = $em->getRepository('PakmailBundle:Menu')
+                          ->findBy(array(), array('position'=>'ASC'));
         return array(
             'promociones'=>$promociones,
-            'servicios'=>$servicios
+            'servicios'=>$servicios,
+            'aliados'=>$aliados,
+            'menus'=>$menus,
+            'section' => 'inicio',
+            'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
         );
     }
     
@@ -46,10 +50,14 @@ class DefaultController extends BaseController {
                         ->findBy(array(),array('position'=>'ASC'));
         $configuracion = $em->getRepository('BackendBundle:Configuraciones')
                         ->findOneBy(array('slug' => 'quienes-somos'));
-        
+        $menus = $em->getRepository('PakmailBundle:Menu')
+                          ->findBy(array(), array('position'=>'ASC'));
         return array(
             'preguntas'=>$preguntas,
-            'pagina'=>$configuracion
+            'pagina'=>$configuracion,
+            'section' => 'quienes',
+            'menus'=>$menus,
+            'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
         );
     }
     
@@ -58,6 +66,8 @@ class DefaultController extends BaseController {
      * @Template()
      */
     public function calendarioAction(Request $request) {
+        return $this->redirect($this->generateUrl('_portada'), 301);
+        /*
         $em = $this->getDoctrine()->getManager();
         $tipos = $em->getRepository('PakmailBundle:TiposFecha')
                     ->findBy(array(),array('position'=>'ASC'));
@@ -78,7 +88,64 @@ class DefaultController extends BaseController {
             'nombreMes'=>$nombreMes,
             'month'=>$month,
             'year'=>$year,
-            'calendario'=>$calendario
+            'calendario'=>$calendario,
+            'section' => 'calendario'
+        );
+         * 
+         */
+    }
+    
+    /**
+     * @Route("/servicios", name="frontend_servicios")
+     * @Template()
+     */
+    public function serviciosAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $servicios = $em->getRepository('PakmailBundle:Servicio')
+                          ->findBy(array(), array('position'=>'ASC'));
+        $menus = $em->getRepository('PakmailBundle:Menu')
+                          ->findBy(array(), array('position'=>'ASC'));
+        return array(
+            'servicios'=>$servicios,
+            'section' => 'servicios',
+            'menus'=>$menus,
+            'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
+        );
+    }
+    
+    /**
+     * @Route("/aviso-privacidad", name="aviso-privacidad")
+     * @Template()
+     */
+    public function avisoAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $menus = $em->getRepository('PakmailBundle:Menu')
+                          ->findBy(array(), array('position'=>'ASC'));
+        $configuracion = $em->getRepository('BackendBundle:Configuraciones')
+                ->findOneBy(array('slug' => 'aviso-privacidad'));
+        return array(
+            'section' => 'servicios',
+            'menus'=>$menus,
+            'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
+            'configuracion' => $configuracion,
+        );
+    }
+    
+    /**
+     * @Route("/terminos-condiciones", name="terminos-condiciones")
+     * @Template()
+     */
+    public function terminosAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $menus = $em->getRepository('PakmailBundle:Menu')
+                          ->findBy(array(), array('position'=>'ASC'));
+        $configuracion = $em->getRepository('BackendBundle:Configuraciones')
+                ->findOneBy(array('slug' => 'terminos-condiciones'));
+        return array(
+            'section' => 'servicios',
+            'menus'=>$menus,
+            'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
+            'configuracion' => $configuracion,
         );
     }
     
@@ -161,6 +228,8 @@ class DefaultController extends BaseController {
         $contacto = new Contacto();
         $form = $this->createForm(new ContactoType(), $contacto);
         $em = $this->getDoctrine()->getManager();
+        $menus = $em->getRepository('PakmailBundle:Menu')
+                          ->findBy(array(), array('position'=>'ASC'));
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -206,7 +275,10 @@ class DefaultController extends BaseController {
         return $this->render('FrontendBundle:Default:contacto.html.twig', array(
                     'form' => $form->createView(),
                     'status' => $status,
-                    'mensaje' => $mensaje
+                    'mensaje' => $mensaje,
+                    'section' => 'contacto',
+                    'menus'=>$menus,
+                    'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
         ));
     }
     
@@ -263,7 +335,8 @@ class DefaultController extends BaseController {
         return $this->render('FrontendBundle:Default:formQuejas.html.twig', array(
                     'form' => $form->createView(),
                     'status' => $status,
-                    'mensaje' => $mensaje
+                    'mensaje' => $mensaje,
+                    'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
         ));
     }
 
@@ -290,13 +363,13 @@ class DefaultController extends BaseController {
                 }
                 $em->flush();
                 $status = 'send';
-                $mensaje = "Gracias por su registro.";
+                $mensaje = "¡Gracias por su registro!";
                 $registro = new Newsletter();
                 $form = $this->createForm(new NewsletterFrontendType(), $registro);
             } else {
                 $status = 'notsend';
-                $mensaje = "Gracias por su registro!!.";
-				$registro = new Newsletter();
+                $mensaje = "¡Gracias por su registro!";
+                $registro = new Newsletter();
                 $form = $this->createForm(new NewsletterFrontendType(), $registro);
             }
         } else {
@@ -320,7 +393,8 @@ class DefaultController extends BaseController {
         return $this->render('FrontendBundle:Default:formNewsletter.html.twig', array(
                     'form' => $form->createView(),
                     'status' => $status,
-                    'mensaje' => $mensaje
+                    'mensaje' => $mensaje,
+                    'facebook' => $em->getRepository('BackendBundle:Configuraciones')->findOneByConfiguracion('enlace-facebook'),
         ));
     }
 }

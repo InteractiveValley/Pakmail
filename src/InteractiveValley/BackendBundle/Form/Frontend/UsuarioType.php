@@ -29,7 +29,7 @@ class UsuarioType extends AbstractType
             )) 
             ->add('salt','hidden')
             ->add('nombre','text',array('attr'=>array('class'=>'form-control')))
-            ->add('telefono','text',array('attr'=>array('class'=>'form-control')))
+            ->add('telefono','text',array('label'=>'Teléfono','attr'=>array('class'=>'form-control')))
             ->add('rfc','text',array('attr'=>array('class'=>'form-control')))    
             ->add('imagen','hidden')
             ->add('isActive','hidden')

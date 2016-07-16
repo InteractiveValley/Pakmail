@@ -22,16 +22,15 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td valign="top">
-
                                                                     <table align="left" border="0" cellpadding="0" cellspacing="0" width="366">
-                                                                        <tbody><tr>
-
+                                                                        <tbody>
+                                                                            <tr>
                                                                                 <td valign="top" style="padding-top:9px;padding-left:18px;padding-bottom:9px;padding-right:0">
-                                                                                    Solicitud de Envio
+                                                                                    Solicitud de Envío
                                                                                 </td>
                                                                             </tr>
-                                                                        </tbody></table>
-
+                                                                        </tbody>
+                                                                    </table>
                                                                     <table align="right" border="0" cellpadding="0" cellspacing="0" width="197">
                                                                         <tbody>
                                                                             <tr>
@@ -108,14 +107,79 @@
                                                                             <tr>
                                                                                 <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px">
                                                                                     <h3>{{asunto}}</h3>
-
                                                                                     <p>
-                                                                                        <h4>Usuario: {{usuario.stringCompleto}}</h4>
-                                                                                        Se ha generado una nueva solicitud de envio. 
-                                                                                        Numero de envio: {{ envio.id|format("%'.09d\n") }}
+                                                                                    <h4>Usuario: {{usuario.stringCompleto}}</h4>
+                                                                                    Se ha generado una nueva solicitud de envío.
+                                                                                    Número de envío: {{ envio.id|format("%'.09d\n") }}
                                                                                     </p>
-
                                                                                     <p>&nbsp;</p>
+                                                                                    <h3>Datos del envio</h3>
+                                                                                    <ul>
+                                                                                        <li><strong>Entre calles: </strong>{{ envio.referencia }}</li>
+                                                                                        <li><strong>Tipo: </strong>{{ envio.tipo }}</li>
+                                                                                        <li><strong>¿Desea Asegurar el Envío?: </strong>{{ envio.asegurarEnvio }}</li>
+                                                                                        <li><strong>Monto a Asegurar: </strong>{{ envio.montoSeguro }}</li>
+                                                                                        <li><strong>Importe del Seguro: </strong>{{ envio.importeSeguro }}</li>
+                                                                                        <li><strong>Descripcion del envío: </strong>{{ envio.observaciones }}</li>
+                                                                                        <li><strong>Medidas. Peso (kg): </strong>{{ envio.medidaPeso }}</li>
+                                                                                        <li><strong>Medidas. Largo (cm): </strong>{{ envio.medidaLargo }}</li>
+                                                                                        <li><strong>Medidas. Ancho (cm): </strong>{{ envio.medidaAncho }}</li>
+                                                                                        <li><strong>Medidas. Alto (cm): </strong>{{ envio.medidaAlto }}</li>
+                                                                                        <li><strong>Valor declarado: </strong>{{ envio.valorDeclarado }}</li>
+                                                                                        <li><strong>Tipo de envío: </strong>{{ envio.tipoEnvio }}</li>
+                                                                                        <li><strong>Tipo de entrega: </strong>{{ envio.tipoEntrega }}</li>
+                                                                                    </ul>
+                                                                                    <p>&nbsp;</p>
+                                                                                    <h3>Dirección del remitente</h3>
+                                                                                    <ul>
+                                                                                        <li><strong>Nombre del remitente: </strong>{{ envio.direccionRemitente.nombre }}</li>
+                                                                                        <li><strong>Calle: </strong>{{ envio.direccionRemitente.calle }}</li>
+                                                                                        <li><strong>Número Exterior: </strong>{{ envio.direccionRemitente.numExterior }}</li>
+                                                                                        <li><strong>Número Interior: </strong>{{ envio.direccionRemitente.numInterior }}</li>
+                                                                                        <li><strong>País: </strong>{{ envio.direccionRemitente.pais }}</li>
+                                                                                        <li><strong>Estado o entidad federativa: </strong>{{ envio.direccionRemitente.estado }}</li>
+                                                                                        <li><strong>Municipio o Delegación: </strong>{{ envio.direccionRemitente.delegacion }}</li>
+                                                                                        <li><strong>Población o Colonia: </strong>{{ envio.direccionRemitente.poblacion }}</li>
+                                                                                        <li><strong>Código postal: </strong>{{ envio.direccionRemitente.cp }}</li>
+                                                                                        <li><strong>Teléfono: </strong>{{ envio.direccionRemitente.telefono }}</li>
+                                                                                        <li><strong>Celular: </strong>{{ envio.direccionRemitente.celular }}</li>
+                                                                                        <li><strong>E-mail: </strong>{{ envio.direccionRemitente.email }}</li>
+                                                                                    </ul>
+                                                                                    <p>&nbsp;</p>
+                                                                                    <h3>Dirección de destino</h3>
+                                                                                    <ul>
+                                                                                        <li><strong>Empresa: </strong>{{ envio.direccionDestino.empresa }}</li>
+                                                                                        <li><strong>Nombre del destinatario: </strong>{{ envio.direccionDestino.atencion }}</li>
+                                                                                        <li><strong>Calle: </strong>{{ envio.direccionDestino.calle }}</li>
+                                                                                        <li><strong>Número Exterior: </strong>{{ envio.direccionDestino.numExterior }}</li>
+                                                                                        <li><strong>Número Interior: </strong>{{ envio.direccionDestino.numInterior }}</li>
+                                                                                        <li><strong>País: </strong>{{ envio.direccionDestino.pais }}</li>
+                                                                                        <li><strong>Estado o entidad federativa: </strong>{{ envio.direccionDestino.estado }}</li>
+                                                                                        <li><strong>Municipio o Delegación: </strong>{{ envio.direccionDestino.delegacion }}</li>
+                                                                                        <li><strong>Población o Colonia: </strong>{{ envio.direccionDestino.poblacion }}</li>
+                                                                                        <li><strong>Código postal: </strong>{{ envio.direccionDestino.cp }}</li>
+                                                                                        <li><strong>Teléfono: </strong>{{ envio.direccionDestino.telefono }}</li>
+                                                                                        <li><strong>Celular: </strong>{{ envio.direccionDestino.celular }}</li>
+                                                                                        <li><strong>E-mail: </strong>{{ envio.direccionDestino.email }}</li>
+                                                                                    </ul>
+                                                                                    <p>&nbsp;</p>
+                                                                                    <h3>Datos fiscales</h3>
+                                                                                    <ul>
+                                                                                        <li><strong>Denominación/Razón Social: </strong>{{ envio.direccionFiscal.denominacion }}</li>
+                                                                                        <li><strong>RFC: </strong>{{ envio.direccionFiscal.rfc }}</li>
+                                                                                        <li><strong>Nombre comercial: </strong>{{ envio.direccionFiscal.nombreComercial }}</li>
+                                                                                        <li><strong>Calle: </strong>{{ envio.direccionFiscal.calle }}</li>
+                                                                                        <li><strong>Número Exterior: </strong>{{ envio.direccionFiscal.numExterior }}</li>
+                                                                                        <li><strong>Número Interior: </strong>{{ envio.direccionFiscal.numInterior }}</li>
+                                                                                        <li><strong>País: </strong>{{ envio.direccionFiscal.pais }}</li>
+                                                                                        <li><strong>Estado o entidad federativa: </strong>{{ envio.direccionFiscal.estado }}</li>
+                                                                                        <li><strong>Municipio o Delegación: </strong>{{ envio.direccionFiscal.delegacion }}</li>
+                                                                                        <li><strong>Población o Colonia: </strong>{{ envio.direccionFiscal.poblacion }}</li>
+                                                                                        <li><strong>Código postal: </strong>{{ envio.direccionFiscal.cp }}</li>
+                                                                                        <li><strong>Teléfono: </strong>{{ envio.direccionFiscal.telefono }}</li>
+                                                                                        <li><strong>Celular: </strong>{{ envio.direccionFiscal.celular }}</li>
+                                                                                        <li><strong>E-mail: </strong>{{ envio.direccionFiscal.email }}</li>
+                                                                                    </ul>
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
@@ -123,7 +187,8 @@
                                                                 </td>
                                                             </tr>
                                                         </tbody>
-                                                    </table><table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    </table>
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                         <tbody>
                                                             <tr>
                                                                 <td style="padding-top:0;padding-right:18px;padding-bottom:18px;padding-left:18px" valign="top" align="center">
@@ -139,48 +204,20 @@
                                                                 </td>
                                                             </tr>
                                                         </tbody>
-                                                    </table><table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    </table>
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                         <tbody>
                                                             <tr>
                                                                 <td style="padding:0px 18px">
                                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-top-width:1px;border-top-style:solid;border-top-color:#d9d9d9">
-                                                                        <tbody><tr>
+                                                                        <tbody>
+                                                                            <tr>
                                                                                 <td>
                                                                                     <span></span>
                                                                                 </td>
                                                                             </tr>
-                                                                        </tbody></table>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table></td>
-                                            </tr>
-                                        </table>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center" valign="top">
-
-                                        <table border="0" cellpadding="0" cellspacing="0" width="600">
-                                            <tr>
-                                                <td valign="top" style="padding-bottom:9px"><table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td valign="top">
-
-                                                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="600">
-                                                                        <tbody><tr>
-
-                                                                                <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px">
-
-                                                                                    <div style="text-align:center"><a href="http://www.pakmailvirreyes.com" target="_blank">www.pakmailvirreyes.com</a><br>
-                                                                                    <span style="color:#a9a9a9">Porfavor no responda a este correo.</span></div>
-
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody></table>
-
+                                                                        </tbody>
+                                                                    </table>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -188,16 +225,42 @@
                                                 </td>
                                             </tr>
                                         </table>
-
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="top">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="600">
+                                            <tr>
+                                                <td valign="top" style="padding-bottom:9px">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="600">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td valign="top" style="padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px">
+                                                                                    <div style="text-align:center"><a href="http://www.pakmailvirreyes.com" target="_blank">www.pakmailvirreyes.com</a><br>
+                                                                                        <span style="color:#a9a9a9">Porfavor no responda a este correo.</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </td>
                                 </tr>
                             </table>
-
                         </td>
                     </tr>
                 </table>
             </center>
         </div>
-
     </body>
 </html>

@@ -68,6 +68,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <th>Texto del servicio</th>
+                                                    <td>
+                                                        {{ entity.texto | raw }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <th>Creado</th>
                                                     <td>{{ entity.createdAt | date('d-m-Y') }}</td>
                                                 </tr>

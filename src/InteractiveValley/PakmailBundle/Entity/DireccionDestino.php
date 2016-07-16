@@ -36,7 +36,7 @@ class DireccionDestino
      * @var string
      *
      * @ORM\Column(name="numExterior", type="string", length=100)
-     * @Assert\NotBlank(message="Ingresa el numero exterior")
+     * @Assert\NotBlank(message="Ingresa el número exterior")
      */
     private $numExterior;
 
@@ -44,7 +44,7 @@ class DireccionDestino
      * @var string
      *
      * @ORM\Column(name="numInterior", type="string", length=100)
-     * @Assert\NotBlank(message="Ingresa el numero interior")
+     * @Assert\NotBlank(message="Ingresa el número interior")
      */
     private $numInterior;
 
@@ -84,9 +84,25 @@ class DireccionDestino
      * @var string
      *
      * @ORM\Column(name="cp", type="string", length=10)
-     * @Assert\NotBlank(message="Ingresa el codigo postal")
+     * @Assert\NotBlank(message="Ingresa el código postal")
      */
     private $cp;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="atencion", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresa atención")
+     */
+    private $atencion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="empresa", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresa atención")
+     */
+    private $empresa;
 
     /**
      * @var string
@@ -341,6 +357,54 @@ class DireccionDestino
     public function getCp()
     {
         return $this->cp;
+    }
+
+    /**
+     * Set atencion
+     *
+     * @param string $atencion
+     *
+     * @return DireccionDestino
+     */
+    public function setAtencion($atencion)
+    {
+        $this->atencion = $atencion;
+
+        return $this;
+    }
+
+    /**
+     * Get atencion
+     *
+     * @return string
+     */
+    public function getAtencion()
+    {
+        return $this->atencion;
+    }
+
+    /**
+     * Set empresa
+     *
+     * @param string $empresa
+     *
+     * @return DireccionDestino
+     */
+    public function setEmpresa($empresa)
+    {
+        $this->empresa = $empresa;
+
+        return $this;
+    }
+
+    /**
+     * Get empresa
+     *
+     * @return string
+     */
+    public function getEmpresa()
+    {
+        return $this->empresa;
     }
 
     /**

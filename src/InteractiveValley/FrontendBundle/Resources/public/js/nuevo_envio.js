@@ -42,7 +42,7 @@ $(document).on('ready', function () {
 
     $("#interactivevalley_pakmailbundle_envio_direccionFiscal_pais").on('change', function () {
         if ($(this).val() == "Mexico") {
-            bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
+            bootbox.prompt("¿Cual es tu código postal?", function (codigo) {
                 if (codigo === null) {
                     alert("El valor no fue ingresado");
                 } else {
@@ -59,7 +59,7 @@ $(document).on('ready', function () {
 
     $("#interactivevalley_pakmailbundle_envio_direccionRemitente_pais").on('change', function () {
         if ($(this).val() == "Mexico") {
-            bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
+            bootbox.prompt("¿Cual es tu código postal?", function (codigo) {
                 if (codigo === null) {
                     alert("El valor no fue ingresado");
                 } else {
@@ -76,7 +76,7 @@ $(document).on('ready', function () {
 
     $("#interactivevalley_pakmailbundle_envio_direccionDestino_pais").on('change', function () {
         if ($(this).val() == "Mexico") {
-            bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
+            bootbox.prompt("¿Cual es tu código postal?", function (codigo) {
                 if (codigo === null) {
                     alert("El valor no fue ingresado");
                 } else {
@@ -92,9 +92,9 @@ $(document).on('ready', function () {
     });
 
     if (creacionEnvio && !perfilGuardado) {
-        bootbox.confirm('<h3>Gracias nos pondremos en contacto con usted a la brevedad posible.</h3><p>¿Desea guardar el envio en sus perfiles de envio?<br/><span style=\"font-size: .8em;\">*Al guardar un perfil de envío usted podra autorellenar sus campos en futuras operaciones.</span></p>', function (result) {
+        bootbox.confirm('<h3>Gracias, nos pondremos en contacto con usted a la brevedad. Su envío se generó con el número: ' + creacionEnvio +'</h3><p>¿Desea guardar el envío en sus perfiles de envío?<br/><span style=\"font-size: .8em;\">*Al guardar un perfil de envío usted podra autorellenar sus campos en futuras operaciones.</span></p>', function (result) {
             if (result) {
-                bootbox.prompt('<p>Por favor introduzca un nombre de referencia para este perfil de envio<br/><span style=\"font-size: .8em;\">Usted puede editar sus perfiles de envio en cualquier momento<br/>ingresando al area de Perfiles de Envio de lado izquierdo.</span></p>', function (nombrePerfil) {
+                bootbox.prompt('<p>Por favor introduzca un nombre de referencia para este perfil de envío.<br/><span style=\"font-size: .8em;\">Usted puede editar sus perfiles de envío en cualquier momento,<br/>ingresando al area de Perfiles de Envío de lado izquierdo.</span></p>', function (nombrePerfil) {
                     if (nombrePerfil === null) {
                         bootbox.alert("Nombre de perfil no recibido!");
                     } else {
@@ -121,7 +121,7 @@ $(document).on('ready', function () {
         });
 
     } else if (creacionEnvio) {
-        bootbox.alert("Tu numero de envio se genero con el numero: " + creacionEnvio);
+        bootbox.alert("Tu envío se genero con el número: " + creacionEnvio);
     }
 
     revisarCampos("#interactivevalley_pakmailbundle_envio_direccionFiscal");
@@ -264,7 +264,7 @@ function llamarAMetodosCodigoPostal(codigo, idDireccion) {
                 $codigo.val(codigo);
                 desactivarCampos(idDireccion);
             } else {
-                alert("No se encontro el codigo postal ingresado");
+                alert("No se encontro el código postal ingresado");
                 return false;
             }
             if (data.length == 1) {

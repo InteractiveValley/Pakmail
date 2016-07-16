@@ -48,6 +48,7 @@
                                         <th>Imagen</th>
                                         <th>Servicio</th>
                                         <th>Descripcion</th>
+                                        <th>Texto</th>
                                         <th>Fecha</th>
                                         <th>Actions</th>
                                     </tr>
@@ -66,6 +67,9 @@
                                             <td>{{ entity.nombre }}</td>
                                             <td>
                                                 {{ entity.descripcion | raw }}
+                                            </td>
+                                            <td>
+                                                {{ entity.texto | raw }}
                                             </td>
                                             <td>{{ entity.createdAt | date('d/m/Y') }}</td>
                                             <td>

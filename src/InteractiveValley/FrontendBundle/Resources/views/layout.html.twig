@@ -2,9 +2,7 @@
 
 {% block title %}Pakmail | Virreyes{% endblock %}
 
-{% set urlAbsolutaFoto = 'http://'
-                             ~ app.request.server.get('SERVER_NAME')
-                             ~ asset('images/logo.png') %}
+{% set urlAbsolutaFoto = 'http://' ~ app.request.server.get('SERVER_NAME') ~ asset('images/logo.png') %}
 {% block stylesheets %}
     {% block redes_sociales %}
         <meta property="og:url" content="{{url('homepage')}}" />
@@ -40,6 +38,7 @@
         </script>
     {% endif %}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{asset('css/fancybox/jquery.fancybox.css')}}"/>
 {% endblock %}
 
 {% set route = app.request.get('_route') %}
@@ -48,10 +47,7 @@
     <header id="header">
         <div class="logo-redes-sociales">
             <figure class="logo">
-                <img src="{{asset('images/logo.png')}}">
-            </figure>
-            <figure class="social_face_top">
-                <img src="{{asset('images/facebook.png')}}" alt="">
+                <a href="{{path('_portada')}}"><img src="{{asset('images/logo.png')}}"></a>
             </figure>
         </div>
         <div class="menu_bar">
@@ -59,20 +55,16 @@
                 <img src="{{asset('images/logo_footer.png')}}" alt="" class="logo">
                 <span class="icon-menu">&nbsp;</span>
             </a>
-	</div>    
+        </div>
         <nav id="navegador">
             <ul>
-                <li><a href="{{path('homepage')}}">inicio</a></li>
-                <li><a href="{{path('quienes_somos')}}">quiénes somos</a></li>
-                <li><a class="servicios-ancla" href="{{path('frontend_servicios')}}">servicios</a></li>
-                <li><a href="{{path('calendario')}}">calendario</a></li>
-                <li><a href="{{path('contacto')}}">ubicación y contacto</a></li>
-                <li><a href="{{path('pakmail_envios')}}">ingreso a clientes</a></li>
+                {% for menu in menus %}<li><a {% if section is defined and section == menu.section %}class="active" {% endif %}href="{{path(menu.path)}}">{{ menu.nombre }}</a></li>{% endfor %}
+                <li><a href="{{ facebook.texto }}" target="_blank"><img src="{{asset('images/facebook.png')}}" alt="" class="logo"></a></li>
             </ul>
         </nav>
         <div class="boletin">
             <div class="leyenda">
-                Suscribete para recibir ofertas y promociones
+                Suscríbete para recibir ofertas y promociones
                 <img src="{{asset('images/newsletter.png')}}" alt="">
             </div>
             <div class="form-newsletter contenedor-form-newsletter">
@@ -85,7 +77,7 @@
         <ul class="info">
             <li class="text-align-right border-r border-r-blanco">
                 <div class="direccion large">
-                    <span class="fa fa-envelope"></span>&nbsp;pakmall103@pakmail.com.mx<br/>
+                    <span class="fa fa-envelope"></span>&nbsp;pakmail103mx@pakmail.com.mx<br/>
                     <span class="fa fa-phone"></span>&nbsp;5202-1193<br/> 
                     <span class="fa fa-fax"></span>&nbsp;5202-1259<br/>
                     <br/>
@@ -103,109 +95,124 @@
         <ul class="info">
             <li class="text-align-right border-r border-r-vino">
                 <div class="direccion flat">
-                    <a class="aviso-privacidad" href="#">Aviso de Privacidad</a> 
-                </div>    
+                    
+                    <a href="http://pakmailvirreyes.com/pdf/Aviso_privacidad.pdf" target="_blank">Aviso de Privacidad</a>
+                </div>
             </li>
             <li class="text-align-left">
                 <div class="direccion flat">
-                    <a class="terminos-condiciones" href="#">Términos y Condiciones</a> 
+                    <a class="terminos-condiciones fancybox" data-fancybox-type="ajax" href="{{path('terminos-condiciones')}}">Términos y Condiciones</a>
                 </div> 
             </li>
         </ul>
         <div class="derechos">
-            <p>2015 PAKMAIL VIRREYES. Todos los derechos reservados. </p>
+            <p>2016 PAKMAIL VIRREYES. Todos los derechos reservados. </p>
         </div>
     </footer>
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/fancybox/jquery.fancybox.pack.js')}}"></script>
     <script type="text/javascript">
-        (function(){
-            var contador = 1;
-			var altoAdicional = 180;
-            var menuBar = document.getElementById("bt-menu");
-            menuBar.addEventListener('click',function(){
-                var nav = document.getElementById("navegador");
-                if(contador == 1){
-                    nav.style.left = "0";
-                    contador = 2;
-                    console.log("mostrar")
-                }else{
-                    nav.style.left = "-100%";
-                    contador=1;
-                    console.log("ocultar")
-                }
-            });
-
-
-            $(window).on('scroll',function() {
-                var altura_del_header = $('#header').outerHeight(true);
-                var altura_del_menu = $('#navegador').outerHeight(true);
-                if($(document).width()>960){
-                    if ($(window).scrollTop() >= altura_del_header) {
-                        if(!$('#navegador').hasClass('fixed')){
-                            $('#navegador').css({'opacity':'0'}).addClass('fixed').animate({'opacity':'1'},'slow');
-                        }
+            (function () {
+                var contador = 1;
+                var altoAdicional = 180;
+                var menuBar = document.getElementById("bt-menu");
+                menuBar.addEventListener('click', function () {
+                    var nav = document.getElementById("navegador");
+                    if (contador == 1) {
+                        nav.style.left = "0";
+                        contador = 2;
+                        console.log("mostrar")
                     } else {
-                        if($('#navegador').hasClass('fixed')){
-                            $('#navegador').removeClass('fixed');
-                        }
-                    }
-                }
-            });
-            {% if route == 'homepage' or route=='frontend_servicios' %}
-				$(".servicios-ancla").on('click',function(e) {
-					e.preventDefault();
-					var offset = $("#servicios").offset().top - altoAdicional;
-					$('html, body').animate({ scrollTop : offset }, 'slow');
-					if($("#bt-menu").is(":visible")){
-						var nav = document.getElementById("navegador");
-						if(contador == 1){
-							nav.style.left = "0";
-							contador = 2;
-							console.log("mostrar")
-						}else{
-							nav.style.left = "-100%";
-							contador=1;
-							console.log("ocultar")
-						}
-					}
-				});
-			
-				{% if route == 'frontend_servicios' %}
-				setTimeout(function(){$(".servicios-ancla").click()},2000);
-				{% endif %}
-			
-			{% endif %}
-
-            inicializarBotonEnviarNewsletter();
-
-        })();
-        function inicializarBotonEnviarNewsletter() {
-            $("#botonEnviarNewsletter").on('click', function (e) {
-                e.preventDefault();
-                var $form = $("#formNewsletter");
-                var datos = $form.serialize();
-                $(this).find('img').attr('src','{{asset('images/page-loader.gif')}}');
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    dataType: 'json',
-                    data: datos,
-                    success: function (data) {
-                        $(".contenedor-form-newsletter").html(data.mensaje);
-                        setTimeout(function () {
-							$(".contenedor-form-newsletter").html(data.form);
-                            inicializarBotonEnviarNewsletter();
-                        }, 2000);
-                    },
-                    error: function (data) {
-                        alert("Error al enviar el formulario");
-                        console.log(data);
+                        nav.style.left = "-100%";
+                        contador = 1;
+                        console.log("ocultar")
                     }
                 });
-            });
-        }
+                $(window).on('scroll', function () {
+                    var altura_del_header = $('#header').outerHeight(true);
+                    var altura_del_menu = $('#navegador').outerHeight(true);
+                    if ($(document).width() > 960) {
+                        if ($(window).scrollTop() >= altura_del_header) {
+                            if (!$('#navegador').hasClass('fixed')) {
+                                $('#navegador').css({'opacity': '0'}).addClass('fixed').animate({'opacity': '1'}, 'slow');
+                            }
+                        } else {
+                            if ($('#navegador').hasClass('fixed')) {
+                                $('#navegador').removeClass('fixed');
+                            }
+                        }
+                    }
+                });
+        {% if route == 'homepage' or route=='frontend_servicios' %}
+                $(".servicios-ancla").on('click', function (e) {
+                    e.preventDefault();
+                    var offset = $("#servicios").offset().top - altoAdicional;
+                    $('html, body').animate({scrollTop: offset}, 'slow');
+                    if ($("#bt-menu").is(":visible")) {
+                        var nav = document.getElementById("navegador");
+                        if (contador == 1) {
+                            nav.style.left = "0";
+                            contador = 2;
+                            console.log("mostrar")
+                        } else {
+                            nav.style.left = "-100%";
+                            contador = 1;
+                            console.log("ocultar")
+                        }
+                    }
+                });
+
+            {% if route == 'frontend_servicios' %}
+                    setTimeout(function () {
+                        $(".servicios-ancla").click()
+                    }, 2000);
+            {% endif %}
+
+        {% endif %}
+
+                inicializarBotonEnviarNewsletter();
+                activarFancyBox();
+            })();
+            function inicializarBotonEnviarNewsletter() {
+                $("#botonEnviarNewsletter").on('click', function (e) {
+                    e.preventDefault();
+                    var $form = $("#formNewsletter");
+                    var datos = $form.serialize();
+                    $(this).find('img').attr('src', '{{asset('images/page-loader.gif')}}');
+                    $.ajax({
+                        url: $form.attr('action'),
+                        type: 'POST',
+                        dataType: 'json',
+                        data: datos,
+                        success: function (data) {
+                            $(".contenedor-form-newsletter").html(data.mensaje);
+                            setTimeout(function () {
+                                $(".contenedor-form-newsletter").html(data.form);
+                                inicializarBotonEnviarNewsletter();
+                            }, 2000);
+                        },
+                        error: function (data) {
+                            alert("Error al enviar el formulario");
+                            console.log(data);
+                        }
+                    });
+                });
+            }
+            function activarFancyBox(){
+                $(".fancybox").fancybox({
+                    maxWidth	: 800,
+                    maxHeight	: 600,
+                    fitToView	: false,
+                    width	: '100%',
+                    height	: '100%',
+                    autoSize	: false,
+                    closeClick	: false,
+                    openEffect	: 'none',
+                    closeEffect	: 'none'
+                });
+            }
     </script>
 {% endblock %}

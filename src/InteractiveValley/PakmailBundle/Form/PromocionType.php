@@ -16,6 +16,16 @@ class PromocionType extends AbstractType
     {
         $builder
             ->add('nombre','text',array('label'=>'Titulo (opcional)','attr'=>array('class'=>'form-control')))
+            ->add('inicio', 'date', array(
+                    'attr' => array('class' => 'form-control datepicker'),
+                    'widget' => 'single_text',
+                    'format' => 'y-MM-dd'
+                ))
+            ->add('fin', 'date', array(
+                    'attr' => array('class' => 'form-control datepicker'),
+                    'widget' => 'single_text',
+                    'format' => 'y-MM-dd'
+                ))
             ->add('file',null,array('label'=>'Imagen','attr'=>['class'=>'form-control']))
             ->add('position','hidden')
         ;

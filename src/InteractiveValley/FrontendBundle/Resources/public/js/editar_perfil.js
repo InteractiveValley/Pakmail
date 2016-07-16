@@ -42,7 +42,7 @@ $(document).on('ready', function () {
 
     $("#interactivevalley_pakmailbundle_perfil_direccionFiscal_pais").on('change', function () {
         if ($(this).val() == "Mexico") {
-            bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
+            bootbox.prompt("¿Cual es tu código postal?", function (codigo) {
                 if (codigo === null) {
                     alert("El valor no fue ingresado");
                 } else {
@@ -59,7 +59,7 @@ $(document).on('ready', function () {
 
     $("#interactivevalley_pakmailbundle_perfil_direccionRemitente_pais").on('change', function () {
         if ($(this).val() == "Mexico") {
-            bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
+            bootbox.prompt("¿Cual es tu código postal?", function (codigo) {
                 if (codigo === null) {
                     alert("El valor no fue ingresado");
                 } else {
@@ -76,7 +76,7 @@ $(document).on('ready', function () {
 
     $("#interactivevalley_pakmailbundle_perfil_direccionDestino_pais").on('change', function () {
         if ($(this).val() == "Mexico") {
-            bootbox.prompt("¿Cual es tu codigo postal?", function (codigo) {
+            bootbox.prompt("¿Cual es tu código postal?", function (codigo) {
                 if (codigo === null) {
                     alert("El valor no fue ingresado");
                 } else {
@@ -231,7 +231,7 @@ function llamarAMetodosCodigoPostal(codigo, idDireccion) {
                 $codigo.val(codigo);
                 desactivarCampos(idDireccion);
             } else {
-                alert("No se encontro el codigo postal ingresado");
+                alert("No se encontro el código postal ingresado");
                 return false;
             }
             if (data.length == 1) {

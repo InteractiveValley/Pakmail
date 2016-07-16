@@ -12,8 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="InteractiveValley\PakmailBundle\Repository\DireccionRemisionRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class DireccionRemision
-{
+class DireccionRemision {
+
     /**
      * @var integer
      *
@@ -26,8 +26,16 @@ class DireccionRemision
     /**
      * @var string
      *
+     * @ORM\Column(name="nombre", type="string", length=100)
+     * @Assert\NotBlank(message="Ingresa el nombre del remitente")
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="calle", type="string", length=255)
-     * @Assert\NotBlank(message="Ingresa el nombre la de calle")
+     * @Assert\NotBlank(message="Ingresa el nombre de la de calle")
      */
     private $calle;
 
@@ -35,7 +43,7 @@ class DireccionRemision
      * @var string
      *
      * @ORM\Column(name="numExterior", type="string", length=100)
-     * @Assert\NotBlank(message="Ingresa el numero exterior")
+     * @Assert\NotBlank(message="Ingresa el número exterior")
      */
     private $numExterior;
 
@@ -43,7 +51,7 @@ class DireccionRemision
      * @var string
      *
      * @ORM\Column(name="numInterior", type="string", length=100)
-     * @Assert\NotBlank(message="Ingresa el numero interior")
+     * @Assert\NotBlank(message="Ingresa el número interior")
      */
     private $numInterior;
 
@@ -83,7 +91,7 @@ class DireccionRemision
      * @var string
      *
      * @ORM\Column(name="cp", type="string", length=10)
-     * @Assert\NotBlank(message="Ingresa el codigo postal")
+     * @Assert\NotBlank(message="Ingresa el código postal")
      */
     private $cp;
 
@@ -105,6 +113,13 @@ class DireccionRemision
     /**
      * @var string
      *
+     * @ORM\Column(name="empresa", type="string", length=100, nullable=true)
+     */
+    private $empresa;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="email", type="string", length=255)
      * @Assert\NotBlank(message="Ingresa un correo")
      * @Assert\Email(message="Ingresa un email correcto")
@@ -112,18 +127,39 @@ class DireccionRemision
     private $email;
 
     public function __toString() {
-        return sprintf('s% s% s% s% s%',$this->calle,$this->numExterior,$this->numInterior,$this->poblacion
+        return sprintf('s% s% s% s% s%', $this->calle, $this->numExterior, $this->numInterior, $this->poblacion
                 , $this->cp);
     }
-    
+
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return DireccionRemision
+     */
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre() {
+        return $this->nombre;
     }
 
     /**
@@ -133,8 +169,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setCalle($calle)
-    {
+    public function setCalle($calle) {
         $this->calle = $calle;
 
         return $this;
@@ -145,8 +180,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getCalle()
-    {
+    public function getCalle() {
         return $this->calle;
     }
 
@@ -157,8 +191,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setNumExterior($numExterior)
-    {
+    public function setNumExterior($numExterior) {
         $this->numExterior = $numExterior;
 
         return $this;
@@ -169,8 +202,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getNumExterior()
-    {
+    public function getNumExterior() {
         return $this->numExterior;
     }
 
@@ -181,8 +213,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setNumInterior($numInterior)
-    {
+    public function setNumInterior($numInterior) {
         $this->numInterior = $numInterior;
 
         return $this;
@@ -193,8 +224,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getNumInterior()
-    {
+    public function getNumInterior() {
         return $this->numInterior;
     }
 
@@ -205,8 +235,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setPoblacion($poblacion)
-    {
+    public function setPoblacion($poblacion) {
         $this->poblacion = $poblacion;
 
         return $this;
@@ -217,8 +246,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getPoblacion()
-    {
+    public function getPoblacion() {
         return $this->poblacion;
     }
 
@@ -229,8 +257,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setDelegacion($delegacion)
-    {
+    public function setDelegacion($delegacion) {
         $this->delegacion = $delegacion;
 
         return $this;
@@ -241,8 +268,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getDelegacion()
-    {
+    public function getDelegacion() {
         return $this->delegacion;
     }
 
@@ -253,8 +279,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setEstado($estado)
-    {
+    public function setEstado($estado) {
         $this->estado = $estado;
 
         return $this;
@@ -265,8 +290,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getEstado()
-    {
+    public function getEstado() {
         return $this->estado;
     }
 
@@ -277,8 +301,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setPais($pais)
-    {
+    public function setPais($pais) {
         $this->pais = ucwords(strtolower($pais));
 
         return $this;
@@ -289,8 +312,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getPais()
-    {
+    public function getPais() {
         return $this->pais;
     }
 
@@ -301,8 +323,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setCp($cp)
-    {
+    public function setCp($cp) {
         $this->cp = $cp;
 
         return $this;
@@ -313,8 +334,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getCp()
-    {
+    public function getCp() {
         return $this->cp;
     }
 
@@ -325,8 +345,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setTelefono($telefono)
-    {
+    public function setTelefono($telefono) {
         $this->telefono = $telefono;
 
         return $this;
@@ -337,8 +356,7 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getTelefono()
-    {
+    public function getTelefono() {
         return $this->telefono;
     }
 
@@ -349,8 +367,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setCelular($celular)
-    {
+    public function setCelular($celular) {
         $this->celular = $celular;
 
         return $this;
@@ -361,9 +378,30 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getCelular()
-    {
+    public function getCelular() {
         return $this->celular;
+    }
+
+    /**
+     * Set empresa
+     *
+     * @param string $empresa
+     *
+     * @return DireccionRemision
+     */
+    public function setEmpresa($empresa) {
+        $this->empresa = $empresa;
+
+        return $this;
+    }
+
+    /**
+     * Get empresa
+     *
+     * @return string
+     */
+    public function getEmpresa() {
+        return $this->empresa;
     }
 
     /**
@@ -373,8 +411,7 @@ class DireccionRemision
      *
      * @return DireccionRemision
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -385,8 +422,8 @@ class DireccionRemision
      *
      * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
+
 }

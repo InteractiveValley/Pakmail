@@ -31,10 +31,10 @@ class PerfilFrontendType extends AbstractType
             ->add('referencia','text',array('label'=>'Referencia *','attr'=>array('class'=>'form-control required')))
             ->add('tipo','text',array('label'=>'Tipo *','attr'=>array('class'=>'form-control required')))
             ->add('precio',null,array('label'=>'Precio *','attr'=>array('class'=>'form-control required money')))
-            ->add('numGuia','text',array('label'=>'No. Guia *','attr'=>array('class'=>'form-control required')))
+            ->add('numGuia','text',array('label'=>'No. Guía *','attr'=>array('class'=>'form-control required')))
             ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','required'=>false,'attr'=>array(
                 'class'=>'checkbox-inline',
-                'placeholder'=>'asegurar envio',
+                'placeholder'=>'asegurar envío',
                 'data-bind'=>'value: asegurarEnvio'
              )))
             ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max $100,000.00)','required'=>false,'attr'=>array('class'=>'form-control money')))

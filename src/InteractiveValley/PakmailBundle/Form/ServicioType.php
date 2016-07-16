@@ -24,6 +24,14 @@ class ServicioType extends AbstractType
                    'data-theme' => 'advanced',
                     )
                 ))
+            ->add('texto','textarea',array(
+                'label'=>'Texto',
+                'required'=>true,
+                'attr'=>array(
+                    'class'=>'cleditor tinymce form-control placeholder',
+                   'data-theme' => 'advanced',
+                    )
+                ))
             ->add('file','file',array('label'=>'Imagen','attr'=>array('class'=>'form-control')))    
             ->add('position','hidden')
         ;

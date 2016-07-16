@@ -96,7 +96,7 @@ class Perfil
      * @var string
      *
      * @ORM\Column(name="numGuia", type="string", length=255)
-     * @Assert\NotBlank(message="Ingresar numero de guia")
+     * @Assert\NotBlank(message="Ingresar número de guía")
      */
     private $numGuia;
 
@@ -812,6 +812,7 @@ class Perfil
     {
         $this->direccionRemitente = new DireccionRemision();
         
+        $this->direccionRemitente->setNombre($direccionRemitente->getNombre());
         $this->direccionRemitente->setCalle($direccionRemitente->getCalle());
         $this->direccionRemitente->setNumInterior($direccionRemitente->getNumInterior());
         $this->direccionRemitente->setNumExterior($direccionRemitente->getNumExterior());

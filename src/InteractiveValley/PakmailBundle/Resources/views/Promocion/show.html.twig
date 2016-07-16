@@ -5,9 +5,9 @@
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
   <!-- Widgets stylesheet -->
-  <link rel="stylesheet" href="{{asset('css/widgets.css')}}">   
+  <link rel="stylesheet" href="{{asset('css/widgets.css')}}">
     <!-- Gritter Notifications stylesheet -->
-  <link rel="stylesheet" href="{{asset('css/jquery.gritter.css')}}"> 
+  <link rel="stylesheet" href="{{asset('css/jquery.gritter.css')}}">
 
 {% endblock %}
 
@@ -21,7 +21,7 @@
             <div class="clearfix"></div>
             <!-- Breadcrumb -->
             <div class="bread-crumb">
-                <a href="{{path('homepage')}}"><i class="fa fa-home"></i>Dashboard</a> 
+                <a href="{{path('homepage')}}"><i class="fa fa-home"></i>Dashboard</a>
                 <span class="divider">/</span>
                 <a href="{{path('promociones')}}" class="bread-current">Promociones</a>
                 <span class="divider">/</span>
@@ -50,7 +50,7 @@
                                 </div>
 
                                 <div class="widget-content">
-                                    <div class="padd contenido-formulario">    
+                                    <div class="padd contenido-formulario">
                                         <table class="record_properties">
                                             <tbody>
                                                 <tr>
@@ -66,10 +66,18 @@
                                                     <td>
                                                         {% if entity.imagen | length > 0 %}
                                                             <img src="{{ entity.webPath }}" style="max-width: 200px; max-width: 200px;"/>
-                                                        {% else %}    
+                                                        {% else %}
                                                             sin imagen
                                                         {% endif %}
                                                     </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Inicio</th>
+                                                    <td>{{ entity.inicio | date('d-m-Y') }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Fin</th>
+                                                    <td>{{ entity.fin | date('d-m-Y') }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Creado</th>
@@ -92,10 +100,10 @@
 											{{ form_widget(delete_form) }}
                                         </form>
                                         <button class="btn btn-danger " onclick="eliminarRegistro();">Eliminar</button>
-                                    </div>        
+                                    </div>
                                 </div>
-                            </div>  
-                        </div>    
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,7 +113,7 @@
 
     </div>
 
-    <!-- Mainbar ends -->        
+    <!-- Mainbar ends -->
     <div class="clearfix"></div>
 
 {% endblock %}
@@ -137,7 +145,7 @@ var regresar = function(url){
 var editarRegistro = function(url){
     location.href=url;
 };
-    
+
 var eliminarRegistro = function(){
   {% if is_granted('ROLE_ADMIN') %}
     bootbox.confirm("Esta seguro de eliminar el registro?", function(result) {
@@ -147,11 +155,11 @@ var eliminarRegistro = function(){
     });
   {% else %}
     noty({text: 'No tienes los permisos suficientes para realizar esta accion',layout:'bottom', type:'warning', timeout:2000 });
-  {% endif %}      
+  {% endif %}
 };
 
 </script>
 
-    
+
 {% endblock %}
 

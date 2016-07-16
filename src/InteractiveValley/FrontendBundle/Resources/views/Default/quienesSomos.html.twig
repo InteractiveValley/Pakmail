@@ -14,13 +14,11 @@
             </header>
             <div class="fondo-gris">
                 <div class="padding max-width-960 center text-align-justify">
-                    <p>
-                        {% if pagina is not null %}
-                            {{ pagina.texto | raw }}
-                        {% else %}
-                            Aliquam quis leo quis erat tincidunt convallis. Maecenas luctus, magna quis pharetra ultrices, tortor justo commodo leo, vel ultricies lorem magna at arcu. Pellentesque ultrices ante vel tellus placerat lacinia. Nulla sit amet tortor consectetur, iaculis ex et, bibendum tellus. Praesent et nibh nec urna facilisis posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque eget fermentum dui. Duis consectetur ligula at leo mattis, sed accumsan felis placerat. Donec fringilla arcu non eros blandit efficitur. Morbi non massa semper, vulputate sapien et, luctus risus. Maecenas nec viverra lorem, et molestie justo. Cras ac finibus ante. Sed laoreet molestie magna, ut sagittis risus sodales sit amet.
-                        {% endif %}  
-                    </p>
+                    {% if pagina is not null %}
+                        {{ pagina.texto | raw }}
+                    {% else %}
+                        Aliquam quis leo quis erat tincidunt convallis. Maecenas luctus, magna quis pharetra ultrices, tortor justo commodo leo, vel ultricies lorem magna at arcu. Pellentesque ultrices ante vel tellus placerat lacinia. Nulla sit amet tortor consectetur, iaculis ex et, bibendum tellus. Praesent et nibh nec urna facilisis posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque eget fermentum dui. Duis consectetur ligula at leo mattis, sed accumsan felis placerat. Donec fringilla arcu non eros blandit efficitur. Morbi non massa semper, vulputate sapien et, luctus risus. Maecenas nec viverra lorem, et molestie justo. Cras ac finibus ante. Sed laoreet molestie magna, ut sagittis risus sodales sit amet.
+                    {% endif %}  
                 </div>
             </div>
         </article>
@@ -28,15 +26,17 @@
             <header>
                 <h2 class="titulo medium vino">PREGUNTAS FRECUENTES</h2>
             </header>
-            <div id="accordion" class="max-width-960 center text-align-justify">
+            <div id="notaccordion" class="max-width-960 center text-align-justify">
                 {% for pregunta in preguntas %}
-                    <h3 id="pregunta-{{pregunta.id}}" class="pregunta-titulo">{{ pregunta.pregunta | raw }}<img id="m1" src="/images/mas.png" alt=""></h3>
+                    <h3 id="pregunta-{{pregunta.id}}" class="pregunta-titulo">
+                        <p>{{ pregunta.pregunta | raw }}</p>
+                        <img id="m1" src="/images/mas.png" alt=""></h3>
                     <div class="pregunta-respuesta padding light">
-                        {{ pregunta.respuesta|raw }}
+                        <p>{{ pregunta.respuesta|raw }}</p>
                     </div>
-                {% else %}    
+                {% else %}
                     {% for pregunta in range(1,5) %}
-                    <h3 id="pregunta-{{pregunta}}" class="pregunta-titulo">¿Pregunta numero {{pregunta}}?<img id="m1" src="/images/mas.png" alt=""></h3>
+                    <h3 id="pregunta-{{pregunta}}" class="pregunta-titulo">¿Pregunta número {{pregunta}}?<img id="m1" src="/images/mas.png" alt=""></h3>
                     <div class="pregunta-respuesta padding light">
                         <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
                     </div>
@@ -46,14 +46,14 @@
         </article>
     </section>
     <section class="adicional">
-        <article class="border-vino center max-width-450">
+        <!-- <article class="border-vino center max-width-450">
             <a href="{{path('contacto')}}">
                 <header>
                     <div class="titulo medium vino">CONTACTO</div>
                 </header>
                 <div class="ayuda text-align-center">CONTÁCTENOS PARA ATENCIÓN PERSONALIZADA</div>
             </a>
-        </article>
+        </article> -->
     </section>
 {% endblock %}
 
@@ -62,17 +62,33 @@
     <script src="{{asset('js/jquery-ui-1.9.2.custom.min.js')}}"></script>
     <script>
     $(document).ready(function(){
-        $( "#accordion" ).accordion({
-            collapsible: false,
-            active: 20,
-            heightStyle: "content"
-        });
         $(".pregunta-titulo").on("click",function(){
-            $(".pregunta-titulo img").attr('src','{{asset('images/mas.png')}}');
-            $(this).find('img').attr('src','{{asset('images/menos.png')}}');
+            var actual = $(this).find('img').attr('src');
+            if(actual == '/images/mas.png') {
+                $(this).find('img').attr('src','{{asset('images/menos.png')}}');
+            } else {
+                $(this).find('img').attr('src','{{asset('images/mas.png')}}');
+            }
         });
-        
-        $(".pregunta-titulo")[0].click();
+        $.fn.togglepanels = function(){
+            return this.each(function(){
+                $(this).addClass("ui-accordion ui-accordion-icons ui-widget ui-helper-reset")
+                    .find("h3")
+                    .addClass("ui-accordion-header ui-helper-reset ui-state-default ui-corner-top ui-corner-bottom")
+                    .hover(function() { $(this).toggleClass("ui-state-hover"); })
+                    .click(function() {
+                        $(this)
+                            .toggleClass("ui-accordion-header-active ui-state-active ui-state-default ui-corner-bottom")
+                            .find("> .ui-icon").end()
+                            .next().slideToggle();
+                        return false;
+                    })
+                    .next()
+                    .addClass("ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom")
+                    .hide();
+            });
+        };
+        $("#notaccordion").togglepanels();
     });
     </script>
 {% endblock %}

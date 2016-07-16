@@ -61,7 +61,7 @@
             <p>
                 <div class="reconocidos-titulo">PAKMAIL es reconocido por:</div>
                 <figure class="reconocidos-reconocimientos">
-                    <img src="{{asset('images/reconocimientos.png')}}" alt="">
+                    {% for aliado in aliados %}{% if aliado.imagen != '' %}<img class="aliado" src="{{asset('uploads/aliados/' ~ aliado.imagen)}}" alt="">{% endif %}{% endfor %}
                 </figure>
             </p>
         </article>
@@ -95,9 +95,8 @@
             stopOnHover: true,
             responsive: true,
             itemsCustom: false,
+            scrollPerPage: true,
         });
-        
     });
-    
     </script>
 {% endblock %}

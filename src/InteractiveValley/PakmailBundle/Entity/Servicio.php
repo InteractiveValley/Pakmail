@@ -40,6 +40,14 @@ class Servicio
      * @Assert\NotBlank(message="Ingresa la descripcion del servicio")
      */
     private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="texto", type="text")
+     * @Assert\NotBlank(message="Ingresa el texto del servicio")
+     */
+    private $texto;
     
     /**
      * @var integer
@@ -260,6 +268,30 @@ class Servicio
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+
+    /**
+     * Set texto
+     *
+     * @param string $texto
+     *
+     * @return Servicio
+     */
+    public function setTexto($texto)
+    {
+        $this->texto = $texto;
+
+        return $this;
+    }
+
+    /**
+     * Get texto
+     *
+     * @return string
+     */
+    public function getTexto()
+    {
+        return $this->texto;
     }
 
     /**

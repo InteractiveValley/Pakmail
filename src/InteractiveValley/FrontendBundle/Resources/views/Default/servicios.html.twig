@@ -1,0 +1,49 @@
+{% extends 'FrontendBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('css/jquery.bxslider.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/owl.carousel.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/owl.theme.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/main.css')}}"/>
+{% endblock %}
+
+{% block contenido %}
+    <section class="servicios linea-separacion" id="servicios">
+        <article class="quienes-somos">
+            <header>
+                <h2 class="titulo medium vino">SERVICIOS</h2>
+            </header>
+            <div class="fondo-gris">
+                {%- for servicio in servicios %}
+                <div class="padding max-width-960 center text-align-justify">
+                    <p>
+                        <div class="img-servicio">
+                            <img src="{{ asset('uploads/servicios/' ~ servicio.imagen )}}" />
+                        </div>
+                        <div class="col-md-10">
+                            <h2>{{ servicio.nombre }}</h2>
+                            {%- if servicio.texto is not null %}
+                            <p>{{ servicio.texto }}</p>
+                            {%- else %}
+                            <p>Aliquam quis leo quis erat tincidunt convallis. Maecenas luctus, magna quis pharetra ultrices, tortor justo commodo leo, vel ultricies lorem magna at arcu. Pellentesque ultrices ante vel tellus placerat lacinia. Nulla sit amet tortor consectetur, iaculis ex et, bibendum tellus. Praesent et nibh nec urna facilisis posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque eget fermentum dui. Duis consectetur ligula at leo mattis, sed accumsan felis placerat. Donec fringilla arcu non eros blandit efficitur. Morbi non massa semper, vulputate sapien et, luctus risus. Maecenas nec viverra lorem, et molestie justo. Cras ac finibus ante. Sed laoreet molestie magna, ut sagittis risus sodales sit amet.</p>
+                            {%- endif %}
+                        </div>
+                    </p>
+                </div>
+                {%- endfor %}
+            </div>
+        </article>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('js/jquery.bxslider.js')}}"></script>
+    <script src="{{asset('js/owl.carousel.js')}}"></script>
+    <script>
+    $(document).ready(function(){
+    });
+    
+    </script>
+{% endblock %}

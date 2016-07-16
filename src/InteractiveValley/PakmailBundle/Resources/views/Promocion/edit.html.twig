@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{asset('css/jquery.gritter.css')}}">
     <!-- jQuery Validation Engine stylesheet -->
     <link rel="stylesheet" href="{{asset('css/validationEngine.jquery.css')}}">
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="{{asset('css/jquery-ui-1.9.2.custom.min.css')}}">
     <!-- CLEditor -->
     <link rel="stylesheet" href="{{asset('css/jquery.cleditor.css')}}"> 
 {% endblock %}
@@ -120,6 +122,10 @@
         $(".cleditor").cleditor({
             width: "auto",
             height: "auto"
+        });
+
+        $('.datepicker').datepicker({
+            dateFormat: "yy-mm-dd"
         });
 
         {% if errores | length > 0 %}

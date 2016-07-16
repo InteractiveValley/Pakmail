@@ -43,7 +43,6 @@ class ClientesController extends BaseController {
         $entity = new Envio();
         $form = $this->createCreateFormEnvio($entity, $request);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -69,7 +68,7 @@ class ClientesController extends BaseController {
             $em = $this->getDoctrine()->getManager();
         }
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                       ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
+                ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
 
         return array(
             'entity' => $entity,
@@ -142,7 +141,7 @@ class ClientesController extends BaseController {
         $form = $this->createCreateFormEnvio($entity);
         $em = $this->getDoctrine()->getManager();
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                       ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
+                ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
         $session = $this->get('session');
 
         if ($session->has('envio_creado') && strlen($session->get('envio_creado')) > 0) {
@@ -239,7 +238,7 @@ class ClientesController extends BaseController {
         $cliente = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $perfiles = $em->getRepository('PakmailBundle:Perfil')
-                       ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
+                ->findBy(array('cliente' => $cliente), array('nombre' => 'ASC'));
         return array(
             'perfiles' => $perfiles
         );

@@ -4,16 +4,16 @@ namespace InteractiveValley\BackendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class BaseController extends Controller
-{
+class BaseController extends Controller {
+
     protected function getFilters() {
         return $this->get('session')->get('filters', array());
     }
-    
+
     protected function setFilters($filtros) {
         $this->get('session')->set('filters', $filtros);
     }
-    
+
     protected function getUsuarioActual() {
         $em = $this->getDoctrine()->getManager();
         $filters = $this->getFilters();
@@ -47,12 +47,11 @@ class BaseController extends Controller
         // encoder
         $encoder = $this->get('security.encoder_factory')->getEncoder($entity);
         $passwordCodificado = $encoder->encodePassword(
-                    $entity->getPassword(),
-                    $entity->getSalt()
+                $entity->getPassword(), $entity->getSalt()
         );
         $entity->setPassword($passwordCodificado);
     }
-    
+
     protected function enviarUsuarioCreado($sUsuario, $sPassword, $usuario) {
         $asunto = 'Usuario creado';
         $isNew = true;
@@ -61,13 +60,11 @@ class BaseController extends Controller
                 ->setFrom($this->container->getParameter('richpolis.emails.to_email'))
                 ->setTo($usuario->getEmail())
                 ->setBody(
-                $this->renderView('FrontendBundle:Default:enviarCorreo.html.twig', 
-                        compact('usuario', 'sUsuario', 'sPassword', 'isNew', 'asunto')), 
-                'text/html'
-                );
+                $this->renderView('FrontendBundle:Default:enviarCorreo.html.twig', compact('usuario', 'sUsuario', 'sPassword', 'isNew', 'asunto')), 'text/html'
+        );
         $this->get('mailer')->send($message);
     }
-    
+
     protected function enviarUsuarioUpdate($sUsuario, $sPassword, $usuario) {
         $asunto = 'Usuario actualizado';
         $isNew = false;
@@ -76,29 +73,26 @@ class BaseController extends Controller
                 ->setFrom($this->container->getParameter('richpolis.emails.to_email'))
                 ->setTo($usuario->getEmail())
                 ->setBody(
-                $this->renderView('FrontendBundle:Default:enviarCorreo.html.twig', 
-                        compact('usuario', 'sUsuario', 'sPassword', 'isNew', 'asunto')), 
-                'text/html'
+                $this->renderView('FrontendBundle:Default:enviarCorreo.html.twig', compact('usuario', 'sUsuario', 'sPassword', 'isNew', 'asunto')), 'text/html'
         );
         $this->get('mailer')->send($message);
     }
-    
+
     protected function enviarSolicitudEnvioCreado($usuario, $envio) {
         $em = $this->getDoctrine()->getManager();
-		$configuracion = $em->getRepository('BackendBundle:Configuraciones')
-                            ->findOneBy(array('slug' => 'email-solicitudes'));
-		
-        $asunto = 'Solicitud de envio creada.';
+        $configuracion = $em->getRepository('BackendBundle:Configuraciones')
+                ->findOneBy(array('slug' => 'email-solicitudes'));
+
+        $asunto = 'Solicitud de envío creada.';
         $isNew = true;
         $message = \Swift_Message::newInstance()
                 ->setSubject($asunto)
                 ->setFrom($this->container->getParameter('richpolis.emails.to_email'))
                 ->setTo($configuracion->getTexto())
                 ->setBody(
-                $this->renderView('FrontendBundle:Default:enviarSolicitudEnvio.html.twig', 
-                        compact('usuario', 'envio', 'asunto')), 
-                'text/html'
-                );
+                $this->renderView('FrontendBundle:Default:enviarSolicitudEnvio.html.twig', compact('usuario', 'envio', 'asunto')), 'text/html'
+        );
         $this->get('mailer')->send($message);
     }
+
 }

@@ -13,16 +13,13 @@
         <article id="contactenos" class="contactenos"> 
             <header>
                 <h3 class="titulo-form">CONTÁCTENOS</h3>
-            </header> 
+            </header>
             <div class="contenido-form">
                 {% include 'FrontendBundle:Default:formContacto.html.twig' with {'form': form } %}
             </div>
         </article>
         <section class="direccion-contacto">
-            <p>
-                Pedregal No.96 Col. Lomas de Chapultepec, Del. Miguel Hidalgo, C.P. 11000 <br/>
-                Ciudad de México, Distrito Federal
-            </p>
+            <p> </p>
         </section>
     </section>
     <!--End Mapa y Contacto-->
@@ -32,8 +29,8 @@
                 <p>
                     <ul class="lista-contacto">
                         <li class="item-contacto">Horarios de atención:</li>
-                        <li class="item-contacto">Lun-Vier 9:00am - 7:00pm</li>
-                        <li class="item-contacto">Sab 9:00am - 2:00pm</li>
+                        <li class="item-contacto"><span class="fa fa-clock-o"></span>Lun-Vier 9:00am - 7:00pm</li>
+                        <li class="item-contacto"><span class="fa fa-clock-o"></span>Sab 9:00am - 2:00pm</li>
                     </ul>
                 </p>
                 <p>
@@ -44,7 +41,7 @@
                 </p>
                 <p>
                     <ul class="lista-contacto">
-                        <li class="item-contacto"><span class="fa fa-envelope"></span>pakmail@pakmail.com.mx</li>
+                        <li class="item-contacto"><span class="fa fa-envelope"></span>pakmail103mx@pakmail.com.mx</li>
                         <li class="item-contacto"><span class="fa fa-envelope"></span>ventasvirreyes@pakmail.com.mx</li>
                     </ul>
                 </p>
@@ -68,6 +65,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{asset('js/jquery.maskedinput.js')}}"></script>
     <script>
         $(document).on('ready', function () {
             $(window).on('resize', function () {
@@ -78,6 +76,7 @@
                 $("#contactenos").fadeIn('slow');
             }, 2000);
 
+            $('.input-mask-phone').mask('(99) 9999-9999');
             inicializarBotonEnviarContacto();
             inicializarBotonEnviarQueja();
             windowResize();

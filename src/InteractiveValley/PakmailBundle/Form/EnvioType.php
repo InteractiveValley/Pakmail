@@ -20,17 +20,17 @@ class EnvioType extends AbstractType
         $usuarioTransformer = new UsuarioToNumberTransformer($em);
         
         $builder
-            ->add('direccionFiscal',new DireccionFiscalType(),array('label'=>'DIRECCION FISCAL'))
-            ->add('direccionRemitente',new DireccionRemisionType(),array('label'=>'DIRECCION REMITENTE'))
-            ->add('direccionDestino',new DireccionDestinoType(),array('label'=>'DIRECCION DESTINO'))
+            ->add('direccionFiscal',new DireccionFiscalType(),array('label'=>'DATOS FISCALES'))
+            ->add('direccionRemitente',new DireccionRemisionType(),array('label'=>'DIRECCIÓN REMITENTE'))
+            ->add('direccionDestino',new DireccionDestinoType(),array('label'=>'INFORMACIÓN DE ENVÍO'))
             ->add('referencia','text',array('label'=>'Referencia *','attr'=>array('class'=>'form-control')))
             ->add('tipo','text',array('label'=>'Tipo *','attr'=>array('class'=>'form-control')))
             ->add('precio',null,array('label'=>'Precio *','attr'=>array('class'=>'form-control')))
-            ->add('numGuia','text',array('label'=>'No. Guia *','attr'=>array('class'=>'form-control')))
+            ->add('numGuia','text',array('label'=>'No. Guía *','attr'=>array('class'=>'form-control')))
             ->add('folio','text',array('label'=>'No. de Control Ticket o Folio','required'=>false,'attr'=>array('class'=>'form-control')))
             ->add('asegurarEnvio',null,array('label'=>'Desea Asegurar el Envío?','required'=>false,'attr'=>array(
                 'class'=>'checkbox-inline',
-                'placeholder'=>'asegurar envio',
+                'placeholder'=>'asegurar envío',
                 'data-bind'=>'value: asegurarEnvio'
              )))
             ->add('montoSeguro',null,array('label'=>'Monto a Asegurar (Max 100,000,00)','required'=>false,'attr'=>array('class'=>'form-control')))
@@ -49,7 +49,7 @@ class EnvioType extends AbstractType
             ->add('medidaAlto','text',array('label'=>'Alto','attr'=>array('class'=>'form-control')))
             ->add('generarGastosAduana',null,array('label'=>'¿Genera gastos de Aduana?','required'=>false,'attr'=>array(
                 'class'=>'checkbox-inline',
-                'placeholder'=>'asegurar envio',
+                'placeholder'=>'asegurar envío',
                 'data-bind'=>'value: asegurarEnvio'
              )))
             ->add('valorDeclarado','number',array('label'=>'Valor declarado','required'=>false,'attr'=>array('class'=>'form-control')))
